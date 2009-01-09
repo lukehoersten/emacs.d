@@ -6,8 +6,7 @@
 (setq-default ediff-split-window-function 'split-window-horizontally) ; diff horizontally
 (setq-default x-select-enable-clipboard t)                            ; paste from X buffer
 (setq-default inhibit-splash-screen t)                                ; disable splash screen
-(setq-default indicate-empty-lines t)                                 ; show empty lines
-(setq-default show-trailing-whitespace t)                             ; show trailing whitespace
+;;(setq-default show-trailing-whitespace t)                             ; show trailing whitespace
 (put 'set-goal-column 'disabled nil)                                  ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                                 ; enable hiding
 
@@ -23,8 +22,10 @@
 ;; coding
 (which-func-mode t)                                                   ; show current function
 (show-paren-mode t)                                                   ; show matching paren
-(global-font-lock-mode t)                                             ; syntax highlighting
 (transient-mark-mode t)                                               ; show highlighting
+(global-font-lock-mode t)                                             ; syntax highlighting
+(global-whitespace-mode t)                                            ; show whitespace
+(setq-default whitespace-style '(tab-mark trailing tabs empty))       ; what whitespace elements to show
 (add-hook 'before-save-hook 'whitespace-cleanup)                      ; cleanup whitespace on exit
 (load "hoersten-pastebin-region")                                     ; send selected text to pastebin
 (load "mercurial")                                                    ; load mercurial mode
@@ -42,7 +43,7 @@
 (setq haskell-font-lock-symbols 'unicode)
 
 ;; use only spaces for alignment
-(global-set-key (kbd "C-c a") 'align-with-spaces)  ; align
+(global-set-key (kbd "C-c a") 'align-with-spaces) ; align
 (defun align-with-spaces (beg end pattern)
   "Align selected using only spaces for whitespace."
   (interactive "r\nsAlign by: ")
@@ -61,12 +62,12 @@
 
 ;; map file extensions to modes
 (setq-default auto-mode-alist
-	      (append
-	       '(("\\.ipp$" . c++-mode)
-		 ("\\.inl$" . c++-mode)
-		 ("SCons"   . python-mode)
-		 ("\\.jj$"  . java-mode))
-	       auto-mode-alist))
+              (append
+               '(("\\.ipp$" . c++-mode)
+                 ("\\.inl$" . c++-mode)
+                 ("SCons"   . python-mode)
+                 ("\\.jj$"  . java-mode))
+               auto-mode-alist))
 
 ;; x stuff
 (if (not window-system)
