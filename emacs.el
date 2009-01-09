@@ -6,7 +6,6 @@
 (setq-default ediff-split-window-function 'split-window-horizontally) ; diff horizontally
 (setq-default x-select-enable-clipboard t)                            ; paste from X buffer
 (setq-default inhibit-splash-screen t)                                ; disable splash screen
-;;(setq-default show-trailing-whitespace t)                             ; show trailing whitespace
 (put 'set-goal-column 'disabled nil)                                  ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                                 ; enable hiding
 
