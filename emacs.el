@@ -41,20 +41,19 @@
 ;; haskell
 (setq haskell-font-lock-symbols 'unicode)
 
-;; indentation
-(setq-default tab-width 3)
-(setq-default c-basic-offset 3)
-(setq-default indent-tabs-mode t)
-
 ;; use only spaces for alignment
 (global-set-key (kbd "C-c a") 'align-with-spaces)  ; align
-(defun align-with-spaces (beg end)
+(defun align-with-spaces (beg end pattern)
   "Align selected using only spaces for whitespace."
-  (interactive "r")
+  (interactive "r\nsAlign by: ")
   (let ((indent-tabs-mode nil))
-	 (align beg end)))
+    (align-string beg end pattern 1)
+    (align-entire beg end)
+    (untabify beg end)
+    (indent-region beg end)
+    (whitespace-cleanup-region beg end)))
 
-;; shell
+;; Shell
 (global-set-key (kbd "C-c s") 'shell)              ; start shell
 (ansi-color-for-comint-mode-on)                    ; color in shell buffer
 (setq-default comint-scroll-to-bottom-on-input t)  ; only type on prompt
@@ -62,18 +61,18 @@
 
 ;; map file extensions to modes
 (setq-default auto-mode-alist
-				  (append
-					'(("\\.ipp$" . c++-mode)
-					  ("\\.inl$" . c++-mode)
-					  ("SCons"   . python-mode)
-					  ("\\.jj$"  . java-mode))
-					auto-mode-alist))
+	      (append
+	       '(("\\.ipp$" . c++-mode)
+		 ("\\.inl$" . c++-mode)
+		 ("SCons"   . python-mode)
+		 ("\\.jj$"  . java-mode))
+	       auto-mode-alist))
 
 ;; x stuff
 (if (not window-system)
-	 (menu-bar-mode nil)                      ; remove menu bar in no-x mode
-  (tool-bar-mode nil)                        ; remove tool bar
-  (scroll-bar-mode nil)                      ; remove scroll bar
+    (menu-bar-mode nil) ; remove menu bar in no-x mode
+  (tool-bar-mode nil)   ; remove tool bar
+  (scroll-bar-mode nil) ; remove scroll bar
   (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 100 :family "DejaVu Sans Mono")))))
   (setq default-frame-alist '((width . 100) (height . 50) (menu-bar-lines . 1)))
 
