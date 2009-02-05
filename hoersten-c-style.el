@@ -1,4 +1,5 @@
-;; ~/.emacs.d/hoersten-c-style.el - Luke Hoersten - v1.0
+;; ~/.emacs.d/hoersten-c-style.el
+;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; hoersten c++-style
 (c-add-style "hoersten"
@@ -26,17 +27,21 @@
                 (cpp-macro         . -))))
 
 ;; c-like language settings (c, c++, java, etc.)
+(require 'doxymacs)
 (setq-default c-hungry-delete-key t)                             ; enable hungry delete
 (setq-default c-default-style "hoersten")                        ; load c-style
 (add-hook 'c-mode-common-hook
-          (lambda()
+          (lambda ()
             ;; indentation
             (setq tab-width 3)
             (setq c-basic-offset 3)
             (setq indent-tabs-mode t)
+            (setq standard-indent 3)
 
             (c-toggle-auto-newline t)                            ; auto newline
-            (auto-fill-mode t)                                   ; word wrap
+            (c-subword-mode t)
+            (doxymacs-mode t)
+            (doxymacs-font-lock)
 
             ;; custom keys
             (local-set-key (kbd "C-c f")   'ff-find-other-file)  ; toggle header/source file
@@ -47,9 +52,6 @@
             (local-set-key (kbd "<f1>")  'hs-hide-all)
             (local-set-key (kbd "<f2>")  'hs-show-all)
             (hs-minor-mode t)                                    ; enable hide-show mode
-            (hs-hide-all)                                        ; hide all blocks by default
+            ))
 
-            ;; highlight todos
-            (font-lock-add-keywords
-             nil
-             '(("\\([@]\\(TODO\\|todo\\|warning\\|note\\)\\)" 1 font-lock-warning-face t)))))
+(provide 'hoersten-c-style)

@@ -1,7 +1,9 @@
-;; ~/.emacs - Luke Hoersten - v4.0
+;; ~/.emacs
+;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; general
-(setq-default load-path (cons "~/.emacs.d" load-path))                ; set default emacs load path
+(setq-default load-path (cons "~/.emacs.d/" load-path))               ; set default emacs load path
+(setq-default user-mail-address "lhoersten@allstontrading.com")
 
 (setq-default ediff-split-window-function 'split-window-horizontally) ; diff horizontally
 (setq-default x-select-enable-clipboard t)                            ; paste from X buffer
@@ -21,25 +23,31 @@
 ;; coding
 (which-func-mode t)                                                   ; show current function
 (show-paren-mode t)                                                   ; show matching paren
+(setq-default show-paren-style 'mixed)
 (transient-mark-mode t)                                               ; show highlighting
 (global-font-lock-mode t)                                             ; syntax highlighting
 (global-whitespace-mode t)                                            ; show whitespace
 (setq-default whitespace-style '(tab-mark trailing tabs empty))       ; what whitespace elements to show
 (add-hook 'before-save-hook 'whitespace-cleanup)                      ; cleanup whitespace on exit
-(load "hoersten-pastebin-region")                                     ; send selected text to pastebin
-(load "mercurial")                                                    ; load mercurial mode
-(load "ahg")                                                          ; load suplimental mercurial mode
-(load "hoersten-c-style")                                             ; load c specific lisp
-(global-set-key (kbd "C-c c") 'compile)
+(global-set-key (kbd "C-c c") 'compile)                               ; compile
+
+(require 'hoersten-pastebin-region)                                   ; send selected text to pastebin
+(require 'mercurial)                                                  ; load mercurial mode
+(require 'hoersten-c-style)                                           ; load c specific lisp
+
+(require 'pretty-mode)                                                ; convert characters to unicode
+(global-pretty-mode t)
+(setq haskell-font-lock-symbols 'unicode)
+
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/snippets/")
 
 ;; gdb settings
 (setq-default gdb-many-windows t)                                     ; gdb many windows
 (setq-default gdb-use-separate-io-buffer t)                           ; gdb stdio output
 (setq-default gud-tooltip-mode t)                                     ; mouse hover variables
 (global-set-key (kbd "C-c g") 'gdb)                                   ; gdb
-
-;; haskell
-(setq haskell-font-lock-symbols 'unicode)
 
 ;; use only spaces for alignment
 (global-set-key (kbd "C-c a") 'align-with-spaces) ; align
@@ -73,7 +81,7 @@
     (menu-bar-mode nil) ; remove menu bar in no-x mode
   (tool-bar-mode nil)   ; remove tool bar
   (scroll-bar-mode nil) ; remove scroll bar
-  (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 100 :family "DejaVu Sans Mono")))))
+  (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 101 :family "DejaVu Sans Mono")))))
   (setq default-frame-alist '((width . 100) (height . 50) (menu-bar-lines . 1)))
 
   ;; twilight theme

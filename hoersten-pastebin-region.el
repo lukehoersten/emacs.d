@@ -1,4 +1,5 @@
-;; ~/.emacs.d/hoersten-pastebin-region.el - Luke Hoersten - v0.6
+;; ~/.emacs.d/hoersten-pastebin-region.el
+;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; custom keys
 (global-set-key (kbd "C-c w") 'pastebin-region)
@@ -33,3 +34,5 @@
                                      (with-temp-buffer
                                        (insert redirected)
                                        (clipboard-kill-ring-save (point-min) (point-max))))))))))
+
+(provide 'hoersten-pastebin-region)
