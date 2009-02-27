@@ -15,6 +15,7 @@
 (column-number-mode t)                                                ; show column numbers
 (delete-selection-mode t)                                             ; replace highlighted text
 (windmove-default-keybindings)                                        ; move between windows with shift-arrow
+(setq-default indent-tabs-mode nil)                                     ; mouse hover variables
 
 (ido-mode t)                                                          ; file/buffer selector
 (setq-default ido-enable-flex-matching t)                             ; fuzzy matching is a must have
@@ -23,7 +24,6 @@
 ;; coding
 (which-func-mode t)                                                   ; show current function
 (show-paren-mode t)                                                   ; show matching paren
-(setq-default show-paren-style 'mixed)
 (transient-mark-mode t)                                               ; show highlighting
 (global-font-lock-mode t)                                             ; syntax highlighting
 (global-whitespace-mode t)                                            ; show whitespace
@@ -83,6 +83,7 @@
   (scroll-bar-mode nil) ; remove scroll bar
   (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 101 :family "DejaVu Sans Mono")))))
   (setq default-frame-alist '((width . 100) (height . 50) (menu-bar-lines . 1)))
+  (visual-line-mode t)                                                  ; word wrap break on whitespace
 
   ;; twilight theme
   (require 'color-theme)

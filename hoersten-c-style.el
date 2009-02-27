@@ -52,6 +52,9 @@
             (local-set-key (kbd "<f1>")  'hs-hide-all)
             (local-set-key (kbd "<f2>")  'hs-show-all)
             (hs-minor-mode t)                                    ; enable hide-show mode
+
+            ;; auto-close bracing
+            (dolist (key '("(" "[" "{")) (define-key (current-local-map) key 'insert-pair))
             ))
 
 (provide 'hoersten-c-style)
