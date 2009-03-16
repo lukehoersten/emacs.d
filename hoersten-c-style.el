@@ -4,9 +4,9 @@
 ;; hoersten c++-style
 (c-add-style "hoersten"
              '(;; indentation
-               (indent-tabs-mode . t)
-               (tab-width        . 3)
-               (c-basic-offset   . 3)
+               (indent-tabs-mode       . t)
+               (tab-width              . 3)
+               (c-basic-offset         . 3)
 
                ;; brace cleanups
                (c-cleanup-list
@@ -20,11 +20,12 @@
 
                ;; syntactic symbols
                (c-offsets-alist
-                (substatement-open . 0)
-                (inline-open       . 0)
-                (case-label        . +)
-                (innamespace       . 0)
-                (cpp-macro         . -))))
+                (substatement-open     . 0)
+                (inline-open           . 0)
+                (case-label            . +)
+                (innamespace           . 0)
+                (arglist-cont-nonempty . +)
+                (cpp-macro             . -))))
 
 ;; c-like language settings (c, c++, java, etc.)
 ;;(require 'doxymacs)
