@@ -3,7 +3,6 @@
 
 ;; general
 (setq-default load-path (cons "~/.emacs.d/" load-path))               ; set default emacs load path
-(setq-default user-mail-address "lhoersten@allstontrading.com")
 
 (setq-default ediff-split-window-function 'split-window-horizontally) ; diff horizontally
 (setq-default x-select-enable-clipboard t)                            ; paste from X buffer
@@ -30,6 +29,7 @@
 (setq-default whitespace-style '(tab-mark trailing tabs empty))       ; what whitespace elements to show
 (add-hook 'before-save-hook 'whitespace-cleanup)                      ; cleanup whitespace on exit
 (global-set-key (kbd "C-c c") 'compile)                               ; compile
+(global-set-key (kbd "C-c r") 'recompile)                             ; recompile
 
 (require 'hoersten-pastebin-region)                                   ; send selected text to pastebin
 (require 'mercurial)                                                  ; load mercurial mode

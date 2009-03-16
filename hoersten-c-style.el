@@ -27,7 +27,7 @@
                 (cpp-macro         . -))))
 
 ;; c-like language settings (c, c++, java, etc.)
-(require 'doxymacs)
+;;(require 'doxymacs)
 (setq-default c-hungry-delete-key t)                             ; enable hungry delete
 (setq-default c-default-style "hoersten")                        ; load c-style
 (add-hook 'c-mode-common-hook
@@ -40,8 +40,8 @@
 
             (c-toggle-auto-newline t)                            ; auto newline
             (c-subword-mode t)
-            (doxymacs-mode t)
-            (doxymacs-font-lock)
+            ;;(doxymacs-mode t)
+            ;;(doxymacs-font-lock)
 
             ;; custom keys
             (local-set-key (kbd "C-c f")   'ff-find-other-file)  ; toggle header/source file
@@ -54,7 +54,7 @@
             (hs-minor-mode t)                                    ; enable hide-show mode
 
             ;; auto-close bracing
-            (dolist (key '("(" "[" "{")) (define-key (current-local-map) key 'insert-pair))
+            (dolist (key '("(" "[")) (define-key (current-local-map) key 'insert-pair))
             ))
 
 (provide 'hoersten-c-style)
