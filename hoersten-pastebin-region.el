@@ -15,7 +15,7 @@
 (defun pastebin-region (start end)
   "Send selected text to dpaste pastebin."
   (interactive "r")
-  (let* ((pastebin-url "http://build-ch-03/paste/")
+  (let* ((pastebin-url "http://inf/paste/")
          (url-request-method "POST")
          (url-request-extra-headers '(("Content-Type" . "application/x-www-form-urlencoded")))
          (url-request-data

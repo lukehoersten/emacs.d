@@ -14,7 +14,7 @@
 (column-number-mode t)                                                ; show column numbers
 (delete-selection-mode t)                                             ; replace highlighted text
 (windmove-default-keybindings)                                        ; move between windows with shift-arrow
-(setq-default indent-tabs-mode nil)                                     ; mouse hover variables
+(setq-default indent-tabs-mode nil)                                   ; mouse hover variables
 
 (ido-mode t)                                                          ; file/buffer selector
 (setq-default ido-enable-flex-matching t)                             ; fuzzy matching is a must have
@@ -33,6 +33,7 @@
 
 (require 'hoersten-pastebin-region)                                   ; send selected text to pastebin
 (require 'mercurial)                                                  ; load mercurial mode
+(require 'nav)                                                        ; load nav bar
 (require 'hoersten-c-style)                                           ; load c specific lisp
 
 (require 'pretty-mode)                                                ; convert characters to unicode
@@ -83,7 +84,7 @@
   (scroll-bar-mode nil) ; remove scroll bar
   (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 101 :family "DejaVu Sans Mono")))))
   (setq default-frame-alist '((width . 100) (height . 50) (menu-bar-lines . 1)))
-  (visual-line-mode t)                                                  ; word wrap break on whitespace
+  (visual-line-mode t)  ; word wrap break on whitespace
 
   ;; twilight theme
   (require 'color-theme)
