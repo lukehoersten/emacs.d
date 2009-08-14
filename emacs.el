@@ -7,6 +7,7 @@
 (setq-default ediff-split-window-function 'split-window-horizontally) ; diff horizontally
 (setq-default x-select-enable-clipboard t)                            ; paste from X buffer
 (setq-default inhibit-splash-screen t)                                ; disable splash screen
+(setq-default truncate-lines t)
 (put 'set-goal-column 'disabled nil)                                  ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                                 ; enable hiding
 
@@ -26,6 +27,7 @@
 (transient-mark-mode t)                                               ; show highlighting
 (global-font-lock-mode t)                                             ; syntax highlighting
 (global-whitespace-mode t)                                            ; show whitespace
+(global-linum-mode t)
 (setq-default whitespace-style '(tab-mark trailing tabs empty))       ; what whitespace elements to show
 (add-hook 'before-save-hook 'whitespace-cleanup)                      ; cleanup whitespace on exit
 (global-set-key (kbd "C-c c") 'compile)                               ; compile
@@ -82,9 +84,8 @@
     (menu-bar-mode nil) ; remove menu bar in no-x mode
   (tool-bar-mode nil)   ; remove tool bar
   (scroll-bar-mode nil) ; remove scroll bar
-  (custom-set-faces '(default ((t (:background "#000000" :foreground "#ffffff" :height 101 :family "DejaVu Sans Mono")))))
-  (setq default-frame-alist '((width . 100) (height . 50) (menu-bar-lines . 1)))
   (visual-line-mode t)  ; word wrap break on whitespace
+  (set-default-font "Monospace-10")
 
   ;; twilight theme
   (require 'color-theme)

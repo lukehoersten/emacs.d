@@ -41,8 +41,6 @@
 
             (c-toggle-auto-newline t)                            ; auto newline
             (c-subword-mode t)
-            (linum-mode t)
-            (setq truncate-lines t)
             ;;(doxymacs-mode t)
             ;;(doxymacs-font-lock)
 
