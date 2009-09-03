@@ -38,6 +38,7 @@
             (setq c-basic-offset 3)
             (setq indent-tabs-mode t)
             (setq standard-indent 3)
+            (setq whitespace-line-column 120)
 
             (c-toggle-auto-newline t)                            ; auto newline
             (c-subword-mode t)

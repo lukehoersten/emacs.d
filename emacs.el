@@ -28,10 +28,13 @@
 (global-font-lock-mode t)                                             ; syntax highlighting
 (global-whitespace-mode t)                                            ; show whitespace
 (global-linum-mode t)
-(setq-default whitespace-style '(tab-mark trailing tabs empty))       ; what whitespace elements to show
 (add-hook 'before-save-hook 'whitespace-cleanup)                      ; cleanup whitespace on exit
 (global-set-key (kbd "C-c c") 'compile)                               ; compile
 (global-set-key (kbd "C-c r") 'recompile)                             ; recompile
+(setq-default whitespace-line-column 120)                             ; column width
+(setq-default whitespace-style
+              '(tabs tab-mark trailing lines-tail
+                     space-before-tab indentation empty))             ; what whitespace elements to show
 
 (require 'hoersten-pastebin-region)                                   ; send selected text to pastebin
 (require 'mercurial)                                                  ; load mercurial mode
@@ -81,7 +84,8 @@
 
 ;; x stuff
 (if (not window-system)
-    (menu-bar-mode nil) ; remove menu bar in no-x mode
+    nil
+  (menu-bar-mode nil)   ; remove menu bar in no-x mode
   (tool-bar-mode nil)   ; remove tool bar
   (scroll-bar-mode nil) ; remove scroll bar
   (visual-line-mode t)  ; word wrap break on whitespace
