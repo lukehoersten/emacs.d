@@ -11,6 +11,7 @@
 (put 'set-goal-column 'disabled nil)                                  ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                                 ; enable hiding
 
+(menu-bar-mode nil)                                                   ; remove menu bar in no-x mode
 (display-time-mode t)                                                 ; show clock
 (column-number-mode t)                                                ; show column numbers
 (delete-selection-mode t)                                             ; replace highlighted text
@@ -83,9 +84,7 @@
                auto-mode-alist))
 
 ;; x stuff
-(if (not window-system)
-    nil
-  (menu-bar-mode nil)   ; remove menu bar in no-x mode
+(if (not window-system) nil
   (tool-bar-mode nil)   ; remove tool bar
   (scroll-bar-mode nil) ; remove scroll bar
   (visual-line-mode t)  ; word wrap break on whitespace
