@@ -55,8 +55,17 @@
             (local-set-key (kbd "<f2>")  'hs-show-all)
             (hs-minor-mode t)                                    ; enable hide-show mode
 
+            ;; gdb settings
+            (setq gdb-many-windows t)                            ; gdb many windows
+            (setq gdb-use-separate-io-buffer t)                  ; gdb stdio output
+            (setq gud-tooltip-mode t)                            ; mouse hover variables
+            (local-set-key (kbd "C-c g") 'gdb)                   ; gdb
+
             ;; auto-close bracing
             (dolist (key '("(" "[")) (define-key (current-local-map) key 'insert-pair))
             ))
+
+(add-to-list 'auto-mode-alist '("\\.ipp$" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.inl$" . c++-mode))
 
 (provide 'hoersten-c-style)

@@ -148,41 +148,87 @@ expected by `pretty-patterns'"
        (?→ ("->" ,@mley ess c c++ perl))
        (?↑ ("\\^" tuareg))
        (?⇒ ("=>" sml perl ruby))
-;;;        (?∅ ("nil" emacs-lisp ruby)
-;;;            ("null" scheme java)
-;;;            ("NULL" c c++)
-;;;            ("None" python)
-;;;            ("()" ,@mley))
        (?≡ ("==" ,@c-like erlang haskell))
        (?∀ ("BOOST_FOREACH" c++))
        (?∷ ("::" ,@all))
        (?√ ("sqrt" ,@all))
        (?∑ ("sum" python))
+
        (?α ("alpha" ,@all))
+       (?Α ("Alpha" ,@all))
+
        (?β ("beta" ,@all))
+       (?Β ("Beta" ,@all))
+
        (?γ ("gamma" ,@all))
+       (?Γ ("Gamma" ,@all))
+
        (?δ ("delta" ,@all))
+       (?Δ ("Delta" ,@all))
+
        (?ε ("epsilon" ,@all))
+       (?Ε ("epsilon" ,@all))
+
        (?ζ ("zeta" ,@all))
+       (?Ζ ("Zeta" ,@all))
+
        (?η ("eta" ,@all))
+       (?Η ("Eta" ,@all))
+
        (?θ ("theta" ,@all))
+       (?Θ ("Theta" ,@all))
+
        (?ι ("iota" ,@all))
+       (?Ι ("Iota" ,@all))
+
        (?κ ("kappa" ,@all))
+       (?K ("Kappa" ,@all))
+
        (?λ ("lambda" ,@all))
+       (?Λ ("Lambda" ,@all))
+
        (?μ ("mu" ,@all))
+       (?Μ ("Mu" ,@all))
+
        (?ν ("nu" ,@all))
+       (?Ν ("Nu" ,@all))
+
        (?ν ("vega" ,@all))
+       (?ν ("Vega" ,@all))
+
        (?ξ ("xi" ,@all))
+       (?Ξ ("Xi" ,@all))
+
        (?ο ("omicron" ,@all))
+       (?Ο ("Omicron" ,@all))
+
        (?π ("pi" ,@all))
+       (?Π ("pi" ,@all))
+
        (?ρ ("rho" ,@all))
+       (?Ρ ("Rho" ,@all))
+
        (?σ ("sigma" ,@all))
+       (?Σ ("Sigma" ,@all))
+
        (?τ ("tau" ,@all))
+       (?Τ ("Tau" ,@all))
+
        (?υ ("upsilon" ,@all))
+       (?Y ("Upsilon" ,@all))
+
        (?φ ("phi" ,@all))
+       (?Φ ("Phi" ,@all))
+
        (?χ ("chi" ,@all))
+       (?Χ ("Chi" ,@all))
+
        (?ψ ("psi" ,@all))
+       (?Ψ ("Psi" ,@all))
+
        (?ω ("omega" ,@all))
+       (?Ω ("Omega" ,@all))
+
        (?² ("**2" python tuareg octave))
        (?³ ("**3" python tuareg octave))
        (?ⁿ ("**n" python tuareg octave))
