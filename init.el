@@ -44,8 +44,11 @@
 ;; includes
 (require 'hoersten-pastebin-region) ; send selected text to pastebin
 (require 'mercurial)                ; load mercurial mode
-(require 'nav)                      ; load nav bar
 (require 'hoersten-c-style)         ; load c specific lisp
+
+;; nav mode
+(add-to-list 'load-path "~/.emacs.d/nav/")
+(require 'nav)
 
 ;; unicode
 (require 'pretty-mode)
@@ -53,9 +56,10 @@
 (setq haskell-font-lock-symbols 'unicode)
 
 ;; snippets
+(add-to-list 'load-path "~/.emacs.d/yasnippet/")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/snippets/")
+(yas/load-directory "~/.emacs.d/yasnippet/snippets/")
 
 ;; zencoding html
 (require 'zencoding-mode)
