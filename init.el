@@ -1,4 +1,4 @@
-;; ~/.emacs
+;; ~/.emacs.d/init.el (~/.emacs)
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; general
