@@ -45,27 +45,26 @@
 
    (c-toggle-auto-newline t) ; auto newline
    (c-subword-mode t)
-   ;;(doxymacs-mode t)
-   ;;(doxymacs-font-lock)
 
    ;; custom keys
    (local-set-key (kbd "C-c f")   'ff-find-other-file) ; toggle header/source file
    (local-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
-   ;; code folding
-   (local-set-key (kbd "C-c v") 'hs-toggle-hiding)
-   (local-set-key (kbd "<f1>")  'hs-hide-all)
-   (local-set-key (kbd "<f2>")  'hs-show-all)
-   (hs-minor-mode t) ; enable hide-show mode
+   ;; ;; code folding
+   ;; (local-set-key (kbd "C-c v") 'hs-toggle-hiding)
+   ;; (local-set-key (kbd "<f1>")  'hs-hide-all)
+   ;; (local-set-key (kbd "<f2>")  'hs-show-all)
+   ;; (hs-minor-mode t) ; enable hide-show mode
 
    ;; gdb settings
    (setq
     gdb-many-windows t                ; gdb many windows
     gdb-use-separate-io-buffer t      ; gdb stdio output
-    setq gud-tooltip-mode t)          ; mouse hover variables
+    gud-tooltip-mode t)               ; mouse hover variables
    (local-set-key (kbd "C-c g") 'gdb) ; gdb
 
    ;; auto-close bracing
+   (setq parens-require-spaces nil)
    (dolist (key '("(" "[")) (define-key (current-local-map) key 'insert-pair))
    ))
 

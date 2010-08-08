@@ -9,7 +9,8 @@
  x-select-enable-clipboard t                            ; paste from X buffer
  inhibit-splash-screen t                                ; disable splash screen
  truncate-lines t                                       ; truncate, not wrap, lines
- indent-tabs-mode nil)                                  ; mouse hover variables
+ indent-tabs-mode nil                                   ; mouse hover variables
+ split-width-threshold 181)                             ; min width to split window horizontially
 
 (put 'set-goal-column 'disabled nil)                    ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                   ; enable hiding
@@ -22,7 +23,7 @@
 (ido-mode t)                                            ; file/buffer selector
 (setq-default ido-enable-flex-matching t)               ; fuzzy matching for ido mode
 (add-hook 'text-mode-hook 'flyspell-mode t)             ; spellcheck text
-(add-hook 'text-mode-hook 'turn-on-aut-fill)            ; autofill text
+(add-hook 'text-mode-hook 'turn-on-auto-fill)           ; autofill text
 
 ;; whitespace
 (global-whitespace-mode t)                              ; show whitespace
@@ -38,13 +39,26 @@
 (show-paren-mode t)                                     ; show matching paren
 (transient-mark-mode t)                                 ; show highlighting
 (global-font-lock-mode t)                               ; syntax highlighting
+(setq-default compile-command "scons ")                 ; compile command
 (global-set-key (kbd "C-c c") 'compile)                 ; compile
 (global-set-key (kbd "C-c r") 'recompile)               ; recompile
+(global-set-key (kbd "C-c C-c")                         ; comment
+                'comment-or-uncomment-region)
 
 ;; includes
 (require 'hoersten-pastebin-region) ; send selected text to pastebin
-(require 'mercurial)                ; load mercurial mode
 (require 'hoersten-c-style)         ; load c specific lisp
+(require 'hide-lines)               ; hide lines based on regexp
+(require 'vala-mode)                ; vala programming language
+
+;; Xrefactory
+;; (setq load-path (cons "~/xref/emacs" load-path))
+;; (setq exec-path (cons "~/xref" exec-path))
+;; (load "xrefactory")
+
+;; iedit mode
+(require 'iedit)                    ; interactive edit mode
+(define-key global-map (kbd "C-;") 'iedit-mode)
 
 ;; nav mode
 (add-to-list 'load-path "~/.emacs.d/nav/")
@@ -71,8 +85,9 @@
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
 
-;; shell
-(global-set-key (kbd "C-c s") 'shell) ; start shell
+;; terminal and shell
+(global-set-key (kbd "C-c t") '(lambda () (interactive) (ansi-term "bash" "term"))) ; start term
+(global-set-key (kbd "C-c s") 'shell) ; start shell - acts like emacs buffer
 (ansi-color-for-comint-mode-on)       ; color in shell buffer
 (setq-default
  comint-scroll-to-bottom-on-input t   ; only type on prompt
