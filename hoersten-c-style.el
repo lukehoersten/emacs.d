@@ -30,8 +30,10 @@
 
 ;; c-like language settings (c, c++, java, etc.)
 ;;(require 'doxymacs)
-(setq-default c-hungry-delete-key t)                             ; enable hungry delete
-(setq-default c-default-style "hoersten")                        ; load c-style
+(setq-default
+ c-hungry-delete-key t       ; enable hungry delete
+ c-default-style "hoersten") ; load c-style
+
 (add-hook
  'c-mode-common-hook
  (lambda ()

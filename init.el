@@ -9,11 +9,12 @@
  x-select-enable-clipboard t                            ; paste from X buffer
  inhibit-splash-screen t                                ; disable splash screen
  truncate-lines t                                       ; truncate, not wrap, lines
- indent-tabs-mode nil                                   ; mouse hover variables
+ indent-tabs-mode nil                                   ; only uses spaces for indentation
  split-width-threshold 181)                             ; min width to split window horizontially
 
 (put 'set-goal-column 'disabled nil)                    ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)                   ; enable hiding
+(put 'narrow-to-page 'disabled nil)
 
 (menu-bar-mode nil)                                     ; remove menu bar
 (display-time-mode t)                                   ; show clock
@@ -30,9 +31,9 @@
 (add-hook 'before-save-hook 'whitespace-cleanup)        ; cleanup whitespace on exit
 (setq-default
  whitespace-line-column 120                             ; column width
- whitespace-style                                       ; whitespace elements to show
- '(tabs tab-mark trailing lines-tail
-        space-before-tab indentation empty))
+ whitespace-style '(trailing lines-tail empty
+                             indentation space-before-tab
+                             space-after-tab))
 
 ;; coding
 (which-func-mode t)                                     ; show current function
@@ -44,63 +45,6 @@
 (global-set-key (kbd "C-c r") 'recompile)               ; recompile
 (global-set-key (kbd "C-c C-c")                         ; comment
                 'comment-or-uncomment-region)
-
-;; includes
-(require 'hoersten-pastebin-region) ; send selected text to pastebin
-(require 'hoersten-c-style)         ; load c specific lisp
-(require 'hide-lines)               ; hide lines based on regexp
-(require 'vala-mode)                ; vala programming language
-
-;; Xrefactory
-;; (setq load-path (cons "~/xref/emacs" load-path))
-;; (setq exec-path (cons "~/xref" exec-path))
-;; (load "xrefactory")
-
-;; iedit mode
-(require 'iedit)                    ; interactive edit mode
-(define-key global-map (kbd "C-;") 'iedit-mode)
-
-;; nav mode
-(add-to-list 'load-path "~/.emacs.d/nav/")
-(require 'nav)
-
-;; unicode
-(require 'pretty-mode)
-(global-pretty-mode t)
-(setq haskell-font-lock-symbols 'unicode)
-
-;; snippets
-(add-to-list 'load-path "~/.emacs.d/yasnippet/")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets/")
-
-;; zencoding html
-(require 'zencoding-mode)
-(add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
-
-;; unique buffer names with dirs
-(require 'uniquify)
-(setq
- uniquify-buffer-name-style 'post-forward
- uniquify-separator ":")
-
-;; terminal and shell
-(global-set-key (kbd "C-c t") '(lambda () (interactive) (ansi-term "bash" "term"))) ; start term
-(global-set-key (kbd "C-c s") 'shell) ; start shell - acts like emacs buffer
-(ansi-color-for-comint-mode-on)       ; color in shell buffer
-(setq-default
- comint-scroll-to-bottom-on-input t   ; only type on prompt
- comint-scroll-show-maximum-output t) ; place text at bottom
-
-;; org mode
-(add-hook
- 'org-mode-hook
- '(lambda ()
-    (local-set-key (kbd "M-p") 'org-move-item-up)
-    (local-set-key (kbd "M-S-p") 'org-move-subtree-up)
-    (local-set-key (kbd "M-n") 'org-move-item-down)
-    (local-set-key (kbd "M-S-n") 'org-move-subtree-down)))
 
 ;; line numbers
 ;;(global-linum-mode t)
@@ -138,3 +82,71 @@
       (load "color-theme-twilight")
       (color-theme-twilight)
       (global-hl-line-mode t)))
+
+;; terminal and shell
+(global-set-key (kbd "C-c t") '(lambda () (interactive) (ansi-term "bash" "term"))) ; start term
+(global-set-key (kbd "C-c s") 'shell) ; start shell - acts like emacs buffer
+(ansi-color-for-comint-mode-on)       ; color in shell buffer
+(setq-default
+ comint-scroll-to-bottom-on-input t   ; only type on prompt
+ comint-scroll-show-maximum-output t) ; place text at bottom
+
+;;;;;;;;;;;;; includes & requires ;;;;;;;;;;;;;
+
+;; includes
+(require 'hoersten-pastebin-region) ; send selected text to pastebin
+(require 'hoersten-c-style)         ; load c specific lisp
+(require 'hide-lines)               ; hide lines based on regexp
+(require 'vala-mode)                ; vala programming language
+
+;; Xrefactory
+;; (setq load-path (cons "~/xref/emacs" load-path))
+;; (setq exec-path (cons "~/xref" exec-path))
+;; (load "xrefactory")
+
+;; iedit mode
+(require 'iedit)                    ; interactive edit mode
+(define-key global-map (kbd "C-;") 'iedit-mode)
+
+;; nav mode
+(add-to-list 'load-path "~/.emacs.d/nav/")
+(require 'nav)
+
+;; unicode
+(require 'pretty-mode)
+(global-pretty-mode t)
+(setq haskell-font-lock-symbols 'unicode)
+
+;; snippets
+(add-to-list 'load-path "~/.emacs.d/yasnippet/")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet/snippets/")
+
+;; python mode
+(add-hook
+ 'python-mode-hook
+ (lambda ()
+   (setq
+    tab-width 3
+    python-indent 3
+    indent-tabs-mode t)))
+
+;; zencoding html
+(require 'zencoding-mode)
+(add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
+
+;; unique buffer names with dirs
+(require 'uniquify)
+(setq
+ uniquify-buffer-name-style 'post-forward
+ uniquify-separator ":")
+
+;; org mode
+(add-hook
+ 'org-mode-hook
+ (lambda ()
+   (local-set-key (kbd "M-p") 'org-move-item-up)
+   (local-set-key (kbd "M-S-p") 'org-move-subtree-up)
+   (local-set-key (kbd "M-n") 'org-move-item-down)
+   (local-set-key (kbd "M-S-n") 'org-move-subtree-down)))
