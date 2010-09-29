@@ -95,7 +95,6 @@
 ;; includes
 (require 'hoersten-pastebin-region) ; send selected text to pastebin
 (require 'hoersten-c-style)         ; load c specific lisp
-(require 'hide-lines)               ; hide lines based on regexp
 (require 'vala-mode)                ; vala programming language
 
 ;; Xrefactory
