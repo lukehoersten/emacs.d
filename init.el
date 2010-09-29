@@ -31,9 +31,9 @@
 (add-hook 'before-save-hook 'whitespace-cleanup)        ; cleanup whitespace on exit
 (setq-default
  whitespace-line-column 120                             ; column width
- whitespace-style '(trailing lines-tail empty
-                             indentation space-before-tab
-                             space-after-tab))
+ whitespace-style                                       ; whitespace to highlight
+ '(trailing lines-tail empty indentation
+            space-before-tab space-after-tab))
 
 ;; coding
 (which-func-mode t)                                     ; show current function
@@ -47,7 +47,6 @@
                 'comment-or-uncomment-region)
 
 ;; line numbers
-;;(global-linum-mode t)
 (mapc
  (lambda (x)
    (add-hook x 'linum-mode))
@@ -103,10 +102,6 @@
 ;; (setq load-path (cons "~/xref/emacs" load-path))
 ;; (setq exec-path (cons "~/xref" exec-path))
 ;; (load "xrefactory")
-
-;; iedit mode
-(require 'iedit)                    ; interactive edit mode
-(define-key global-map (kbd "C-;") 'iedit-mode)
 
 ;; nav mode
 (add-to-list 'load-path "~/.emacs.d/nav/")
