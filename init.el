@@ -87,6 +87,7 @@
 (global-set-key (kbd "C-c s") 'shell) ; start shell - acts like emacs buffer
 (ansi-color-for-comint-mode-on)       ; color in shell buffer
 (setq-default
+ comint-prompt-read-only t            ; don't type on prompt
  comint-scroll-to-bottom-on-input t   ; only type on prompt
  comint-scroll-show-maximum-output t) ; place text at bottom
 
@@ -97,11 +98,6 @@
 (require 'hoersten-c-style)         ; load c specific lisp
 (require 'vala-mode)                ; vala programming language
 
-;; Xrefactory
-;; (setq load-path (cons "~/xref/emacs" load-path))
-;; (setq exec-path (cons "~/xref" exec-path))
-;; (load "xrefactory")
-
 ;; nav mode
 (add-to-list 'load-path "~/.emacs.d/nav/")
 (require 'nav)
@@ -109,7 +105,6 @@
 ;; unicode
 (require 'pretty-mode)
 (global-pretty-mode t)
-(setq haskell-font-lock-symbols 'unicode)
 
 ;; snippets
 (add-to-list 'load-path "~/.emacs.d/yasnippet/")
@@ -125,6 +120,19 @@
     tab-width 3
     python-indent 3
     indent-tabs-mode t)))
+
+;; haskell mode
+(add-hook
+ 'haskell-mode-hook
+ (lambda ()
+   (capitalized-words-mode)
+   (setq
+    haskell-font-lock-symbols 'unicode
+    haskell-doc-mode t
+    imenu-add-menubar-index
+    inferior-haskell-wait-and-jump t
+    haskell-indent-mode t
+    haskell-indent-offset 3)))
 
 ;; zencoding html
 (require 'zencoding-mode)
