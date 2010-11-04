@@ -16,7 +16,7 @@
 (put 'narrow-to-region 'disabled nil)                   ; enable hiding
 (put 'narrow-to-page 'disabled nil)
 
-(menu-bar-mode nil)                                     ; remove menu bar
+(menu-bar-mode -1)                                      ; remove menu bar
 (display-time-mode t)                                   ; show clock
 (column-number-mode t)                                  ; show column numbers
 (delete-selection-mode t)                               ; replace highlighted text
@@ -68,28 +68,23 @@
     (indent-region beg end)
     (whitespace-cleanup-region beg end)))
 
-;; x stuff
+;; X stuff
 (if window-system
     (progn
-      (tool-bar-mode nil)   ; remove tool bar
-      (scroll-bar-mode nil) ; remove scroll bar
+      (tool-bar-mode -1)    ; remove tool bar
+      (scroll-bar-mode -1)  ; remove scroll bar
       (visual-line-mode t)  ; word wrap break on whitespace
-      (set-default-font "Monospace-10")
+      (global-hl-line-mode t)
+      ))
 
-      ;; twilight theme
-      (require 'color-theme)
-      (load "color-theme-twilight")
-      (color-theme-twilight)
-      (global-hl-line-mode t)))
+;; terminal
+(global-set-key (kbd "C-c s") '(lambda () (interactive) (ansi-term "bash" "shell"))) ; start term
 
-;; terminal and shell
-(global-set-key (kbd "C-c t") '(lambda () (interactive) (ansi-term "bash" "term"))) ; start term
-(global-set-key (kbd "C-c s") 'shell) ; start shell - acts like emacs buffer
-(ansi-color-for-comint-mode-on)       ; color in shell buffer
-(setq-default
- comint-prompt-read-only t            ; don't type on prompt
- comint-scroll-to-bottom-on-input t   ; only type on prompt
- comint-scroll-show-maximum-output t) ; place text at bottom
+;; OS specific configs
+(cond
+ ((string-match "linux" (emacs-version)) (require 'linux))
+ ((string-match "darwin" (emacs-version)) (require 'darwin))
+ )
 
 ;;;;;;;;;;;;; includes & requires ;;;;;;;;;;;;;
 
@@ -125,13 +120,13 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   (capitalized-words-mode)
+   (haskell-indentation-mode nil)
+   (haskell-indent-mode t)
+   (capitalized-words-mode t)
+   (haskell-doc-mode t)
+   ;; (imenu-add-menubar-index t)
    (setq
     haskell-font-lock-symbols 'unicode
-    haskell-doc-mode t
-    imenu-add-menubar-index
-    inferior-haskell-wait-and-jump t
-    haskell-indent-mode t
     haskell-indent-offset 3)))
 
 ;; zencoding html
