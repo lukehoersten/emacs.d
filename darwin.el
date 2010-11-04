@@ -1,7 +1,9 @@
 ;; ~/.emacs.d/darwin.el
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-;;(setq-default ns-command-modifier)
+;; Keyboard layout: caps=command, command=alt
+(setq-default ns-command-modifier 'control)
+
 (if window-system
     (progn
       (menu-bar-mode t)
