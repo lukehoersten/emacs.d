@@ -75,6 +75,11 @@
       (scroll-bar-mode -1)  ; remove scroll bar
       (visual-line-mode t)  ; word wrap break on whitespace
       (global-hl-line-mode t)
+
+      ;; twilight theme
+      (require 'color-theme)
+      (load "color-theme-twilight")
+      (color-theme-twilight)
       ))
 
 ;; terminal
