@@ -39,4 +39,5 @@
              (insert redirected)
              (clipboard-kill-ring-save (point-min) (point-max))))))))))
 
+(message "Loaded Hoersten pastebin")
 (provide 'hoersten-pastebin-region)

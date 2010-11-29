@@ -2,7 +2,7 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; general
-(add-to-list 'load-path "~/.emacs.d/")                  ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d")                  ; set default emacs load path
 
 (setq-default
  ediff-split-window-function 'split-window-horizontally ; diff horizontally
@@ -56,18 +56,6 @@
    haskell-mode-hook
    emacs-lisp-mode-hook))
 
-;; use only spaces for alignment
-(global-set-key (kbd "C-c a") 'align-with-spaces)
-(defun align-with-spaces (beg end pattern)
-  "Align selected using only spaces for whitespace."
-  (interactive "r\nsAlign by: ")
-  (let ((indent-tabs-mode nil))
-    (align-string beg end pattern 1)
-    (align-entire beg end)
-    (untabify beg end)
-    (indent-region beg end)
-    (whitespace-cleanup-region beg end)))
-
 ;; X stuff
 (if window-system
     (progn
@@ -94,12 +82,13 @@
 ;;;;;;;;;;;;; includes & requires ;;;;;;;;;;;;;
 
 ;; includes
-(require 'hoersten-pastebin-region) ; send selected text to pastebin
-(require 'hoersten-c-style)         ; load c specific lisp
-(require 'vala-mode)                ; vala programming language
+(require 'hoersten-align-with-spaces) ; use only spaces for alignment
+(require 'hoersten-pastebin-region)   ; send selected text to pastebin
+(require 'hoersten-c-style)           ; load c specific lisp
+(require 'vala-mode)                  ; vala programming language
 
 ;; nav mode
-(add-to-list 'load-path "~/.emacs.d/nav/")
+(add-to-list 'load-path "~/.emacs.d/nav")
 (require 'nav)
 
 ;; unicode
@@ -107,10 +96,11 @@
 (global-pretty-mode t)
 
 ;; snippets
-(add-to-list 'load-path "~/.emacs.d/yasnippet/")
+(add-to-list 'load-path "~/.emacs.d/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets/")
+(yas/load-directory "~/.emacs.d/yasnippet/snippets")
+(setq-default yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt)) ; use ido for multiple snippets
 
 ;; python mode
 (add-hook
@@ -129,10 +119,12 @@
    (haskell-indent-mode t)
    (capitalized-words-mode t)
    (haskell-doc-mode t)
-   ;; (imenu-add-menubar-index t)
+   (imenu-add-menubar-index t)
    (setq
     haskell-font-lock-symbols 'unicode
-    haskell-indent-offset 3)))
+    haskell-indent-offset 3))
+ t ;; append instead of prepend else haskell-mode overwrites these settings
+ )
 
 ;; zencoding html
 (require 'zencoding-mode)

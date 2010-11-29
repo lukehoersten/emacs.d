@@ -5,5 +5,5 @@
     (progn
       (set-default-font "Monospace-10")
       ))
-
+(message "Loaded Linux settings")
 (provide 'linux)

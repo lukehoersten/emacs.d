@@ -11,4 +11,5 @@
       (set-default-font "Menlo-12")
       ))
 
+(message "Loaded Darwin settings")
 (provide 'darwin)

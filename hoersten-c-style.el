@@ -73,4 +73,5 @@
 (add-to-list 'auto-mode-alist '("\\.ipp$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.inl$" . c++-mode))
 
+(message "Loaded Hoersten C style")
 (provide 'hoersten-c-style)
