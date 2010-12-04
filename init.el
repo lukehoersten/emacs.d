@@ -71,7 +71,8 @@
       ))
 
 ;; terminal
-(global-set-key (kbd "C-c s") '(lambda () (interactive) (ansi-term "bash" "shell"))) ; start term
+(global-set-key (kbd "C-c s") 'eshell)                ; start shell
+(add-hook 'eshell-mode-hook '(setenv "TERM" "emacs")) ; enable colors
 
 ;; OS specific configs
 (cond
