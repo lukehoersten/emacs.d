@@ -1,7 +1,8 @@
 ;; ~/.emacs.d/init.el (~/.emacs)
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-;;;; General
+
+;;;; General ;;;;
 (add-to-list 'load-path "~/.emacs.d")     ; set default emacs load path
 
 (setq-default
@@ -36,13 +37,28 @@
  (kbd "C-c C-c")
  'comment-or-uncomment-region)            ; toggle region comment
 
-;;; X stuff
+;;; Darwin
+(if (string-match "darwin" (emacs-version))
+    (progn
+      (setq-default ns-command-modifier 'control)
+      (tabbar-mode nil)
+      (menu-bar-mode t)))
+
+;;; Xorg
 (if window-system
     (progn
+      (defun get-font ()
+        "Get appropriate font based on system and hostname."
+        (cond
+         ((string-match "darwin" (emacs-version)) "Menlo-12")
+         ((string-match "HoldenCaulfield" (system-name)) "monospace-7")
+         ("monospace-10")))
+
       (tool-bar-mode -1)      ; remove tool bar
       (scroll-bar-mode -1)    ; remove scroll bar
       (visual-line-mode t)    ; word wrap break on whitespace
       (global-hl-line-mode t) ; highlight current line
+      (set-frame-font (get-font))
 
       ;; twilight theme
       (require 'color-theme)
@@ -52,19 +68,10 @@
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
-(add-hook 'eshell-mode-hook '(lambda ()
-    (progn
-      (setenv "PATH" "~/.cabal/bin:$PATH") ; haskell cabal
-      (setenv "TERM" "emacs"))))           ; enable colors
-
-;;; OS specific configs
-(cond
- ((string-match "linux" (emacs-version)) (require 'linux))
- ((string-match "darwin" (emacs-version)) (require 'darwin))
- )
+(add-hook 'eshell-mode-hook '(lambda () (setenv "TERM" "emacs"))) ; enable colors
 
 
-;;;; Mode-Specific
+;;;; Mode-Specific ;;;;
 
 ;;; linum-mode - line numbers
 (mapc
@@ -117,8 +124,8 @@
     haskell-font-lock-symbols 'unicode
     haskell-indent-offset 4
     whitespace-line-column 87))
- t ; append instead of prepend else haskell-mode overwrites these settings
- )
+ t) ; append instead of prepend else haskell-mode overwrites these settings
+
 
 ;;; org-mode
 (add-hook
@@ -129,8 +136,22 @@
    (local-set-key (kbd "M-n") 'org-move-item-down)
    (local-set-key (kbd "M-S-n") 'org-move-subtree-down)))
 
+;;; ibuffer
+(global-set-key (kbd "C-x C-b") 'ibuffer) ; better buffer browser
+(setq-default
+ ibuffer-saved-filter-groups
+ '(("Hoersten"
+    ("Emacs Configs" (saved . "Emacs Configs"))))
 
-;;;; Requires
+ ibuffer-saved-filters
+ '(("Emacs Configs"
+    ((filename . "\\.emacs\\.d/.*\\.el$")))
+   ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode))))
+   ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode))))
+   ))
+
+
+;;;; Requires ;;;;
 
 (require 'hoersten-align-with-spaces) ; use only spaces for alignment
 (require 'hoersten-pastebin-region)   ; send selected text to pastebin
