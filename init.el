@@ -123,9 +123,8 @@
    (setq
     haskell-font-lock-symbols 'unicode
     haskell-indent-offset 4
-    whitespace-line-column 87))
+    whitespace-line-column 78))
  t) ; append instead of prepend else haskell-mode overwrites these settings
-
 
 ;;; org-mode
 (add-hook
@@ -139,16 +138,18 @@
 ;;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer) ; better buffer browser
 (setq-default
+ ibuffer-show-empty-filter-groups nil
  ibuffer-saved-filter-groups
- '(("Hoersten"
-    ("Emacs Configs" (saved . "Emacs Configs"))))
-
- ibuffer-saved-filters
- '(("Emacs Configs"
-    ((filename . "\\.emacs\\.d/.*\\.el$")))
-   ("gnus" ((or (mode . message-mode) (mode . mail-mode) (mode . gnus-group-mode) (mode . gnus-summary-mode) (mode . gnus-article-mode))))
-   ("programming" ((or (mode . emacs-lisp-mode) (mode . cperl-mode) (mode . c-mode) (mode . java-mode) (mode . idl-mode) (mode . lisp-mode))))
-   ))
+ '(("default"
+    ("Emacs Lisp" (mode . emacs-lisp-mode))
+    ("Haskell" (mode . haskell-mode))
+    ("Python" (mode . python-mode))
+    ("C++" (mode . c++-mode)))))
+(add-hook
+ 'ibuffer-mode-hook
+ '(lambda ()
+    (ido-mode t)
+    (ibuffer-switch-to-saved-filter-groups "default")))
 
 
 ;;;; Requires ;;;;
@@ -157,13 +158,6 @@
 (require 'hoersten-pastebin-region)   ; send selected text to pastebin
 (require 'hoersten-c-style)           ; load c specific lisp
 (require 'vala-mode)                  ; vala programming language
-
-;;; auto-complete-mode
-(add-to-list 'load-path "~/.emacs.d/auto-complete-mode/")
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/auto-complete-mode/ac-dict")
-(ac-config-default)
-(setq ac-modes (append ac-modes '(haskell-mode)))
 
 ;;; pretty-mode - unicode character replacement
 (require 'pretty-mode)
