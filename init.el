@@ -52,6 +52,7 @@
         (cond
          ((string-match "darwin" (emacs-version)) "Menlo-12")
          ((string-match "HoldenCaulfield" (system-name)) "monospace-7")
+         ((string-match "lhoersten-66113" (system-name)) "monospace-8")
          ("monospace-10")))
 
       (tool-bar-mode -1)      ; remove tool bar
@@ -68,7 +69,11 @@
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
-(add-hook 'eshell-mode-hook '(lambda () (setenv "TERM" "emacs"))) ; enable colors
+(add-hook
+ 'eshell-mode-hook
+ '(lambda ()
+    (setenv "TERM" "emacs") ; enable colors
+    (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH"))))) ; add cabal binaries
 
 
 ;;;; Mode-Specific ;;;;
@@ -158,6 +163,7 @@
 (require 'hoersten-pastebin-region)   ; send selected text to pastebin
 (require 'hoersten-c-style)           ; load c specific lisp
 (require 'vala-mode)                  ; vala programming language
+(require 'move-line)                  ; move line up or down
 
 ;;; pretty-mode - unicode character replacement
 (require 'pretty-mode)
