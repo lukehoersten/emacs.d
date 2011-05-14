@@ -26,5 +26,5 @@
 (global-set-key (kbd "M-p") 'move-line-up)
 (global-set-key (kbd "M-n") 'move-line-down)
 
-(message "Loaded move-line function")
+(message "Loading move-line...done")
 (provide 'move-line)

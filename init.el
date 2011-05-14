@@ -3,7 +3,8 @@
 
 
 ;;;; General ;;;;
-(add-to-list 'load-path "~/.emacs.d")     ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d")            ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d/thirdparty") ; set default third party path
 
 (setq-default
  ediff-split-window-function
@@ -12,14 +13,13 @@
  inhibit-splash-screen t                  ; disable splash screen
  truncate-lines t                         ; truncate, not wrap, lines
  indent-tabs-mode nil                     ; only uses spaces for indentation
- split-width-threshold 181)               ; min width to split window horizontially
+ split-width-threshold 181                ; min width to split window horizontially
+ reb-re-syntax 'string)                   ; use string syntax for regexp builder
 
 (put 'set-goal-column 'disabled nil)      ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)     ; enable hiding
 (put 'narrow-to-page 'disabled nil)
 
-(menu-bar-mode -1)                        ; remove menu bar
-(display-time-mode t)                     ; show clock
 (column-number-mode t)                    ; show column numbers
 (delete-selection-mode t)                 ; replace highlighted text
 (windmove-default-keybindings)            ; move between windows with shift-arrow
@@ -51,8 +51,8 @@
         "Get appropriate font based on system and hostname."
         (cond
          ((string-match "darwin" (emacs-version)) "Menlo-12")
-         ((string-match "HoldenCaulfield" (system-name)) "monospace-7")
-         ((string-match "lhoersten-66113" (system-name)) "monospace-8")
+         ((string-match "HoldenCaulfield" (system-name)) "monospace-6")
+         ((string-match "lhoersten-66113" (system-name)) "monospace-9")
          ("monospace-10")))
 
       (tool-bar-mode -1)      ; remove tool bar
@@ -73,7 +73,7 @@
  'eshell-mode-hook
  '(lambda ()
     (setenv "TERM" "emacs") ; enable colors
-    (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH"))))) ; add cabal binaries
+    (setenv "PATH" (concat "/opt/ghc7/bin:" "~/.cabal/bin:" (getenv "PATH")))))
 
 
 ;;;; Mode-Specific ;;;;
@@ -118,6 +118,19 @@
     indent-tabs-mode t)))
 
 ;;; haskell-mode
+;; scion
+(if (file-exists-p "~/.cabal/share/scion-0.1.0.10/emacs")
+    (progn
+      (add-to-list 'load-path "~/.cabal/share/scion-0.1.0.10/emacs")
+      (require 'scion)
+      (setq scion-program "~/.cabal/bin/scion-server")
+      (add-hook
+       'haskell-mode-hook
+       (lambda ()
+         (scion-mode 1)
+         (scion-flycheck-on-save 1)
+         (setq scion-completing-read-function 'ido-completing-read)))))
+
 (add-hook
  'haskell-mode-hook
  (lambda ()
@@ -128,7 +141,7 @@
    (setq
     haskell-font-lock-symbols 'unicode
     haskell-indent-offset 4
-    whitespace-line-column 78))
+    whitespace-line-column 120))
  t) ; append instead of prepend else haskell-mode overwrites these settings
 
 ;;; org-mode
@@ -159,21 +172,21 @@
 
 ;;;; Requires ;;;;
 
-(require 'hoersten-align-with-spaces) ; use only spaces for alignment
-(require 'hoersten-pastebin-region)   ; send selected text to pastebin
-(require 'hoersten-c-style)           ; load c specific lisp
-(require 'vala-mode)                  ; vala programming language
-(require 'move-line)                  ; move line up or down
+(require 'hoersten-c-style)  ; load c specific lisp
+(require 'align-with-spaces) ; use only spaces for alignment
+(require 'pastebin-region)   ; send selected text to pastebin
+(require 'move-line)         ; move line up or down
+(require 'vala-mode)         ; vala programming language
 
 ;;; pretty-mode - unicode character replacement
 (require 'pretty-mode)
 (global-pretty-mode t)
 
 ;;; yasnippets
-(add-to-list 'load-path "~/.emacs.d/yasnippet")
+(add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets")
+(yas/load-directory "~/.emacs.d/thirdparty/yasnippet/snippets")
 (setq-default yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt)) ; use ido for multiple snippets
 
 ;;; zencoding-mode - html

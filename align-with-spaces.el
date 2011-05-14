@@ -12,5 +12,5 @@
     (indent-region beg end)
     (whitespace-cleanup-region beg end)))
 
-(message "Loaded Hoersten align-with-spaces function")
-(provide 'hoersten-align-with-spaces)
+(message "Loading align-with-spaces...done")
+(provide 'align-with-spaces)
