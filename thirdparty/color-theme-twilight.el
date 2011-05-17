@@ -44,6 +44,12 @@
      (font-lock-preprocessor-face ((t (:foreground "Aquamarine"))))
      (font-lock-reference-face ((t (:foreground "SlateBlue"))))
 
+     ;; Enhanced-Ruby-Mode
+     (ruby-string-delimiter-face  ((t (:foreground "#5A6340"))))
+     (ruby-regexp-delimiter-face ((t (:foreground "orange"))))
+     (ruby-heredoc-delimiter-face ((t (:foreground "#9B859D"))))
+     (ruby-op-face ((t (:foreground "#CDA869"))))
+
      (font-lock-regexp-grouping-backslash ((t (:foreground "#E9C062"))))
      (font-lock-regexp-grouping-construct ((t (:foreground "red"))))
 
@@ -52,6 +58,10 @@
      (ido-first-match ((t (:foreground "#8F9D6A"))))
      (ido-only-match ((t (:foreground "#8F9D6A"))))
      (mumamo-background-chunk-submode ((t (:background "#222222"))))
+
+     (linum ((t (:background "#000000" :foreground "#5F5A60"))))
+     (hl-line ((t (:background "#111111"))))
+     (yas/field-highlight-face ((t (:background "#27292A"))))
 
      (font-lock-string-face ((t (:foreground "#8F9D6A"))))
      (font-lock-type-face ((t (:foreground "#9B703F"))))

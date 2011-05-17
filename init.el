@@ -78,16 +78,6 @@
 
 ;;;; Mode-Specific ;;;;
 
-;;; linum-mode - line numbers
-(mapc
- (lambda (x)
-   (add-hook x 'linum-mode))
- '(text-mode-hook
-   c-mode-common-hook
-   python-mode-hook
-   haskell-mode-hook
-   emacs-lisp-mode-hook))
-
 ;;; text-mode
 (add-hook 'text-mode-hook 'flyspell-mode t)             ; spellcheck text
 (add-hook 'text-mode-hook 'turn-on-auto-fill)           ; autofill text
@@ -172,11 +162,12 @@
 
 ;;;; Requires ;;;;
 
-(require 'hoersten-c-style)  ; load c specific lisp
-(require 'align-with-spaces) ; use only spaces for alignment
-(require 'pastebin-region)   ; send selected text to pastebin
-(require 'move-line)         ; move line up or down
-(require 'vala-mode)         ; vala programming language
+(require 'hoersten-c-style)   ; load c specific lisp
+(require 'align-with-spaces)  ; use only spaces for alignment
+(require 'pastebin-region)    ; send selected text to pastebin
+(require 'move-line)          ; move line up or down
+(require 'vala-mode)          ; vala programming language
+(require 'rainbow-delimiters) ; multi-colored parens
 
 ;;; pretty-mode - unicode character replacement
 (require 'pretty-mode)
@@ -198,3 +189,14 @@
 (setq
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
+
+;;; coding-modes map
+(mapc
+ (lambda (x)
+   (add-hook x 'linum-mode)
+   (add-hook x 'rainbow-delimiters-mode))
+ '(text-mode-hook
+   c-mode-common-hook
+   python-mode-hook
+   haskell-mode-hook
+   emacs-lisp-mode-hook))
