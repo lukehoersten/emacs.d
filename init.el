@@ -129,7 +129,6 @@
    (capitalized-words-mode t)
    (haskell-doc-mode t)
    (setq
-    haskell-font-lock-symbols 'unicode
     haskell-indent-offset 4
     whitespace-line-column 120))
  t) ; append instead of prepend else haskell-mode overwrites these settings
@@ -168,10 +167,6 @@
 (require 'move-line)          ; move line up or down
 (require 'vala-mode)          ; vala programming language
 (require 'rainbow-delimiters) ; multi-colored parens
-
-;;; pretty-mode - unicode character replacement
-(require 'pretty-mode)
-(global-pretty-mode t)
 
 ;;; yasnippets
 (add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
