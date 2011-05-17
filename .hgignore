@@ -3,5 +3,6 @@ yasnippet\/
 nav\/
 url\/
 
+\.elc$
 ~$
 \#.*\#$

@@ -99,13 +99,7 @@
             space-before-tab space-after-tab))
 
 ;;; python-mode
-(add-hook
- 'python-mode-hook
- (lambda ()
-   (setq
-    tab-width 3
-    python-indent 3
-    indent-tabs-mode t)))
+(add-hook 'python-mode-hook (lambda () (setq indent-tabs-mode t)))
 
 ;;; haskell-mode
 ;; scion
