@@ -52,7 +52,7 @@
         (cond
          ((string-match "darwin" (emacs-version)) "Menlo-12")
          ((string-match "HoldenCaulfield" (system-name)) "monospace-6")
-         ((string-match "lhoersten-66113" (system-name)) "monospace-9")
+         ((string-match "lhoersten-66113" (system-name)) "monospace-8")
          ("monospace-10")))
 
       (tool-bar-mode -1)      ; remove tool bar
@@ -71,9 +71,9 @@
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
 (add-hook
  'eshell-mode-hook
- '(lambda ()
-    (setenv "TERM" "emacs") ; enable colors
-    (setenv "PATH" (concat "/opt/ghc7/bin:" "~/.cabal/bin:" (getenv "PATH")))))
+ (lambda ()
+   (setenv "TERM" "emacs") ; enable colors
+   (setenv "PATH" (concat "/opt/ghc7/bin:" "~/.cabal/bin:" (getenv "PATH")))))
 
 
 ;;;; Mode-Specific ;;;;
@@ -165,9 +165,9 @@
     ("C++" (mode . c++-mode)))))
 (add-hook
  'ibuffer-mode-hook
- '(lambda ()
-    (ido-mode t)
-    (ibuffer-switch-to-saved-filter-groups "default")))
+ (lambda ()
+   (ido-mode t)
+   (ibuffer-switch-to-saved-filter-groups "default")))
 
 
 ;;;; Requires ;;;;
