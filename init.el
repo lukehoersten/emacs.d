@@ -4,7 +4,6 @@
 
 ;;;; General ;;;;
 (add-to-list 'load-path "~/.emacs.d")            ; set default emacs load path
-(add-to-list 'load-path "~/.emacs.d/thirdparty") ; set default third party path
 
 (setq-default
  ediff-split-window-function
@@ -14,6 +13,7 @@
  truncate-lines t                         ; truncate, not wrap, lines
  indent-tabs-mode nil                     ; only uses spaces for indentation
  split-width-threshold 181                ; min width to split window horizontially
+ split-height-threshold 120               ; min width to split window vertically
  reb-re-syntax 'string)                   ; use string syntax for regexp builder
 
 (put 'set-goal-column 'disabled nil)      ; enable goal column setting
@@ -30,7 +30,6 @@
 (show-paren-mode t)                       ; show matching paren
 (transient-mark-mode t)                   ; show highlighting
 (global-font-lock-mode t)                 ; syntax highlighting
-(setq-default compile-command "scons ")   ; compile command
 (global-set-key (kbd "C-c c") 'compile)   ; compile
 (global-set-key (kbd "C-c r") 'recompile) ; recompile
 (global-set-key
@@ -41,8 +40,7 @@
 (if (string-match "darwin" (emacs-version))
     (progn
       (setq-default ns-command-modifier 'control)
-      (tabbar-mode nil)
-      (menu-bar-mode t)))
+      (tabbar-mode nil)))
 
 ;;; Xorg
 (if window-system
@@ -101,32 +99,6 @@
 ;;; python-mode
 (add-hook 'python-mode-hook (lambda () (setq indent-tabs-mode t)))
 
-;;; haskell-mode
-;; scion
-(if (file-exists-p "~/.cabal/share/scion-0.1.0.10/emacs")
-    (progn
-      (add-to-list 'load-path "~/.cabal/share/scion-0.1.0.10/emacs")
-      (require 'scion)
-      (setq scion-program "~/.cabal/bin/scion-server")
-      (add-hook
-       'haskell-mode-hook
-       (lambda ()
-         (scion-mode 1)
-         (scion-flycheck-on-save 1)
-         (setq scion-completing-read-function 'ido-completing-read)))))
-
-(add-hook
- 'haskell-mode-hook
- (lambda ()
-   (haskell-indentation-mode nil)
-   (haskell-indent-mode t)
-   (capitalized-words-mode t)
-   (haskell-doc-mode t)
-   (setq
-    haskell-indent-offset 4
-    whitespace-line-column 120))
- t) ; append instead of prepend else haskell-mode overwrites these settings
-
 ;;; org-mode
 (add-hook
  'org-mode-hook
@@ -155,11 +127,17 @@
 
 ;;;; Requires ;;;;
 
-(require 'hoersten-c-style)   ; load c specific lisp
+(add-to-list 'load-path "~/.emacs.d/thirdparty") ; set default third party path
+
+;;; language init
+(require 'c-init)             ; c specific elisp
+(require 'haskell-init)       ; haskell specific elisp
+(require 'vala-mode)          ; vala programming language
+
+;;; function init
 (require 'align-with-spaces)  ; use only spaces for alignment
 (require 'pastebin-region)    ; send selected text to pastebin
 (require 'move-line)          ; move line up or down
-(require 'vala-mode)          ; vala programming language
 (require 'rainbow-delimiters) ; multi-colored parens
 
 ;;; yasnippets
