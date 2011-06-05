@@ -47,4 +47,4 @@
 (add-to-list 'auto-mode-alist '("\\.inl$" . c++-mode))
 
 (message "Loading C hook...done")
-(provide 'c-hook)
+(provide 'c-init)

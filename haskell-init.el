@@ -25,3 +25,4 @@
     haskell-indent-offset 4
     whitespace-line-column 78))
  t) ; append instead of prepend else haskell-mode overwrites these settings
+(provide 'haskell-init)
