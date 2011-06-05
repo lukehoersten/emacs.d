@@ -31,7 +31,6 @@
 ;; c-like language settings (c, c++, java, etc.)
 ;;(require 'doxymacs)
 (setq-default c-default-style "hoersten") ; load c-style
-(c-set-style "hoersten")
 
 (message "Loading Hoersten C style...done")
 (provide 'hoersten-c-style)

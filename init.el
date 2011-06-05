@@ -1,7 +1,6 @@
 ;; ~/.emacs.d/init.el (~/.emacs)
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-
 ;;;; General ;;;;
 (add-to-list 'load-path "~/.emacs.d")            ; set default emacs load path
 
@@ -57,13 +56,7 @@
       (scroll-bar-mode -1)    ; remove scroll bar
       (visual-line-mode t)    ; word wrap break on whitespace
       (global-hl-line-mode t) ; highlight current line
-      (set-frame-font (get-font))
-
-      ;; twilight theme
-      (require 'color-theme)
-      (load "color-theme-twilight")
-      (color-theme-twilight)
-      ))
+      (set-frame-font (get-font))))
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
@@ -139,6 +132,13 @@
 (require 'pastebin-region)    ; send selected text to pastebin
 (require 'move-line)          ; move line up or down
 (require 'rainbow-delimiters) ; multi-colored parens
+
+;;; twilight theme
+(if window-system
+    (progn
+      (require 'color-theme)
+      (load "color-theme-twilight")
+      (color-theme-twilight)))
 
 ;;; yasnippets
 (add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
