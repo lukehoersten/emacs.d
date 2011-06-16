@@ -13,7 +13,8 @@
  indent-tabs-mode nil                     ; only uses spaces for indentation
  split-width-threshold 181                ; min width to split window horizontially
  split-height-threshold 120               ; min width to split window vertically
- reb-re-syntax 'string)                   ; use string syntax for regexp builder
+ reb-re-syntax 'string                    ; use string syntax for regexp builder
+ require-final-newline 'visit-save)       ; add a newline automatically
 
 (put 'set-goal-column 'disabled nil)      ; enable goal column setting
 (put 'narrow-to-region 'disabled nil)     ; enable hiding
@@ -90,7 +91,7 @@
             space-before-tab space-after-tab))
 
 ;;; python-mode
-(add-hook 'python-mode-hook (lambda () (setq indent-tabs-mode t)))
+(add-hook 'python-mode-hook (lambda () (setq tab-width 4)))
 
 ;;; org-mode
 (add-hook
