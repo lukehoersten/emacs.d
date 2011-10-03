@@ -2,7 +2,7 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;;;; General ;;;;
-(add-to-list 'load-path "~/.emacs.d")            ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d")     ; set default emacs load path
 
 (setq-default
  ediff-split-window-function
@@ -24,6 +24,8 @@
 (delete-selection-mode t)                 ; replace highlighted text
 (windmove-default-keybindings)            ; move between windows with shift-arrow
 (fset 'yes-or-no-p 'y-or-n-p)             ; replace yes/no prompts
+(global-hl-line-mode t)                   ; highlight current line
+
 
 ;;; coding
 (which-func-mode t)                       ; show current function
@@ -39,8 +41,7 @@
 ;;; Darwin
 (if (string-match "darwin" (emacs-version))
     (progn
-      (setq-default ns-command-modifier 'control)
-      (tabbar-mode nil)))
+      (setq-default mac-command-modifier 'meta)))
 
 ;;; Xorg
 (if window-system
@@ -49,15 +50,15 @@
         "Get appropriate font based on system and hostname."
         (cond
          ((string-match "darwin" (emacs-version)) "Menlo-12")
-         ((string-match "HoldenCaulfield" (system-name)) "monospace-6")
-         ((string-match "lhoersten-66113" (system-name)) "monospace-8")
-         ("monospace-10")))
+         ((string-match "HoldenCaulfield" (system-name)) "Ubuntu Mono-6.5")
+         ((string-match "lhoersten-66113" (system-name)) "Ubuntu Mono-8.5")
+         ("Ubuntu Mono-10")))
 
       (tool-bar-mode -1)      ; remove tool bar
       (scroll-bar-mode -1)    ; remove scroll bar
       (visual-line-mode t)    ; word wrap break on whitespace
-      (global-hl-line-mode t) ; highlight current line
-      (set-frame-font (get-font))))
+      (set-frame-font (get-font)))
+  (menu-bar-mode -1))
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
@@ -126,20 +127,14 @@
 ;;; language init
 (require 'c-init)             ; c specific elisp
 (require 'haskell-init)       ; haskell specific elisp
+(require 'color-theme-init)   ; haskell specific elisp
 (require 'vala-mode)          ; vala programming language
+(require 'rainbow-delimiters) ; multi-colored parens
 
 ;;; function init
 (require 'align-with-spaces)  ; use only spaces for alignment
 (require 'pastebin-region)    ; send selected text to pastebin
 (require 'move-line)          ; move line up or down
-(require 'rainbow-delimiters) ; multi-colored parens
-
-;;; twilight theme
-(if window-system
-    (progn
-      (require 'color-theme)
-      (load "color-theme-twilight")
-      (color-theme-twilight)))
 
 ;;; yasnippets
 (add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
@@ -147,6 +142,9 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/thirdparty/yasnippet/snippets")
 (setq-default yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt)) ; use ido for multiple snippets
+
+;;; java-mode
+(add-hook 'java-mode-hook (lambda () (setq whitespace-line-column 140)))
 
 ;;; zencoding-mode - html
 (require 'zencoding-mode)

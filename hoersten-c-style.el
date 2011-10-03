@@ -32,5 +32,5 @@
 ;;(require 'doxymacs)
 (setq-default c-default-style "hoersten") ; load c-style
 
-(message "Loading Hoersten C style...done")
+(message "Loading hoersten-c-style...done")
 (provide 'hoersten-c-style)
