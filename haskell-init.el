@@ -20,9 +20,10 @@
    (haskell-indentation-mode nil)
    (haskell-indent-mode t)
    (capitalized-words-mode t)
+   (imenu-add-menubar-index)
    (haskell-doc-mode t)
    (setq
-    haskell-program-name "/opt/ghc7/bin/ghci"
+    haskell-program-name "ghci"
     haskell-indent-offset 4
     whitespace-line-column 78))
  t) ; append instead of prepend else haskell-mode overwrites these settings

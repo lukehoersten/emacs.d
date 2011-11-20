@@ -27,16 +27,14 @@
 (global-hl-line-mode t)                   ; highlight current line
 
 
-;;; coding
+;;; Coding
 (which-func-mode t)                       ; show current function
 (show-paren-mode t)                       ; show matching paren
 (transient-mark-mode t)                   ; show highlighting
 (global-font-lock-mode t)                 ; syntax highlighting
 (global-set-key (kbd "C-c c") 'compile)   ; compile
 (global-set-key (kbd "C-c r") 'recompile) ; recompile
-(global-set-key
- (kbd "C-c C-c")
- 'comment-or-uncomment-region)            ; toggle region comment
+
 
 ;;; Darwin
 (if (string-match "darwin" (emacs-version))
@@ -50,9 +48,10 @@
         "Get appropriate font based on system and hostname."
         (cond
          ((string-match "darwin" (emacs-version)) "Menlo-12")
-         ((string-match "HoldenCaulfield" (system-name)) "Ubuntu Mono-6.5")
-         ((string-match "lhoersten-66113" (system-name)) "Ubuntu Mono-8.5")
-         ("Ubuntu Mono-10")))
+         ((string-match "RichardParker"   (system-name)) "Ubuntu Mono-8.5")
+         ((string-match "HoldenCaulfield" (system-name)) "Ubuntu Mono-10.5")
+         ((string-match "lhoersten-66113" (system-name)) "Ubuntu Mono-10.5")
+         ("Ubuntu Mono-10.5")))
 
       (tool-bar-mode -1)      ; remove tool bar
       (scroll-bar-mode -1)    ; remove scroll bar
@@ -127,7 +126,7 @@
 ;;; language init
 (require 'c-init)             ; c specific elisp
 (require 'haskell-init)       ; haskell specific elisp
-(require 'color-theme-init)   ; haskell specific elisp
+(require 'color-theme-init)   ; color theme specific elisp
 (require 'vala-mode)          ; vala programming language
 (require 'rainbow-delimiters) ; multi-colored parens
 
