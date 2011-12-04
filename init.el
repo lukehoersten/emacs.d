@@ -47,7 +47,7 @@
       (defun get-font ()
         "Get appropriate font based on system and hostname."
         (cond
-         ((string-match "darwin" (emacs-version)) "Menlo-12")
+         ((string-match "darwin" (emacs-version)) "Ubuntu Mono-14")
          ((string-match "RichardParker"   (system-name)) "Ubuntu Mono-8.5")
          ((string-match "HoldenCaulfield" (system-name)) "Ubuntu Mono-10.5")
          ((string-match "lhoersten-66113" (system-name)) "Ubuntu Mono-10.5")
@@ -65,7 +65,7 @@
  'eshell-mode-hook
  (lambda ()
    (setenv "TERM" "emacs") ; enable colors
-   (setenv "PATH" (concat "/opt/ghc7/bin:" "~/.cabal/bin:" (getenv "PATH")))))
+   (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))))
 
 
 ;;;; Mode-Specific ;;;;
