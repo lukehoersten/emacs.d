@@ -55,9 +55,9 @@
 
       (tool-bar-mode -1)      ; remove tool bar
       (scroll-bar-mode -1)    ; remove scroll bar
+      (menu-bar-mode -1)      ; remove menu bar
       (visual-line-mode t)    ; word wrap break on whitespace
-      (set-frame-font (get-font)))
-  (menu-bar-mode -1))
+      (set-frame-font (get-font))))
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
