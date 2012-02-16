@@ -111,6 +111,7 @@
     ("Emacs Lisp" (mode . emacs-lisp-mode))
     ("Haskell" (mode . haskell-mode))
     ("Python" (mode . python-mode))
+    ("Jython" (mode . jython-mode))
     ("C++" (mode . c++-mode)))))
 (add-hook
  'ibuffer-mode-hook

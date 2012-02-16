@@ -28,18 +28,18 @@ degraded color mode to test the approximate color values for accuracy."
 
 (defcustom solarized-termcolors 16
   "This setting applies to emacs in terminal (non-GUI) mode.
-If set to 16, emacs will use the terminal emulator's colorscheme (best option as
-long as you've set your emulator's colors to the Solarized palette). If set to
-256 and your terminal is capable of displaying 256 colors, emacs will use the
-256 degraded color mode."
+If set to 16, emacs will use the terminal emulator's colorscheme (best option
+as long as you've set your emulator's colors to the Solarized palette). If
+set to 256 and your terminal is capable of displaying 256 colors, emacs will
+use the 256 degraded color mode."
   :type 'integer
   :options '(16 256)
   :group 'solarized)
 
 (defcustom solarized-contrast 'normal
   "Stick with normal! It's been carefully tested. Setting this option to high or
-low does use the same Solarized palette but simply shifts some values up or down
-in order to expand or compress the tonal range displayed."
+low does use the same Solarized palette but simply shifts some values up or
+down in order to expand or compress the tonal range displayed."
   :type 'symbol
   :options '(high normal low)
   :group 'solarized)
@@ -47,8 +47,8 @@ in order to expand or compress the tonal range displayed."
 (defcustom solarized-broken-srgb (if (eq system-type 'darwin) t nil)
   "Emacs bug #8402 results in incorrect color handling on Macs. If this is t
 (the default on Macs), Solarized works around it with alternative colors.
-However, these colors are not totally portable, so you may be able to edit the
-\"Gen RGB\" column in solarized-definitions.el to improve them further."
+However, these colors are not totally portable, so you may be able to edit
+the \"Gen RGB\" column in solarized-definitions.el to improve them further."
   :type 'boolean
   :group 'solarized)
 
@@ -59,15 +59,15 @@ However, these colors are not totally portable, so you may be able to edit the
   ;; name    sRGB      Gen RGB   degraded  ANSI(Solarized terminal)
   '((base03  "#002b36" "#042028" "#1c1c1c" "#7f7f7f")
     (base02  "#073642" "#0a2832" "#262626" "#000000")
-    (base01  "#586e75" "#465a61" "#4e4e4e" "#00ff00")
-    (base00  "#657b83" "#52676f" "#585858" "#ffff00")
+    (base01  "#586e75" "#465a61" "#585858" "#00ff00")
+    (base00  "#657b83" "#52676f" "#626262" "#ffff00")
     (base0   "#839496" "#708183" "#808080" "#5c5cff")
     (base1   "#93a1a1" "#81908f" "#8a8a8a" "#00ffff")
-    (base2   "#eee8d5" "#e9e2cb" "#d7d7af" "#e5e5e5")
+    (base2   "#eee8d5" "#e9e2cb" "#e4e4e4" "#e5e5e5")
     (base3   "#fdf6e3" "#fcf4dc" "#ffffd7" "#ffffff")
     (yellow  "#b58900" "#a57705" "#af8700" "#cdcd00")
     (orange  "#cb4b16" "#bd3612" "#d75f00" "#ff0000")
-    (red     "#dc322f" "#c60007" "#af0000" "#cd0000")
+    (red     "#dc322f" "#c60007" "#d70000" "#cd0000")
     (magenta "#d33682" "#c61b6e" "#af005f" "#cd00cd")
     (violet  "#6c71c4" "#5859b7" "#5f5faf" "#ff00ff")
     (blue    "#268bd2" "#2075c7" "#0087ff" "#0000ee")
@@ -152,22 +152,29 @@ However, these colors are not totally portable, so you may be able to edit the
            ;; compilation
            (compilation-info ((t (:foreground ,green :weight ,bold))))
            (compilation-warning ((t (:foreground ,orange :weight ,bold))))
-           ;; customize
+           ;; custom
            (custom-button
-            ((t (:background ,base02
-                             :box (:line-width 2 :style released-button)))))
+            ((t (:foreground ,base1 :background ,base02
+                 :box (:line-width 2 :style released-button)))))
            (custom-button-mouse
-            ((t (:inherit custom-button :foreground ,base1))))
+            ((t (:foreground ,base1 :background ,base02 :inverse-video t
+                 :inherit custom-button))))
            (custom-button-pressed
-            ((t (:inherit custom-button-mouse
-                          :box (:line-width 2 :style pressed-button)))))
-           (custom-comment-tag ((t (:background ,base02))))
-           (custom-comment-tag ((t (:background ,base02))))
+            ((t (:foreground ,base1 :background ,base02 :inverse-video t
+                 :box (:line-width 2 :style pressed-button)
+                 :inherit custom-button-mouse))))
+           (custom-changed ((t (:foreground ,blue :background ,base3
+                                :inverse-video t))))
+           (custom-comment ((t (:foreground ,base1 :background ,base02))))
+           (custom-comment-tag ((t (:foreground ,base1 :background ,base02))))
            (custom-documentation ((t (:inherit default))))
-           (custom-group-tag ((t (:foreground ,orange :weight ,bold))))
+           (custom-group-tag ((t (:foreground ,base1))))
+           (custom-group-tag-1 ((t (:foreground ,base1 :weight ,bold))))
+           (custom-invalid
+            ((t (:foreground ,red :background ,back :inverse-video t))))
            (custom-link ((t (:foreground ,violet))))
            (custom-state ((t (:foreground ,green))))
-           (custom-variable-tag ((t (:foreground ,orange :weight ,bold))))
+           (custom-variable-tag ((t (:foreground ,base1))))
            ;; diff
            (diff-added ((t (:foreground ,green :inverse-video t))))
            (diff-changed ((t (:foreground ,yellow :inverse-video t))))
@@ -188,6 +195,17 @@ However, these colors are not totally portable, so you may be able to edit the
            (emacs-wiki-verbatim-face
             ((t (:foreground ,base00 :underline ,underline))))
            ;; eshell
+           (eshell-ls-archive ((t (:foreground ,magenta))))
+           (eshell-ls-backup ((t (:foreground ,yellow))))
+           (eshell-ls-clutter ((t (:foreground ,orange))))
+           (eshell-ls-directory ((t (:foreground ,blue))))
+           (eshell-ls-executable ((t (:foreground ,green))))
+           (eshell-ls-missing ((t (:foreground ,red))))
+           (eshell-ls-product ((t (:foreground ,yellow))))
+           (eshell-ls-readonly ((t (:foreground ,base1))))
+           (eshell-ls-special ((t (:foreground ,violet))))
+           (eshell-ls-symlink ((t (:foreground ,cyan))))
+           (eshell-ls-unreadable ((t (:foreground ,base00))))
            (eshell-prompt ((t (:foreground ,green :weight ,bold))))
            ;; font-lock
            (font-lock-builtin-face ((t (:foreground ,green))))
@@ -240,7 +258,7 @@ However, these colors are not totally portable, so you may be able to edit the
             ((t (:background ,red :foreground ,base3))))
            ;; widgets
            (widget-field
-            ((t (:box (:line-width 1 :color ,base00) :inherit default))))
+            ((t (:box (:line-width 1 :color ,base2) :foreground ,base1 :background ,base02 :inherit default))))
            (widget-single-line-field ((t (:inherit widget-field))))
            ;; extra modules
            ;; -------------
