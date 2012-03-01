@@ -93,6 +93,13 @@
 ;;; python-mode
 (add-hook 'python-mode-hook (lambda () (setq tab-width 4)))
 
+;;; slime
+(eval-after-load "slime"
+  '(progn (slime-setup '(slime-repl))
+          (setq slime-protocol-version 'ignore)))
+(require 'slime)
+(slime-setup)
+
 ;;; org-mode
 (add-hook
  'org-mode-hook
@@ -129,6 +136,7 @@
 (require 'haskell-init)       ; haskell specific elisp
 (require 'color-theme-init)   ; color theme specific elisp
 (require 'vala-mode)          ; vala programming language
+(require 'clojure-mode)       ; clojure programming language
 (require 'rainbow-delimiters) ; multi-colored parens
 
 ;;; function init
@@ -165,4 +173,5 @@
    c-mode-common-hook
    python-mode-hook
    haskell-mode-hook
+   clojure-mode-hook
    emacs-lisp-mode-hook))
