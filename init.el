@@ -93,13 +93,6 @@
 ;;; python-mode
 (add-hook 'python-mode-hook (lambda () (setq tab-width 4)))
 
-;;; slime
-(eval-after-load "slime"
-  '(progn (slime-setup '(slime-repl))
-          (setq slime-protocol-version 'ignore)))
-(require 'slime)
-(slime-setup)
-
 ;;; org-mode
 (add-hook
  'org-mode-hook
@@ -119,6 +112,7 @@
     ("Haskell" (mode . haskell-mode))
     ("Python" (mode . python-mode))
     ("Jython" (mode . jython-mode))
+    ("Clojure" (mode . clojure-mode))
     ("C++" (mode . c++-mode)))))
 (add-hook
  'ibuffer-mode-hook
