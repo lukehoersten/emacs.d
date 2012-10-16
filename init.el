@@ -59,14 +59,18 @@
       (visual-line-mode t)    ; word wrap break on whitespace
       (set-frame-font (get-font))))
 
+
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
-(add-hook
- 'eshell-mode-hook
- (lambda ()
-   (setenv "TERM" "emacs") ; enable colors
-   (setenv "PATH" (concat "~/.cabal/bin:" (getenv "PATH")))))
+(defun setup-env ()
+  (setenv "TERM" "emacs") ; enable colors
+  (setenv "ODBCSYSINI" "/home/lhoersten/myodbc")
+  (setenv "ODBCINI" "/home/lhoersten/myodbc/odbc.ini")
+  (setenv "PATH" (concat "/usr/local/bin:" "~/.cabal/bin:" (getenv "PATH"))))
+(add-hook 'eshell-mode-hook 'setup-env)
 
+(setup-env)
+(eshell)
 
 ;;;; Mode-Specific ;;;;
 
@@ -113,6 +117,9 @@
     ("Python" (mode . python-mode))
     ("Jython" (mode . jython-mode))
     ("Clojure" (mode . clojure-mode))
+    ("Markup" (mode . sgml-mode))
+    ("HTML" (mode . html-mode))
+    ("CSS" (mode . css-mode))
     ("C++" (mode . c++-mode)))))
 (add-hook
  'ibuffer-mode-hook
@@ -151,6 +158,7 @@
 ;;; zencoding-mode - html
 (require 'zencoding-mode)
 (add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
+(add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
 
 ;;; unique buffer names with dirs
 (require 'uniquify)

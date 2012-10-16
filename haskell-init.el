@@ -1,10 +1,13 @@
 ;; ~/.emacs.d/haskell-init.el
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-;; scion
-;; (if (file-exists-p "~/.cabal/share/scion-0.1.0.10/emacs")
+(add-to-list 'load-path "~/.emacs.d/thirdparty/haskell-mode") ; override haskell mode on system
+(load "haskell-site-file")
+
+;; ;; scion
+;; (if (file-exists-p "~/.cabal/share/scion-0.3/emacs/scion.el")
 ;;     (progn
-;;       (add-to-list 'load-path "~/.cabal/share/scion-0.1.0.10/emacs")
+;;       (add-to-list 'load-path "~/.cabal/share/scion-0.3/emacs")
 ;;       (require 'scion)
 ;;       (setq scion-program "~/.cabal/bin/scion-server")
 ;;       (add-hook
@@ -17,16 +20,20 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   (haskell-indentation-mode nil)
-   (haskell-indent-mode t)
-   (capitalized-words-mode t)
+   (turn-on-haskell-indent)
+   (capitalized-words-mode)
+   (turn-on-haskell-doc-mode)
+   (turn-on-haskell-decl-scan)
    (imenu-add-menubar-index)
-   (haskell-doc-mode t)
+   (local-set-key (kbd "C-x C-s") 'haskell-mode-save-buffer)
    (setq
+    haskell-font-lock-haddock t
+    haskell-stylish-on-save t
+    ;; haskell-tags-on-save t
     haskell-program-name "ghci"
     haskell-indent-offset 4
-    whitespace-line-column 78))
- t) ; append instead of prepend else haskell-mode overwrites these settings
+    whitespace-line-column 78)
+   ))
 
 (message "Loading haskell-init...done")
 (provide 'haskell-init)
