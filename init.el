@@ -34,6 +34,7 @@
 (global-font-lock-mode t)                 ; syntax highlighting
 (global-set-key (kbd "C-c c") 'compile)   ; compile
 (global-set-key (kbd "C-c r") 'recompile) ; recompile
+(subword-mode t)                          ; move by camelCase words
 
 
 ;;; Darwin
@@ -66,17 +67,16 @@
   (setenv "TERM" "emacs") ; enable colors
   (setenv "ODBCSYSINI" "/home/lhoersten/myodbc")
   (setenv "ODBCINI" "/home/lhoersten/myodbc/odbc.ini")
-  (setenv "PATH" (concat "/usr/local/bin:" "~/.cabal/bin:" (getenv "PATH"))))
+  (setenv "PATH" (concat "/usr/local/bin:" (getenv "HOME") "/.cabal/bin:" (getenv "PATH"))))
 (add-hook 'eshell-mode-hook 'setup-env)
-
 (setup-env)
 (eshell)
 
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'text-mode-hook 'flyspell-mode t)             ; spellcheck text
-(add-hook 'text-mode-hook 'turn-on-auto-fill)           ; autofill text
+(add-hook 'fundamental-mode-hook 'flyspell-mode t)             ; spellcheck text
+(add-hook 'fundamental-mode-hook 'turn-on-auto-fill)           ; autofill text
 
 ;;; ido-mode
 (ido-mode t)                                            ; file/buffer selector
@@ -136,8 +136,6 @@
 (require 'c-init)             ; c specific elisp
 (require 'haskell-init)       ; haskell specific elisp
 (require 'color-theme-init)   ; color theme specific elisp
-(require 'vala-mode)          ; vala programming language
-(require 'clojure-mode)       ; clojure programming language
 (require 'rainbow-delimiters) ; multi-colored parens
 
 ;;; function init
@@ -148,9 +146,10 @@
 ;;; yasnippets
 (add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
 (require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/thirdparty/yasnippet/snippets")
-(setq-default yas/prompt-functions '(yas/ido-prompt yas/dropdown-prompt)) ; use ido for multiple snippets
+(setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
+(setq-default yas-snippet-dirs '("~/.emacs.d/thirdparty/yasnippet/snippets"
+                                 "~/.emacs.d/thirdparty/snippets"))
+(yas-global-mode t)
 
 ;;; java-mode
 (add-hook 'java-mode-hook (lambda () (setq whitespace-line-column 140)))
