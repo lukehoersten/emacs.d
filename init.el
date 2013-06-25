@@ -40,7 +40,10 @@
 ;;; Darwin
 (if (string-match "darwin" (emacs-version))
     (progn
-      (setq-default mac-command-modifier 'meta)))
+      (setq-default
+       mac-command-modifier 'meta
+       ns-pop-up-frames nil
+       ispell-program-name "/usr/local/bin/aspell")))
 
 ;;; Xorg
 (if window-system
@@ -75,8 +78,8 @@
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'fundamental-mode-hook 'flyspell-mode t)             ; spellcheck text
-(add-hook 'fundamental-mode-hook 'turn-on-auto-fill)           ; autofill text
+(add-hook 'fundamental-mode-hook 'flyspell-mode t)      ; spellcheck text
+(add-hook 'fundamental-mode-hook 'turn-on-auto-fill)    ; autofill text
 
 ;;; ido-mode
 (ido-mode t)                                            ; file/buffer selector
@@ -128,42 +131,59 @@
    (ibuffer-switch-to-saved-filter-groups "default")))
 
 
-;;;; Requires ;;;;
+;;;; Requires and Packages ;;;;
 
-(add-to-list 'load-path "~/.emacs.d/thirdparty") ; set default third party path
-
-;;; language init
+;;; custom inits
 (require 'c-init)             ; c specific elisp
-(require 'haskell-init)       ; haskell specific elisp
-(require 'color-theme-init)   ; color theme specific elisp
-(require 'rainbow-delimiters) ; multi-colored parens
-
-;;; function init
 (require 'align-with-spaces)  ; use only spaces for alignment
 (require 'pastebin-region)    ; send selected text to pastebin
 (require 'move-line)          ; move line up or down
+(require 'uniquify)           ; unique buffer names with dirs
+
+;;; uniquify
+(setq
+ uniquify-buffer-name-style 'post-forward
+ uniquify-separator ":")
+
+;;; packages
+(package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
+;; install
+(let ((ensure-installed
+       (lambda (name)
+         (unless (package-installed-p name) (package-install name))))
+      (packages
+       '(flymake-haskell-multi ghc ghci-completion haskell-mode js2-mode
+         rainbow-delimiters rainbow-mode scion solarized-theme
+         yasnippet zencoding-mode)))
+  (mapc ensure-installed packages))
+
+;;; color-theme
+(setq-default
+ custom-safe-themes
+ '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
+   "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
+(load-theme 'solarized-light)
 
 ;;; yasnippets
-(add-to-list 'load-path "~/.emacs.d/thirdparty/yasnippet")
-(require 'yasnippet)
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-(setq-default yas-snippet-dirs '("~/.emacs.d/thirdparty/yasnippet/snippets"
-                                 "~/.emacs.d/thirdparty/snippets"))
+(setq-default yas-snippet-dirs
+              '("~/.emacs.d/thirdparty/yasnippet/snippets"
+                "~/.emacs.d/thirdparty/snippets"))
 (yas-global-mode t)
 
 ;;; java-mode
 (add-hook 'java-mode-hook (lambda () (setq whitespace-line-column 140)))
 
+;;; js2-mode
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js-mode-hook 'js2-minor-mode)
+
 ;;; zencoding-mode - html
-(require 'zencoding-mode)
 (add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
-
-;;; unique buffer names with dirs
-(require 'uniquify)
-(setq
- uniquify-buffer-name-style 'post-forward
- uniquify-separator ":")
 
 ;;; coding-modes map
 (mapc
@@ -176,3 +196,22 @@
    haskell-mode-hook
    clojure-mode-hook
    emacs-lisp-mode-hook))
+
+;;; haskell-mode
+(add-hook
+ 'haskell-mode-hook
+ (lambda ()
+   ;; (ghc-init)
+   (turn-on-haskell-indent)
+   (capitalized-words-mode)
+   (turn-on-haskell-doc-mode)
+   (turn-on-haskell-decl-scan)
+   (imenu-add-menubar-index)
+   (setq
+    haskell-font-lock-haddock t
+    haskell-stylish-on-save t
+    ;; haskell-tags-on-save t
+    haskell-program-name "ghci"
+    haskell-indent-offset 4
+    whitespace-line-column 78)
+   ))
