@@ -7,7 +7,6 @@
 (setq-default
  ediff-split-window-function
   'split-window-horizontally              ; diff horizontally
- x-select-enable-clipboard t              ; paste from X buffer
  inhibit-splash-screen t                  ; disable splash screen
  truncate-lines t                         ; truncate, not wrap, lines
  indent-tabs-mode nil                     ; only uses spaces for indentation
@@ -136,7 +135,6 @@
 ;;; custom inits
 (require 'c-init)             ; c specific elisp
 (require 'align-with-spaces)  ; use only spaces for alignment
-(require 'pastebin-region)    ; send selected text to pastebin
 (require 'move-line)          ; move line up or down
 (require 'uniquify)           ; unique buffer names with dirs
 
@@ -177,7 +175,7 @@
 
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js-mode-hook 'js2-minor-mode)
+(setq-default ac-js2-evaluate-calls t)
 
 ;;; zencoding-mode - html
 (add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
@@ -199,9 +197,12 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   ;; (ghc-init)
-   (turn-on-haskell-indent)
+   ;; (ghc-init) ;; this breaks stuff
+   (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
+   (flymake-haskell-multi-load)
+   (flymake-mode)
    (capitalized-words-mode)
+   (turn-on-haskell-indent)
    (turn-on-haskell-doc-mode)
    (turn-on-haskell-decl-scan)
    (imenu-add-menubar-index)
@@ -212,4 +213,16 @@
     haskell-program-name "ghci"
     haskell-indent-offset 4
     whitespace-line-column 78)
+   ))
+
+;;; ghci-mode
+(add-hook 'inferior-haskell-mode-hook 'turn-on-ghci-completion)
+
+;;; flymake-mode
+(add-hook
+ 'flymake-mode-hook
+ (lambda ()
+   (local-set-key (kbd "C-1") 'flymake-display-err-menu-for-current-line)
+   (local-set-key (kbd "C-.") 'flymake-goto-next-error)
+   (local-set-key (kbd "C-,") 'flymake-goto-prev-error)
    ))
