@@ -169,9 +169,7 @@
 
 ;;; yasnippets
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-(setq-default yas-snippet-dirs
-              '("~/.emacs.d/thirdparty/yasnippet/snippets"
-                "~/.emacs.d/thirdparty/snippets"))
+(setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
 
 ;;; java-mode
