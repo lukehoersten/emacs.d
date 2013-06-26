@@ -132,31 +132,37 @@
 
 ;;;; Requires and Packages ;;;;
 
-;;; custom inits
-(require 'c-init)             ; c specific elisp
-(require 'align-with-spaces)  ; use only spaces for alignment
-(require 'move-line)          ; move line up or down
-(require 'uniquify)           ; unique buffer names with dirs
-
-;;; uniquify
-(setq
- uniquify-buffer-name-style 'post-forward
- uniquify-separator ":")
-
 ;;; packages
 (package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 
-;; install
+;; install packages
 (let ((ensure-installed
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
-      (packages
-       '(flymake-haskell-multi ghc ghci-completion haskell-mode js2-mode
-         rainbow-delimiters rainbow-mode scion solarized-theme
-         yasnippet zencoding-mode)))
+      (packages '(ac-js2 auto-complete expand-region
+       flymake-haskell-multi ghc ghci-completion haskell-mode
+       iy-go-to-char js2-mode multiple-cursors rainbow-delimiters
+       rainbow-mode skewer-mode solarized-theme yasnippet
+       zencoding-mode)))
   (mapc ensure-installed packages))
+
+;;; requires
+(require 'c-init)             ; c specific elisp
+(require 'align-with-spaces)  ; use only spaces for alignment
+(require 'move-line)          ; move line up or down
+(require 'uniquify)           ; unique buffer names with dirs
+(require 'auto-complete-config)
+(require 'iy-go-to-char)
+
+;;; auto-config-mode
+(ac-config-default)
+
+;;; uniquify
+(setq
+ uniquify-buffer-name-style 'post-forward
+ uniquify-separator ":")
 
 ;;; color-theme
 (setq-default
@@ -170,26 +176,38 @@
 (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
 
-;;; java-mode
-(add-hook 'java-mode-hook (lambda () (setq whitespace-line-column 140)))
-
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook 'ac-js2-mode)
 (setq-default ac-js2-evaluate-calls t)
 
-;;; zencoding-mode - html
-(add-hook 'sgml-mode-hook 'zencoding-mode) ; Auto-start on any markup modes
+;;; html-mode
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
+(add-hook
+ 'html-mode-hook
+ (lambda ()
+   (local-set-key (kbd "C-c t") 'mc/mark-sgml-tag-pair)
+   (zencoding-mode)
+   (rainbow-mode)))
+
+;;; css-mode
+(add-hook 'css-mode-hook 'rainbow-mode)
 
 ;;; coding-modes map
 (mapc
- (lambda (x)
-   (add-hook x 'linum-mode)
-   (add-hook x 'rainbow-delimiters-mode))
+ (lambda (x) (add-hook x
+    (lambda ()
+      (linum-mode)
+      (rainbow-delimiters-mode)
+      (auto-complete-mode))
+    t))
  '(text-mode-hook
    c-mode-common-hook
    python-mode-hook
    haskell-mode-hook
+   js2-mode-hook
+   html-mode-hook
+   css-mode-hook
    clojure-mode-hook
    emacs-lisp-mode-hook))
 
@@ -197,7 +215,6 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   ;; (ghc-init) ;; this breaks stuff
    (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
    (flymake-haskell-multi-load)
    (flymake-mode)
@@ -209,7 +226,6 @@
    (setq
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
-    ;; haskell-tags-on-save t
     haskell-program-name "ghci"
     haskell-indent-offset 4
     whitespace-line-column 78)
@@ -217,6 +233,15 @@
 
 ;;; ghci-mode
 (add-hook 'inferior-haskell-mode-hook 'turn-on-ghci-completion)
+
+;;; expand-region
+(global-set-key (kbd "C-=") 'er/expand-region)
+
+;;; iy-go-to-char
+(global-set-key (kbd "C-c f") 'iy-go-to-char)
+(global-set-key (kbd "C-c F") 'iy-go-to-char-backward)
+(global-set-key (kbd "C-c ;") 'iy-go-to-char-continue)
+(global-set-key (kbd "C-c ,") 'iy-go-to-char-continue-backward)
 
 ;;; flymake-mode
 (add-hook
@@ -226,3 +251,9 @@
    (local-set-key (kbd "C-.") 'flymake-goto-next-error)
    (local-set-key (kbd "C-,") 'flymake-goto-prev-error)
    ))
+
+;;; multiple-cursors
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)

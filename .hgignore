@@ -2,5 +2,7 @@ syntax: regexp
 ^url\/
 ^elpa\/
 \.elc$
+\.mc-lists\.el$
+ac-comphist\.dat$
 ~$
 \#.*\#$
