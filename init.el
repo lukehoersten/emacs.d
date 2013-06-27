@@ -6,7 +6,7 @@
 
 (setq-default
  ediff-split-window-function
-  'split-window-horizontally              ; diff horizontally
+ 'split-window-horizontally              ; diff horizontally
  inhibit-splash-screen t                  ; disable splash screen
  truncate-lines t                         ; truncate, not wrap, lines
  indent-tabs-mode nil                     ; only uses spaces for indentation
@@ -37,47 +37,25 @@
 
 
 ;;; Darwin
-(if (string-match "darwin" (emacs-version))
-    (progn
-      (setq-default
-       mac-command-modifier 'meta
-       ns-pop-up-frames nil
-       ispell-program-name "/usr/local/bin/aspell")))
+(setq is-mac (equal system-type 'darwin))
+(when is-mac
+  (setq-default
+   mac-command-modifier 'meta
+   ns-pop-up-frames nil
+   ispell-program-name "/usr/local/bin/aspell"))
 
 ;;; Xorg
-(if window-system
-    (progn
-      (defun get-font ()
-        "Get appropriate font based on system and hostname."
-        (cond
-         ((string-match "darwin" (emacs-version)) "Ubuntu Mono-14")
-         ((string-match "RichardParker"   (system-name)) "Ubuntu Mono-8.5")
-         ((string-match "HoldenCaulfield" (system-name)) "Ubuntu Mono-10.5")
-         ((string-match "lhoersten-66113" (system-name)) "Ubuntu Mono-10.5")
-         ("Ubuntu Mono-10.5")))
-
-      (tool-bar-mode -1)      ; remove tool bar
-      (scroll-bar-mode -1)    ; remove scroll bar
-      (menu-bar-mode -1)      ; remove menu bar
-      (visual-line-mode t)    ; word wrap break on whitespace
-      (set-frame-font (get-font))))
-
-
-;;; terminal
-(global-set-key (kbd "C-c s") 'eshell) ; start shell
-(defun setup-env ()
-  (setenv "TERM" "emacs") ; enable colors
-  (setenv "ODBCSYSINI" "/home/lhoersten/myodbc")
-  (setenv "ODBCINI" "/home/lhoersten/myodbc/odbc.ini")
-  (setenv "PATH" (concat "/usr/local/bin:" (getenv "HOME") "/.cabal/bin:" (getenv "PATH"))))
-(add-hook 'eshell-mode-hook 'setup-env)
-(setup-env)
-(eshell)
+(when window-system
+  (tool-bar-mode -1)      ; remove tool bar
+  (scroll-bar-mode -1)    ; remove scroll bar
+  (menu-bar-mode -1)      ; remove menu bar
+  (visual-line-mode t)    ; word wrap break on whitespace
+  (set-frame-font (if is-mac "Ubuntu Mono-14" "Ubuntu Mono-10.5")))
 
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'fundamental-mode-hook 'flyspell-mode t)      ; spellcheck text
+(add-hook 'fundamental-mode-hook '(flyspell-mode t))      ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)    ; autofill text
 
 ;;; ido-mode
@@ -97,7 +75,7 @@
             space-before-tab space-after-tab))
 
 ;;; python-mode
-(add-hook 'python-mode-hook (lambda () (setq tab-width 4)))
+(add-hook 'python-mode-hook '(setq tab-width 4))
 
 ;;; org-mode
 (add-hook
@@ -141,11 +119,12 @@
 (let ((ensure-installed
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
-      (packages '(ac-js2 auto-complete expand-region
-       flymake-haskell-multi ghc ghci-completion haskell-mode
-       iy-go-to-char js2-mode multiple-cursors rainbow-delimiters
-       rainbow-mode skewer-mode solarized-theme yasnippet
-       zencoding-mode)))
+      (packages
+       '(ac-js2 auto-complete expand-region
+                flymake-haskell-multi ghc ghci-completion haskell-mode
+                iy-go-to-char js2-mode multiple-cursors rainbow-delimiters
+                rainbow-mode skewer-mode solarized-theme yasnippet
+                zencoding-mode visual-regexp)))
   (mapc ensure-installed packages))
 
 ;;; requires
@@ -158,6 +137,11 @@
 
 ;;; auto-config-mode
 (ac-config-default)
+
+;;; terminal
+(global-set-key (kbd "C-c s") 'eshell) ; start shell
+(exec-path-from-shell-initialize)
+(eshell)
 
 ;;; uniquify
 (setq
@@ -178,7 +162,7 @@
 
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook 'ac-js2-mode)
+(add-hook 'js2-mode-hook '(ac-js2-mode t))
 (setq-default ac-js2-evaluate-calls t)
 
 ;;; html-mode
@@ -191,16 +175,17 @@
    (rainbow-mode)))
 
 ;;; css-mode
-(add-hook 'css-mode-hook 'rainbow-mode)
+(add-hook 'css-mode-hook '(rainbow-mode t))
 
 ;;; coding-modes map
 (mapc
- (lambda (x) (add-hook x
+ (lambda (x)
+   (add-hook
+    x
     (lambda ()
-      (linum-mode)
-      (rainbow-delimiters-mode)
-      (auto-complete-mode))
-    t))
+      (linum-mode t)
+      (rainbow-delimiters-mode t)
+      (auto-complete-mode t)) t))
  '(text-mode-hook
    c-mode-common-hook
    python-mode-hook
@@ -216,13 +201,13 @@
  'haskell-mode-hook
  (lambda ()
    (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
-   (flymake-haskell-multi-load)
-   (flymake-mode)
-   (capitalized-words-mode)
+   (flymake-haskell-multi-load t)
+   (flymake-mode t)
+   (capitalized-words-mode t)
    (turn-on-haskell-indent)
    (turn-on-haskell-doc-mode)
    (turn-on-haskell-decl-scan)
-   (imenu-add-menubar-index)
+   (imenu-add-menubar-index t)
    (setq
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
@@ -257,3 +242,7 @@
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;;; visual-regexp
+(global-set-key (kbd "C-M-%") 'vr/query-replace)
+(global-set-key (kbd "M-%") 'vr/replace)
