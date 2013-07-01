@@ -33,6 +33,7 @@
 (global-font-lock-mode t)                 ; syntax highlighting
 (global-set-key (kbd "C-c c") 'compile)   ; compile
 (global-set-key (kbd "C-c r") 'recompile) ; recompile
+(global-set-key (kbd "C-c a") 'align-regexp) ; align
 (subword-mode t)                          ; move by camelCase words
 
 
@@ -129,7 +130,6 @@
 
 ;;; requires
 (require 'c-init)             ; c specific elisp
-(require 'align-with-spaces)  ; use only spaces for alignment
 (require 'move-line)          ; move line up or down
 (require 'uniquify)           ; unique buffer names with dirs
 (require 'auto-complete-config)
@@ -180,12 +180,11 @@
 ;;; coding-modes map
 (mapc
  (lambda (x)
-   (add-hook
-    x
-    (lambda ()
-      (linum-mode t)
-      (rainbow-delimiters-mode t)
-      (auto-complete-mode t)) t))
+   (add-hook x
+             (lambda ()
+               (linum-mode t)
+               (rainbow-delimiters-mode t)
+               (auto-complete-mode t))))
  '(text-mode-hook
    c-mode-common-hook
    python-mode-hook
@@ -200,14 +199,14 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
-   (flymake-haskell-multi-load t)
+   (flymake-haskell-multi-load)
    (flymake-mode t)
    (capitalized-words-mode t)
    (turn-on-haskell-indent)
    (turn-on-haskell-doc-mode)
    (turn-on-haskell-decl-scan)
-   (imenu-add-menubar-index t)
+   (imenu-add-menubar-index)
+   (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
    (setq
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
