@@ -34,6 +34,7 @@
 (global-set-key (kbd "C-c c") 'compile)   ; compile
 (global-set-key (kbd "C-c r") 'recompile) ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp) ; align
+(global-set-key (kbd "C-c g") 'rgrep)     ; grep
 (subword-mode t)                          ; move by camelCase words
 
 
@@ -74,9 +75,6 @@
  whitespace-style                                       ; whitespace to highlight
  '(trailing lines-tail empty indentation
             space-before-tab space-after-tab))
-
-;;; python-mode
-(add-hook 'python-mode-hook '(setq tab-width 4))
 
 ;;; org-mode
 (add-hook
@@ -120,12 +118,11 @@
 (let ((ensure-installed
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
-      (packages
-       '(ac-js2 auto-complete expand-region
-                flymake-haskell-multi ghc ghci-completion haskell-mode
-                iy-go-to-char js2-mode multiple-cursors rainbow-delimiters
-                rainbow-mode skewer-mode solarized-theme yasnippet
-                zencoding-mode visual-regexp)))
+      (packages '(ac-js2 auto-complete expand-region ghc
+       ghci-completion haskell-mode iy-go-to-char js2-mode
+       multiple-cursors rainbow-delimiters rainbow-mode
+       skewer-mode solarized-theme yasnippet zencoding-mode
+       visual-regexp)))
   (mapc ensure-installed packages))
 
 ;;; requires
@@ -196,10 +193,11 @@
    emacs-lisp-mode-hook))
 
 ;;; haskell-mode
+(autoload 'ghc-init "ghc" nil t)
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   (flymake-haskell-multi-load)
+   (ghc-init)
    (flymake-mode t)
    (capitalized-words-mode t)
    (turn-on-haskell-indent)
@@ -210,10 +208,8 @@
    (setq
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
-    haskell-program-name "ghci"
     haskell-indent-offset 4
-    whitespace-line-column 78)
-   ))
+    whitespace-line-column 78)))
 
 ;;; ghci-mode
 (add-hook 'inferior-haskell-mode-hook 'turn-on-ghci-completion)
