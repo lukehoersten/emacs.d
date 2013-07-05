@@ -139,6 +139,7 @@
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
 (exec-path-from-shell-initialize)
 (eshell)
+(add-hook 'eshell-mode-hook '(setenv "TERM" "emacs"))
 
 ;;; uniquify
 (setq
