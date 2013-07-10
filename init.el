@@ -57,7 +57,7 @@
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'fundamental-mode-hook '(flyspell-mode t))      ; spellcheck text
+(add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)    ; autofill text
 
 ;;; ido-mode
@@ -139,7 +139,7 @@
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
 (exec-path-from-shell-initialize)
 (eshell)
-(add-hook 'eshell-mode-hook '(setenv "TERM" "emacs"))
+(add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
 
 ;;; uniquify
 (setq
@@ -173,7 +173,7 @@
    (rainbow-mode)))
 
 ;;; css-mode
-(add-hook 'css-mode-hook '(rainbow-mode t))
+(add-hook 'css-mode-hook 'rainbow-mode)
 
 ;;; coding-modes map
 (mapc
@@ -207,6 +207,7 @@
    (imenu-add-menubar-index)
    (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
    (setq
+    ghc-ghc-options '("-isrc")
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
     haskell-indent-offset 4
