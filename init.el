@@ -118,11 +118,11 @@
 (let ((ensure-installed
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
-      (packages '(ac-js2 auto-complete expand-region ghc
-       ghci-completion haskell-mode iy-go-to-char js2-mode
-       multiple-cursors rainbow-delimiters rainbow-mode
-       skewer-mode solarized-theme yasnippet zencoding-mode
-       visual-regexp)))
+      (packages '(ac-js2, auto-complete, exec-path-from-shell, expand-region,
+                  flymake-easy, flymake-hlint, ghc, ghci-completion, haskell-mode,
+                  js2-mode, multiple-cursors, rainbow-delimiters, rainbow-mode,
+                  skewer-mode, solarized-theme, visual-regexp, yasnippet,
+                  zencoding-mode)))
   (mapc ensure-installed packages))
 
 ;;; requires
@@ -130,7 +130,6 @@
 (require 'move-line)          ; move line up or down
 (require 'uniquify)           ; unique buffer names with dirs
 (require 'auto-complete-config)
-(require 'iy-go-to-char)
 
 ;;; auto-config-mode
 (ac-config-default)
@@ -218,12 +217,6 @@
 
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-;;; iy-go-to-char
-(global-set-key (kbd "C-c f") 'iy-go-to-char)
-(global-set-key (kbd "C-c F") 'iy-go-to-char-backward)
-(global-set-key (kbd "C-c ;") 'iy-go-to-char-continue)
-(global-set-key (kbd "C-c ,") 'iy-go-to-char-continue-backward)
 
 ;;; flymake-mode
 (add-hook
