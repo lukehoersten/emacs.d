@@ -52,7 +52,7 @@
   (scroll-bar-mode -1)    ; remove scroll bar
   (menu-bar-mode -1)      ; remove menu bar
   (visual-line-mode t)    ; word wrap break on whitespace
-  (set-frame-font (if is-mac "Ubuntu Mono-14" "Ubuntu Mono-10.5")))
+  (set-frame-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
 ;;;; Mode-Specific ;;;;
 
@@ -118,11 +118,11 @@
 (let ((ensure-installed
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
-      (packages '(ac-js2, auto-complete, exec-path-from-shell, expand-region,
-                  flymake-easy, flymake-hlint, ghc, ghci-completion, haskell-mode,
-                  js2-mode, multiple-cursors, rainbow-delimiters, rainbow-mode,
-                  skewer-mode, solarized-theme, visual-regexp, yasnippet,
-                  zencoding-mode)))
+      (packages '(ac-js2 auto-complete exec-path-from-shell expand-region
+                  flymake-easy flymake-hlint ghc ghci-completion haskell-mode
+                  js2-mode multiple-cursors rainbow-delimiters rainbow-mode
+                  skewer-mode solarized-theme visual-regexp yasnippet
+                  zencoding-mode json-mode)))
   (mapc ensure-installed packages))
 
 ;;; requires
@@ -131,8 +131,10 @@
 (require 'uniquify)           ; unique buffer names with dirs
 (require 'auto-complete-config)
 
-;;; auto-config-mode
+;;; auto-complete-mode
 (ac-config-default)
+(global-set-key (kbd "M-/") 'auto-complete)
+(setq-default ac-auto-start nil)
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
@@ -159,7 +161,7 @@
 
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook '(ac-js2-mode t))
+(add-hook 'js2-mode-hook 'ac-js2-mode)
 (setq-default ac-js2-evaluate-calls t)
 
 ;;; html-mode
@@ -178,10 +180,10 @@
 (mapc
  (lambda (x)
    (add-hook x
-             (lambda ()
-               (linum-mode t)
-               (rainbow-delimiters-mode t)
-               (auto-complete-mode t))))
+    (lambda ()
+      (linum-mode t)
+      (rainbow-delimiters-mode t)
+      (auto-complete-mode t))))
  '(text-mode-hook
    c-mode-common-hook
    python-mode-hook
@@ -200,7 +202,7 @@
    (ghc-init)
    (flymake-mode t)
    (capitalized-words-mode t)
-   (turn-on-haskell-indent)
+   (turn-on-hi2)
    (turn-on-haskell-doc-mode)
    (turn-on-haskell-decl-scan)
    (imenu-add-menubar-index)
@@ -209,7 +211,10 @@
     ghc-ghc-options '("-isrc")
     haskell-font-lock-haddock t
     haskell-stylish-on-save t
-    haskell-indent-offset 4
+    hi2-layout-offset 4
+    hi2-left-offset 4
+    haskell-doc-chop-off-context nil
+    haskell-doc-show-global-types t
     whitespace-line-column 78)))
 
 ;;; ghci-mode
@@ -222,10 +227,16 @@
 (add-hook
  'flymake-mode-hook
  (lambda ()
+   (local-set-key (kbd "M-p") 'move-line-up) ; need to override default M-p function
+   (local-set-key (kbd "M-n") 'move-line-down)
    (local-set-key (kbd "C-1") 'flymake-display-err-menu-for-current-line)
    (local-set-key (kbd "C-.") 'flymake-goto-next-error)
    (local-set-key (kbd "C-,") 'flymake-goto-prev-error)
    ))
+
+;;; move-line
+(global-set-key (kbd "M-p") 'move-line-up)
+(global-set-key (kbd "M-n") 'move-line-down)
 
 ;;; multiple-cursors
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)

@@ -23,8 +23,5 @@
   (interactive "p")
   (move-line (if (null n) 1 n)))
 
-(global-set-key (kbd "M-p") 'move-line-up)
-(global-set-key (kbd "M-n") 'move-line-down)
-
 (message "Loading move-line...done")
 (provide 'move-line)
