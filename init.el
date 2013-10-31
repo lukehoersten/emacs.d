@@ -42,6 +42,7 @@
 (setq is-mac (equal system-type 'darwin))
 (when is-mac
   (setq-default
+   ring-bell-function 'ignore
    mac-command-modifier 'meta
    ns-pop-up-frames nil
    ispell-program-name "/usr/local/bin/aspell"))
@@ -50,7 +51,7 @@
 (when window-system
   (tool-bar-mode -1)      ; remove tool bar
   (scroll-bar-mode -1)    ; remove scroll bar
-  (menu-bar-mode -1)      ; remove menu bar
+  (unless is-mac (menu-bar-mode -1)) ; remove menu bar
   (visual-line-mode t)    ; word wrap break on whitespace
   (set-frame-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
