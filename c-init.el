@@ -23,7 +23,6 @@
 
    ;; custom keys
    (local-set-key (kbd "C-c f")   'ff-find-other-file) ; toggle header/source file
-   (local-set-key (kbd "C-c C-c") 'comment-or-uncomment-region)
 
    ;; ;; code folding
    ;; (local-set-key (kbd "C-c v") 'hs-toggle-hiding)

@@ -123,7 +123,7 @@
                   flymake-easy flymake-hlint ghc ghci-completion haskell-mode
                   js2-mode multiple-cursors rainbow-delimiters rainbow-mode
                   skewer-mode solarized-theme visual-regexp yasnippet
-                  zencoding-mode json-mode)))
+                  zencoding-mode json-mode markdown-mode)))
   (mapc ensure-installed packages))
 
 ;;; requires
