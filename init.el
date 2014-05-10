@@ -120,7 +120,7 @@
        (lambda (name)
          (unless (package-installed-p name) (package-install name))))
       (packages '(ac-js2 auto-complete exec-path-from-shell expand-region
-                  flymake-easy flymake-hlint ghc ghci-completion haskell-mode
+                  ghc ghci-completion haskell-mode
                   js2-mode multiple-cursors rainbow-delimiters rainbow-mode
                   skewer-mode solarized-theme visual-regexp yasnippet
                   zencoding-mode json-mode markdown-mode)))
@@ -159,6 +159,9 @@
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
 (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
+
+;;; gradle-mode
+(add-to-list 'auto-mode-alist '("\\.gradle$'" . groovy-mode))
 
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -201,21 +204,21 @@
  'haskell-mode-hook
  (lambda ()
    (ghc-init)
-   (flymake-mode t)
    (capitalized-words-mode t)
    (turn-on-hi2)
-   (turn-on-haskell-doc-mode)
-   (turn-on-haskell-decl-scan)
    (imenu-add-menubar-index)
    (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
+   (local-set-key (kbd "M-p") 'move-line-up) ; need to override default M-p function
+   (local-set-key (kbd "M-n") 'move-line-down)
+   (local-set-key (kbd "C-1") 'ghc-display-errors)
+   (local-set-key (kbd "C-.") 'ghc-goto-next-error)
+   (local-set-key (kbd "C-,") 'ghc-goto-prev-error)
    (setq
     ghc-ghc-options '("-isrc")
-    haskell-font-lock-haddock t
+    haskell-program-name "cabal repl"
     haskell-stylish-on-save t
     hi2-layout-offset 4
     hi2-left-offset 4
-    haskell-doc-chop-off-context nil
-    haskell-doc-show-global-types t
     whitespace-line-column 78)))
 
 ;;; ghci-mode
@@ -223,17 +226,6 @@
 
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
-
-;;; flymake-mode
-(add-hook
- 'flymake-mode-hook
- (lambda ()
-   (local-set-key (kbd "M-p") 'move-line-up) ; need to override default M-p function
-   (local-set-key (kbd "M-n") 'move-line-down)
-   (local-set-key (kbd "C-1") 'flymake-display-err-menu-for-current-line)
-   (local-set-key (kbd "C-.") 'flymake-goto-next-error)
-   (local-set-key (kbd "C-,") 'flymake-goto-prev-error)
-   ))
 
 ;;; move-line
 (global-set-key (kbd "M-p") 'move-line-up)
