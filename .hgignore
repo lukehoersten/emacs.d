@@ -1,8 +1,11 @@
 syntax: regexp
 ^url\/
 ^elpa\/
+^eshell\/
 \.elc$
 \.mc-lists\.el$
+\.DS_Store$
+session\..*$
 ac-comphist\.dat$
 ~$
 \#.*\#$

@@ -2,7 +2,7 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;;;; General ;;;;
-(add-to-list 'load-path "~/.emacs.d")     ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d/lisp")     ; set default emacs load path
 
 (setq-default
  ediff-split-window-function
