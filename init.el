@@ -161,7 +161,7 @@
 (yas-global-mode t)
 
 ;;; gradle-mode
-(add-to-list 'auto-mode-alist '("\\.gradle$'" . groovy-mode))
+(add-to-list 'auto-mode-alist '("\\.gradle$" . groovy-mode))
 
 ;;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -207,19 +207,35 @@
    (capitalized-words-mode t)
    (turn-on-hi2)
    (imenu-add-menubar-index)
+   (interactive-haskell-mode)
    (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
    (local-set-key (kbd "M-p") 'move-line-up) ; need to override default M-p function
    (local-set-key (kbd "M-n") 'move-line-down)
    (local-set-key (kbd "C-1") 'ghc-display-errors)
    (local-set-key (kbd "C-.") 'ghc-goto-next-error)
    (local-set-key (kbd "C-,") 'ghc-goto-prev-error)
+
+   (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+   (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+   (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+   (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+   (define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+   (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+   (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+   (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
+
    (setq
     ghc-ghc-options '("-isrc")
     haskell-program-name "cabal repl"
     haskell-stylish-on-save t
     hi2-layout-offset 4
     hi2-left-offset 4
-    whitespace-line-column 78)))
+    whitespace-line-column 78
+    ;; haskell-process-type 'cabal-repl
+    haskell-process-suggest-remove-import-lines t
+    haskell-process-auto-import-loaded-modules t
+    haskell-process-log t
+    )))
 
 ;;; ghci-mode
 (add-hook 'inferior-haskell-mode-hook 'turn-on-ghci-completion)
