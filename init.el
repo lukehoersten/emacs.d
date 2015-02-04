@@ -2,7 +2,7 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;;;; General ;;;;
-(add-to-list 'load-path "~/.emacs.d/lisp")     ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d/elisp")     ; set default emacs load path
 
 (setq-default
  ediff-split-window-function
@@ -23,7 +23,7 @@
 (delete-selection-mode t)                 ; replace highlighted text
 (windmove-default-keybindings)            ; move between windows with shift-arrow
 (fset 'yes-or-no-p 'y-or-n-p)             ; replace yes/no prompts
-(global-hl-line-mode t)                   ; highlight current line
+;; (global-hl-line-mode t)                   ; highlight current line
 
 
 ;;; Coding
@@ -53,7 +53,7 @@
   (scroll-bar-mode -1)    ; remove scroll bar
   (unless is-mac (menu-bar-mode -1)) ; remove menu bar
   (visual-line-mode t)    ; word wrap break on whitespace
-  (set-frame-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
+  (set-default-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
 ;;;; Mode-Specific ;;;;
 
@@ -111,28 +111,24 @@
 ;;;; Requires and Packages ;;;;
 
 ;;; packages
-(package-initialize)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(require 'package-require)
+(package-require '(auto-complete exec-path-from-shell
+ rainbow-delimiters rainbow-mode solarized-theme visual-regexp
+ yasnippet zencoding-mode markdown-mode smex move-text))
+;; expand-region multiple-cursors skewer-mode
 
-;; install packages
-(let ((ensure-installed
-       (lambda (name)
-         (unless (package-installed-p name) (package-install name))))
-      (packages '(ac-js2 auto-complete exec-path-from-shell expand-region
-                  ghc ghci-completion haskell-mode
-                  js2-mode multiple-cursors rainbow-delimiters rainbow-mode
-                  skewer-mode solarized-theme visual-regexp yasnippet
-                  zencoding-mode json-mode markdown-mode)))
-  (mapc ensure-installed packages))
-
-;;; requires
+;;; custom requires
+(require 'haskell-init)
+(require 'javascript-init)
 (require 'c-init)             ; c specific elisp
-(require 'move-line)          ; move line up or down
-(require 'uniquify)           ; unique buffer names with dirs
-(require 'auto-complete-config)
+
+;;; smex
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
 ;;; auto-complete-mode
+(require 'auto-complete-config)
 (ac-config-default)
 (global-set-key (kbd "M-/") 'auto-complete)
 (setq-default ac-auto-start nil)
@@ -144,6 +140,7 @@
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
 
 ;;; uniquify
+(require 'uniquify)           ; unique buffer names with dirs
 (setq
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
@@ -163,17 +160,16 @@
 ;;; gradle-mode
 (add-to-list 'auto-mode-alist '("\\.gradle$" . groovy-mode))
 
-;;; js2-mode
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook 'ac-js2-mode)
-(setq-default ac-js2-evaluate-calls t)
+
+;;; markdown-mode
+(add-hook 'markdown-mode-hook 'flyspell-mode)
+
 
 ;;; html-mode
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
 (add-hook
  'html-mode-hook
  (lambda ()
-   (local-set-key (kbd "C-c t") 'mc/mark-sgml-tag-pair)
    (zencoding-mode)
    (rainbow-mode)))
 
@@ -198,60 +194,12 @@
    clojure-mode-hook
    emacs-lisp-mode-hook))
 
-;;; haskell-mode
-(autoload 'ghc-init "ghc" nil t)
-(add-hook
- 'haskell-mode-hook
- (lambda ()
-   (ghc-init)
-   (capitalized-words-mode t)
-   (turn-on-hi2)
-   (imenu-add-menubar-index)
-   (interactive-haskell-mode)
-   (local-set-key (kbd "C-c i") 'haskell-navigate-imports) ; go to imports. prefix to return
-   (local-set-key (kbd "M-p") 'move-line-up) ; need to override default M-p function
-   (local-set-key (kbd "M-n") 'move-line-down)
-   (local-set-key (kbd "C-1") 'ghc-display-errors)
-   (local-set-key (kbd "C-.") 'ghc-goto-next-error)
-   (local-set-key (kbd "C-,") 'ghc-goto-prev-error)
-
-   (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
-   (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
-   (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
-   (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
-   (define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-   (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
-   (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
-   (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
-
-   (setq
-    ghc-ghc-options '("-isrc")
-    haskell-program-name "cabal repl"
-    haskell-stylish-on-save t
-    hi2-layout-offset 4
-    hi2-left-offset 4
-    whitespace-line-column 78
-    ;; haskell-process-type 'cabal-repl
-    haskell-process-suggest-remove-import-lines t
-    haskell-process-auto-import-loaded-modules t
-    haskell-process-log t
-    )))
-
-;;; ghci-mode
-(add-hook 'inferior-haskell-mode-hook 'turn-on-ghci-completion)
-
 ;;; expand-region
-(global-set-key (kbd "C-=") 'er/expand-region)
+;; (global-set-key (kbd "C-=") 'er/expand-region)
 
-;;; move-line
-(global-set-key (kbd "M-p") 'move-line-up)
-(global-set-key (kbd "M-n") 'move-line-down)
-
-;;; multiple-cursors
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;;; move-text
+(global-set-key (kbd "M-p") 'move-text-up)
+(global-set-key (kbd "M-n") 'move-text-down)
 
 ;;; visual-regexp
 (global-set-key (kbd "C-M-%") 'vr/query-replace)

@@ -2,6 +2,7 @@ syntax: regexp
 ^url\/
 ^elpa\/
 ^eshell\/
+^smex-items$
 \.elc$
 \.mc-lists\.el$
 \.DS_Store$
