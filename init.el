@@ -23,7 +23,7 @@
 (delete-selection-mode t)                 ; replace highlighted text
 (windmove-default-keybindings)            ; move between windows with shift-arrow
 (fset 'yes-or-no-p 'y-or-n-p)             ; replace yes/no prompts
-;; (global-hl-line-mode t)                   ; highlight current line
+(global-hl-line-mode t)                   ; highlight current line
 
 
 ;;; Coding
@@ -94,6 +94,7 @@
  '(("default"
     ("Emacs Lisp" (mode . emacs-lisp-mode))
     ("Haskell" (mode . haskell-mode))
+    ("Cabal" (mode . haskell-cabal-mode))
     ("Python" (mode . python-mode))
     ("Jython" (mode . jython-mode))
     ("Clojure" (mode . clojure-mode))
@@ -113,19 +114,13 @@
 ;;; packages
 (require 'package-require)
 (package-require '(auto-complete exec-path-from-shell
- rainbow-delimiters rainbow-mode solarized-theme visual-regexp
- yasnippet zencoding-mode markdown-mode smex move-text))
-;; expand-region multiple-cursors skewer-mode
+ expand-region rainbow-delimiters rainbow-mode solarized-theme
+ visual-regexp yasnippet zencoding-mode markdown-mode move-text))
 
 ;;; custom requires
 (require 'haskell-init)
 (require 'javascript-init)
 (require 'c-init)             ; c specific elisp
-
-;;; smex
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
 ;;; auto-complete-mode
 (require 'auto-complete-config)
@@ -156,9 +151,6 @@
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
 (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
-
-;;; gradle-mode
-(add-to-list 'auto-mode-alist '("\\.gradle$" . groovy-mode))
 
 
 ;;; markdown-mode
@@ -195,7 +187,7 @@
    emacs-lisp-mode-hook))
 
 ;;; expand-region
-;; (global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 ;;; move-text
 (global-set-key (kbd "M-p") 'move-text-up)
