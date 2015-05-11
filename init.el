@@ -58,7 +58,7 @@
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
+(add-hook 'fundamental-mode-hook 'flyspell-mode)        ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)    ; autofill text
 
 ;;; ido-mode
@@ -113,26 +113,28 @@
 
 ;;; packages
 (require 'package-require)
-(package-require '(auto-complete exec-path-from-shell
- expand-region rainbow-delimiters rainbow-mode solarized-theme
- visual-regexp yasnippet zencoding-mode markdown-mode move-text))
+(package-require '(exec-path-from-shell expand-region
+ rainbow-delimiters rainbow-mode solarized-theme visual-regexp
+ yasnippet zencoding-mode markdown-mode move-text powerline))
 
-;;; custom requires
-(require 'haskell-init)
-(require 'javascript-init)
-(require 'c-init)             ; c specific elisp
-
-;;; auto-complete-mode
-(require 'auto-complete-config)
-(ac-config-default)
-(global-set-key (kbd "M-/") 'auto-complete)
-(setq-default ac-auto-start nil)
+;; powerline
+(require 'powerline)
+(powerline-default-theme)
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell) ; start shell
 (exec-path-from-shell-initialize)
 (eshell)
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
+
+;;; custom requires
+(require 'haskell-init)
+(require 'javascript-init)
+(require 'c-init)             ; c specific elisp
+
+;; ;;; company mode
+;; (add-hook 'after-init-hook 'global-company-mode)
+;; (global-set-key (kbd "M-/") 'company-complete)
 
 ;;; uniquify
 (require 'uniquify)           ; unique buffer names with dirs
@@ -149,7 +151,7 @@
 
 ;;; yasnippets
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-(setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
+;; (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
 
 
@@ -174,8 +176,8 @@
    (add-hook x
     (lambda ()
       (linum-mode t)
-      (rainbow-delimiters-mode t)
-      (auto-complete-mode t))))
+      (subword-mode t)
+      (rainbow-delimiters-mode t))))
  '(text-mode-hook
    c-mode-common-hook
    python-mode-hook

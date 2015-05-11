@@ -3,13 +3,17 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(haskell-mode flycheck)) ;;  flycheck-haskell hindent shm
+(package-require '(flycheck yasnippet haskell-snippets haskell-mode flycheck-haskell))
+
+;; Load haskell-mode from source
+;; (add-to-list 'load-path "~/Code/elisp/haskell-mode/")
+;; (require 'haskell-mode-autoloads)
 
 (require 'haskell)
 (require 'haskell-mode)
 (require 'haskell-process)
-(require 'haskell-flycheck)
 (require 'haskell-interactive-mode)
+(require 'haskell-snippets)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
@@ -51,7 +55,7 @@
  (lambda ()
    (imenu-add-menubar-index)
    (flycheck-mode)
-   (flycheck-disable-checker `haskell-ghc)
+   (flycheck-haskell-setup)
    (haskell-indentation-mode t)
    (subword-mode)
    (interactive-haskell-mode t)))
@@ -64,9 +68,9 @@
  '(haskell-indentation-left-offset 4)
 
  '(haskell-process-type 'cabal-repl)
- ;; '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng"))
- ;; '(haskell-process-path-ghci "ghci-ng")
- ;; '(haskell-process-args-ghci "-ferror-spans")
+ '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng"))
+ '(haskell-process-path-ghci "ghci-ng")
+ '(haskell-process-args-ghci "-ferror-spans")
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
