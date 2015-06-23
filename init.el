@@ -115,9 +115,9 @@
 ;;; packages
 (require 'package-require)
 (package-require '(company exec-path-from-shell expand-region
-hgignore-mode markdown-mode move-text paredit powerline
-rainbow-delimiters rainbow-mode solarized-theme visual-regexp
-yasnippet zencoding-mode))
+hgignore-mode ido-at-point markdown-mode move-text paredit
+powerline rainbow-delimiters rainbow-mode solarized-theme
+visual-regexp yasnippet zencoding-mode))
 
 ;; powerline
 (require 'powerline)
@@ -134,9 +134,13 @@ yasnippet zencoding-mode))
 (require 'javascript-init)
 (require 'c-init)                       ; c specific elisp
 
+;;; completion
+(ido-at-point-mode)
+(global-set-key (kbd "M-/") 'completion-at-point)
+
 ;;; company mode
 (add-hook 'after-init-hook 'global-company-mode)
-(global-set-key (kbd "M-/") 'company-complete)
+;; (global-set-key (kbd "M-/") 'company-complete)
 (custom-set-variables
  '(company-idle-delay nil)
  '(company-minimum-prefix-length 2)
