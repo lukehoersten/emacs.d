@@ -2,40 +2,40 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;;;; General ;;;;
-(add-to-list 'load-path "~/.emacs.d/elisp")     ; set default emacs load path
+(add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
 
 (setq-default
  ediff-split-window-function
- 'split-window-horizontally              ; diff horizontally
- inhibit-splash-screen t                  ; disable splash screen
- truncate-lines t                         ; truncate, not wrap, lines
- indent-tabs-mode nil                     ; only uses spaces for indentation
- split-width-threshold 181                ; min width to split window horizontially
- split-height-threshold 120               ; min width to split window vertically
- reb-re-syntax 'string                    ; use string syntax for regexp builder
- require-final-newline 'visit-save)       ; add a newline automatically
+ 'split-window-horizontally                   ; diff horizontally
+ inhibit-splash-screen t                      ; disable splash screen
+ truncate-lines t                             ; truncate, not wrap, lines
+ indent-tabs-mode nil                         ; only uses spaces for indentation
+ split-width-threshold 181                    ; min width to split window horizontially
+ split-height-threshold 120                   ; min width to split window vertically
+ reb-re-syntax 'string                        ; use string syntax for regexp builder
+ require-final-newline 'visit-save)           ; add a newline automatically
 
-(put 'set-goal-column 'disabled nil)      ; enable goal column setting
-(put 'narrow-to-region 'disabled nil)     ; enable hiding
+(put 'set-goal-column 'disabled nil)          ; enable goal column setting
+(put 'narrow-to-region 'disabled nil)         ; enable hiding
 (put 'narrow-to-page 'disabled nil)
 
-(column-number-mode t)                    ; show column numbers
-(delete-selection-mode t)                 ; replace highlighted text
-(windmove-default-keybindings)            ; move between windows with shift-arrow
-(fset 'yes-or-no-p 'y-or-n-p)             ; replace yes/no prompts
-(global-hl-line-mode t)                   ; highlight current line
+(column-number-mode t)                        ; show column numbers
+(delete-selection-mode t)                     ; replace highlighted text
+(windmove-default-keybindings)                ; move between windows with shift-arrow
+(fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts
+(global-hl-line-mode t)                       ; highlight current line
 
 
 ;;; Coding
-(which-func-mode t)                       ; show current function
-(show-paren-mode t)                       ; show matching paren
-(transient-mark-mode t)                   ; show highlighting
-(global-font-lock-mode t)                 ; syntax highlighting
-(global-set-key (kbd "C-c c") 'compile)   ; compile
-(global-set-key (kbd "C-c r") 'recompile) ; recompile
-(global-set-key (kbd "C-c a") 'align-regexp) ; align
-(global-set-key (kbd "C-c g") 'rgrep)     ; grep
-(subword-mode t)                          ; move by camelCase words
+(which-func-mode t)                           ; show current function
+(show-paren-mode t)                           ; show matching paren
+(transient-mark-mode t)                       ; show highlighting
+(global-font-lock-mode t)                     ; syntax highlighting
+(global-set-key (kbd "C-c c") 'compile)       ; compile
+(global-set-key (kbd "C-c r") 'recompile)     ; recompile
+(global-set-key (kbd "C-c a") 'align-regexp)  ; align
+(global-set-key (kbd "C-c g") 'rgrep)         ; grep
+(subword-mode t)                              ; move by camelCase words
 
 
 ;;; Darwin
@@ -49,32 +49,32 @@
 
 ;;; Xorg
 (when window-system
-  (tool-bar-mode -1)      ; remove tool bar
-  (scroll-bar-mode -1)    ; remove scroll bar
-  (unless is-mac (menu-bar-mode -1)) ; remove menu bar
-  (visual-line-mode t)    ; word wrap break on whitespace
+  (tool-bar-mode -1)                          ; remove tool bar
+  (scroll-bar-mode -1)                        ; remove scroll bar
+  (unless is-mac (menu-bar-mode -1))          ; remove menu bar
+  (visual-line-mode t)                        ; word wrap break on whitespace
   (set-default-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
-(add-hook 'fundamental-mode-hook 'flyspell-mode)        ; spellcheck text
-(add-hook 'fundamental-mode-hook 'turn-on-auto-fill)    ; autofill text
+(add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
+(add-hook 'fundamental-mode-hook 'turn-on-auto-fill)  ; autofill text
 
 ;;; ido-mode
-(ido-mode t)                                            ; file/buffer selector
+(ido-mode t)                                          ; file/buffer selector
 (setq-default
- ido-enable-flex-matching t                             ; fuzzy matching for ido mode
- ido-create-new-buffer 'always                          ; create new buffer without prompt
- ido-everywhere t                                       ; use ido where possible
- ido-max-window-height 1)                               ; max ido window height
+ ido-enable-flex-matching t                           ; fuzzy matching for ido mode
+ ido-create-new-buffer 'always                        ; create new buffer without prompt
+ ido-everywhere t                                     ; use ido where possible
+ ido-max-window-height 1)                             ; max ido window height
 
 ;;; whitespace-mode
-(global-whitespace-mode t)                              ; show whitespace
-(add-hook 'before-save-hook 'whitespace-cleanup)        ; cleanup whitespace on exit
+(global-whitespace-mode t)                            ; show whitespace
+(add-hook 'before-save-hook 'whitespace-cleanup)      ; cleanup whitespace on exit
 (setq-default
- whitespace-line-column 120                             ; column width
- whitespace-style                                       ; whitespace to highlight
+ whitespace-line-column 120                           ; column width
+ whitespace-style                                     ; whitespace to highlight
  '(trailing lines-tail empty indentation
             space-before-tab space-after-tab))
 
@@ -88,7 +88,7 @@
    (local-set-key (kbd "M-S-n") 'org-move-subtree-down)))
 
 ;;; ibuffer
-(global-set-key (kbd "C-x C-b") 'ibuffer) ; better buffer browser
+(global-set-key (kbd "C-x C-b") 'ibuffer)             ; better buffer browser
 (setq-default
  ibuffer-show-empty-filter-groups nil
  ibuffer-saved-filter-groups
@@ -124,7 +124,7 @@ yasnippet zencoding-mode))
 (powerline-default-theme)
 
 ;;; terminal
-(global-set-key (kbd "C-c s") 'eshell) ; start shell
+(global-set-key (kbd "C-c s") 'eshell)  ; start shell
 (exec-path-from-shell-initialize)
 (eshell)
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
@@ -132,7 +132,7 @@ yasnippet zencoding-mode))
 ;;; custom requires
 (require 'haskell-init)
 (require 'javascript-init)
-(require 'c-init)             ; c specific elisp
+(require 'c-init)                       ; c specific elisp
 
 ;;; company mode
 (add-hook 'after-init-hook 'global-company-mode)
@@ -145,7 +145,7 @@ yasnippet zencoding-mode))
  '(company-tooltip-align-annotations t))
 
 ;;; uniquify
-(require 'uniquify)           ; unique buffer names with dirs
+(require 'uniquify)                     ; unique buffer names with dirs
 (setq
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
