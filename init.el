@@ -66,7 +66,8 @@
 (setq-default
  ido-enable-flex-matching t                             ; fuzzy matching for ido mode
  ido-create-new-buffer 'always                          ; create new buffer without prompt
- ido-everywhere t)                                      ; use ido where possible
+ ido-everywhere t                                       ; use ido where possible
+ ido-max-window-height 1)                               ; max ido window height
 
 ;;; whitespace-mode
 (global-whitespace-mode t)                              ; show whitespace
@@ -113,9 +114,10 @@
 
 ;;; packages
 (require 'package-require)
-(package-require '(exec-path-from-shell expand-region
- rainbow-delimiters rainbow-mode solarized-theme visual-regexp
- yasnippet zencoding-mode markdown-mode move-text powerline))
+(package-require '(company exec-path-from-shell expand-region
+hgignore-mode markdown-mode move-text paredit powerline
+rainbow-delimiters rainbow-mode solarized-theme visual-regexp
+yasnippet zencoding-mode))
 
 ;; powerline
 (require 'powerline)
@@ -132,9 +134,15 @@
 (require 'javascript-init)
 (require 'c-init)             ; c specific elisp
 
-;; ;;; company mode
-;; (add-hook 'after-init-hook 'global-company-mode)
-;; (global-set-key (kbd "M-/") 'company-complete)
+;;; company mode
+(add-hook 'after-init-hook 'global-company-mode)
+(global-set-key (kbd "M-/") 'company-complete)
+(custom-set-variables
+ '(company-idle-delay nil)
+ '(company-minimum-prefix-length 2)
+ '(company-selection-wrap-around t)
+ '(company-show-numbers t)
+ '(company-tooltip-align-annotations t))
 
 ;;; uniquify
 (require 'uniquify)           ; unique buffer names with dirs
@@ -157,6 +165,8 @@
 
 ;;; markdown-mode
 (add-hook 'markdown-mode-hook 'flyspell-mode)
+(setq-default
+ markdown-command "pandoc -f markdown_github")
 
 
 ;;; html-mode

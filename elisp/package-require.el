@@ -9,7 +9,8 @@
   "Ensure that a given package is installed"
   (mapc (lambda (package)
           (unless (package-installed-p package)
-            (package-install package)))
+            (package-install package)
+            (message "Installing %s package...done" package)))
         packages))
 
 (message "Loading packages...done")

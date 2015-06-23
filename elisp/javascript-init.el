@@ -3,7 +3,7 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(ac-js2 js2-mode json-mode))
+(package-require '(auto-complete ac-js2 js2-mode json-mode))
 
 (require 'auto-complete-config)
 

@@ -3,7 +3,7 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(flycheck yasnippet haskell-snippets haskell-mode flycheck-haskell))
+(package-require '(haskell-mode yasnippet haskell-snippets flycheck flycheck-haskell))
 
 ;; Load haskell-mode from source
 ;; (add-to-list 'load-path "~/Code/elisp/haskell-mode/")
