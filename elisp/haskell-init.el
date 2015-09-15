@@ -68,8 +68,8 @@
  '(haskell-indentation-left-offset 4)
 
  '(haskell-process-type 'cabal-repl)
- '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng"))
- '(haskell-process-path-ghci "ghci-ng")
+ ;; '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng")) ;; ghci-ng
+ ;; '(haskell-process-path-ghci "ghci-ng") ;; ghci-ng
  '(haskell-process-args-ghci "-ferror-spans")
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)

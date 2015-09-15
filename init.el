@@ -114,17 +114,15 @@
 
 ;;; packages
 (require 'package-require)
-(package-require '(company exec-path-from-shell expand-region
-hgignore-mode ido-at-point markdown-mode move-text paredit
-powerline rainbow-delimiters rainbow-mode solarized-theme
-visual-regexp yasnippet zencoding-mode))
-
-;; powerline
-(require 'powerline)
-(powerline-default-theme)
+(package-require '(ace-jump-mode company exec-path-from-shell
+expand-region smex hgignore-mode ido-at-point markdown-mode
+hgignore-mode move-text paredit rainbow-delimiters rainbow-mode
+json-mode json-reformat solarized-theme terraform-mode
+visual-regexp yasnippet yaml-mode zencoding-mode))
 
 ;;; terminal
 (global-set-key (kbd "C-c s") 'eshell)  ; start shell
+(exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-initialize)
 (eshell)
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
@@ -132,15 +130,30 @@ visual-regexp yasnippet zencoding-mode))
 ;;; custom requires
 (require 'haskell-init)
 (require 'javascript-init)
-(require 'c-init)                       ; c specific elisp
+(require 'c-init)
+(require 'ansible-init)
 
-;;; completion
+;;; ido / smex / completion
 (ido-at-point-mode)
 (global-set-key (kbd "M-/") 'completion-at-point)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
-;;; company mode
+;;; ace-mode
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+;; (autoload
+;;   'ace-jump-mode-pop-mark
+;;   "ace-jump-mode"
+;;   "Ace jump back:-)"
+;;   t)
+;; (eval-after-load "ace-jump-mode"
+;;   '(ace-jump-mode-enable-mark-sync))
+;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+
+
+;;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
-;; (global-set-key (kbd "M-/") 'company-complete)
+(global-set-key (kbd "M-/") 'company-complete)
 (custom-set-variables
  '(company-idle-delay nil)
  '(company-minimum-prefix-length 2)
@@ -200,7 +213,9 @@ visual-regexp yasnippet zencoding-mode))
    html-mode-hook
    css-mode-hook
    clojure-mode-hook
-   emacs-lisp-mode-hook))
+   emacs-lisp-mode-hook
+   conf-mode-hook
+   yaml-mode-hook))
 
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
