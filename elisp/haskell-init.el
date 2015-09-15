@@ -3,7 +3,7 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(haskell-mode yasnippet haskell-snippets flycheck flycheck-haskell))
+(package-require '(haskell-mode yasnippet haskell-snippets flycheck flycheck-haskell shm))
 
 ;; Load haskell-mode from source
 ;; (add-to-list 'load-path "~/Code/elisp/haskell-mode/")
@@ -14,6 +14,7 @@
 (require 'haskell-process)
 (require 'haskell-interactive-mode)
 (require 'haskell-snippets)
+(require 'shm)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
@@ -53,11 +54,14 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
-   (imenu-add-menubar-index)
+   ;; (imenu-add-menubar-index)
    (flycheck-mode)
    (flycheck-haskell-setup)
-   (haskell-indentation-mode t)
+   ;; (haskell-indentation-mode t)
    (subword-mode)
+   (electric-indent-mode 0)
+   (structured-haskell-mode t)
+   (set-face-background 'shm-quarantine-face "lemonchiffon")
    (interactive-haskell-mode t)))
 
 (custom-set-variables
@@ -66,6 +70,10 @@
 
  '(haskell-indentation-layout-offset 4)
  '(haskell-indentation-left-offset 4)
+
+ '(shm-use-presentation-mode t)
+ '(shm-auto-insert-skeletons t)
+ '(shm-auto-insert-bangs t)
 
  '(haskell-process-type 'cabal-repl)
  ;; '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng")) ;; ghci-ng
@@ -106,6 +114,7 @@
 (define-key haskell-interactive-mode-map (kbd "C-<right>") 'haskell-interactive-mode-error-forward)
 (define-key haskell-interactive-mode-map (kbd "C-c c") 'haskell-process-cabal)
 
+;; haskell-mode
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
@@ -117,10 +126,16 @@
 (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 (define-key haskell-mode-map (kbd "SPC") 'haskell-mode-contextual-space)
 
+;; cabal
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-process-clear)
 (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
+;; shm
+(define-key shm-map (kbd "C-c C-p") 'shm/expand-pattern)
+(define-key shm-map (kbd "C-c C-s") 'shm/case-split)
+(define-key shm-map (kbd "C-\\") 'shm/goto-last-point)
 
 (message "Loading haskell-init...done")
 (provide 'haskell-init)

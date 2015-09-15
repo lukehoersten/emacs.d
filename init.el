@@ -23,7 +23,7 @@
 (delete-selection-mode t)                     ; replace highlighted text
 (windmove-default-keybindings)                ; move between windows with shift-arrow
 (fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts
-(global-hl-line-mode t)                       ; highlight current line
+;; (global-hl-line-mode t)                    ; highlight current line
 
 
 ;;; Coding
@@ -47,6 +47,7 @@
    ns-pop-up-frames nil
    ispell-program-name "/usr/local/bin/aspell"))
 
+
 ;;; Xorg
 (when window-system
   (tool-bar-mode -1)                          ; remove tool bar
@@ -55,11 +56,13 @@
   (visual-line-mode t)                        ; word wrap break on whitespace
   (set-default-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
+
 ;;;; Mode-Specific ;;;;
 
 ;;; text-mode
 (add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)  ; autofill text
+
 
 ;;; ido-mode
 (ido-mode t)                                          ; file/buffer selector
@@ -68,6 +71,7 @@
  ido-create-new-buffer 'always                        ; create new buffer without prompt
  ido-everywhere t                                     ; use ido where possible
  ido-max-window-height 1)                             ; max ido window height
+
 
 ;;; whitespace-mode
 (global-whitespace-mode t)                            ; show whitespace
@@ -78,6 +82,7 @@
  '(trailing lines-tail empty indentation
             space-before-tab space-after-tab))
 
+
 ;;; org-mode
 (add-hook
  'org-mode-hook
@@ -86,6 +91,7 @@
    (local-set-key (kbd "M-S-p") 'org-move-subtree-up)
    (local-set-key (kbd "M-n") 'org-move-item-down)
    (local-set-key (kbd "M-S-n") 'org-move-subtree-down)))
+
 
 ;;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)             ; better buffer browser
@@ -120,12 +126,14 @@ hgignore-mode move-text paredit rainbow-delimiters rainbow-mode
 json-mode json-reformat solarized-theme terraform-mode
 visual-regexp yasnippet yaml-mode zencoding-mode))
 
-;;; terminal
+
+;;; shell
 (global-set-key (kbd "C-c s") 'eshell)  ; start shell
 (exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-initialize)
 (eshell)
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
+
 
 ;;; custom requires
 (require 'haskell-init)
@@ -133,11 +141,17 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
 (require 'c-init)
 (require 'ansible-init)
 
+
 ;;; ido / smex / completion
 (ido-at-point-mode)
 (global-set-key (kbd "M-/") 'completion-at-point)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+
+;;; emacs-lisp-mode
+(add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+
 
 ;;; ace-mode
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
@@ -154,18 +168,20 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
 ;;; company-mode
 (add-hook 'after-init-hook 'global-company-mode)
 (global-set-key (kbd "M-/") 'company-complete)
-(custom-set-variables
- '(company-idle-delay nil)
- '(company-minimum-prefix-length 2)
- '(company-selection-wrap-around t)
- '(company-show-numbers t)
- '(company-tooltip-align-annotations t))
+(setq-default
+ company-idle-delay nil
+ company-minimum-prefix-length 2
+ company-selection-wrap-around t
+ company-show-numbers t
+ company-tooltip-align-annotations t)
+
 
 ;;; uniquify
 (require 'uniquify)                     ; unique buffer names with dirs
 (setq
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
+
 
 ;;; color-theme
 (setq-default
@@ -174,9 +190,9 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
    "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
 (load-theme 'solarized-light)
 
+
 ;;; yasnippets
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-;; (setq-default yas-snippet-dirs '("~/.emacs.d/snippets"))
 (yas-global-mode t)
 
 
@@ -194,8 +210,10 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
    (zencoding-mode)
    (rainbow-mode)))
 
+
 ;;; css-mode
 (add-hook 'css-mode-hook 'rainbow-mode)
+
 
 ;;; coding-modes map
 (mapc
@@ -217,12 +235,15 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
    conf-mode-hook
    yaml-mode-hook))
 
+
 ;;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
+
 
 ;;; move-text
 (global-set-key (kbd "M-p") 'move-text-up)
 (global-set-key (kbd "M-n") 'move-text-down)
+
 
 ;;; visual-regexp
 (global-set-key (kbd "C-M-%") 'vr/query-replace)
