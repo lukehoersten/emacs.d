@@ -40,37 +40,37 @@
  'haskell-mode-hook
  (lambda ()
    ;; (imenu-add-menubar-index)
-   (flycheck-mode)
    ;; (haskell-indentation-mode t)
    (stack-mode)
+   ;; (flycheck-mode)
    (subword-mode)
-   (electric-indent-mode 0)
+   (electric-indent-mode nil)
    (structured-haskell-mode t)
    (set-face-background 'shm-quarantine-face "lemonchiffon")
-   (interactive-haskell-mode t)))
+   (interactive-haskell-mode t)
 
-(custom-set-variables
- '(capitalized-words-mode t)
- '(haskell-stylish-on-save t)
- '(haskell-indentation-layout-offset 4)
- '(haskell-indentation-left-offset 4)
+   (setq
+    capitalized-words-mode t
+    haskell-stylish-on-save t
+    haskell-indentation-layout-offset 4
+    haskell-indentation-left-offset 4
 
- '(haskell-notify-p t)
- '(haskell-align-imports-pad-after-name t)
- '(haskell-ask-also-kill-buffers nil)
- '(haskell-import-mapping t)
+    haskell-notify-p t
+    haskell-align-imports-pad-after-name t
+    haskell-ask-also-kill-buffers nil
+    haskell-import-mapping t
 
- '(shm-use-presentation-mode t)
- '(shm-auto-insert-skeletons t)
- '(shm-auto-insert-bangs t)
+    shm-use-presentation-mode t
+    shm-auto-insert-skeletons t
+    shm-auto-insert-bangs t
 
- '(haskell-interactive-mode-eval-pretty t)
- '(haskell-interactive-mode-scroll-to-bottom t)
- '(haskell-interactive-mode-eval-mode 'haskell-mode)
- '(haskell-interactive-popup-errors nil)
- '(haskell-process-type 'stack-ghci)
- '(haskell-process-auto-import-loaded-modules t)
- '(haskell-process-log t))
+    haskell-interactive-mode-eval-pretty t
+    haskell-interactive-mode-scroll-to-bottom t
+    haskell-interactive-mode-eval-mode 'haskell-mode
+    haskell-interactive-popup-errors nil
+    haskell-process-type 'stack-ghci
+    haskell-process-auto-import-loaded-modules t
+    haskell-process-log t)))
 
 ;; keys
 (define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)

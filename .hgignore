@@ -8,5 +8,6 @@ syntax: regexp
 \.DS_Store$
 session\..*$
 ac-comphist\.dat$
+^projectile-bookmarks\.eld$
 ~$
 \#.*\#$

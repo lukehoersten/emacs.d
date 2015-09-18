@@ -5,6 +5,7 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
 
 (setq-default
+ gc-cons-threshold 20000000                   ; gc every 20 MB allocated (form flx-ido docs)
  ediff-split-window-function
  'split-window-horizontally                   ; diff horizontally
  inhibit-splash-screen t                      ; disable splash screen
@@ -23,12 +24,10 @@
 (delete-selection-mode t)                     ; replace highlighted text
 (windmove-default-keybindings)                ; move between windows with shift-arrow
 (fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts
-;; (global-hl-line-mode t)                    ; highlight current line
 
 
 ;;; Coding
 (which-func-mode t)                           ; show current function
-(show-paren-mode t)                           ; show matching paren
 (transient-mark-mode t)                       ; show highlighting
 (global-font-lock-mode t)                     ; syntax highlighting
 (global-set-key (kbd "C-c c") 'compile)       ; compile
@@ -57,20 +56,26 @@
   (set-default-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
 
-;;;; Mode-Specific ;;;;
+;;;; Packages ;;;;
+
+(require 'package-require)
+(package-require '(company exec-path-from-shell expand-region
+ smex markdown-mode markdown-mode+ ix hgignore-mode move-text paredit
+ rainbow-delimiters rainbow-mode json-mode json-reformat
+ solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
+ zencoding-mode))
+
+
+;;; custom requires
+(require 'haskell-init)
+(require 'javascript-init)
+(require 'c-init)
+(require 'ansible-init)
+
 
 ;;; text-mode
 (add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)  ; autofill text
-
-
-;;; ido-mode
-(ido-mode t)                                          ; file/buffer selector
-(setq-default
- ido-enable-flex-matching t                           ; fuzzy matching for ido mode
- ido-create-new-buffer 'always                        ; create new buffer without prompt
- ido-everywhere t                                     ; use ido where possible
- ido-max-window-height 1)                             ; max ido window height
 
 
 ;;; whitespace-mode
@@ -111,20 +116,7 @@
     ("C++" (mode . c++-mode)))))
 (add-hook
  'ibuffer-mode-hook
- (lambda ()
-   (ido-mode t)
-   (ibuffer-switch-to-saved-filter-groups "default")))
-
-
-;;;; Requires and Packages ;;;;
-
-;;; packages
-(require 'package-require)
-(package-require '(ace-jump-mode company exec-path-from-shell
-expand-region smex hgignore-mode ido-at-point markdown-mode
-hgignore-mode move-text paredit rainbow-delimiters rainbow-mode
-json-mode json-reformat solarized-theme terraform-mode
-visual-regexp yasnippet yaml-mode zencoding-mode))
+ (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
 
 
 ;;; shell
@@ -135,34 +127,26 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
 
 
-;;; custom requires
-(require 'haskell-init)
-(require 'javascript-init)
-(require 'c-init)
-(require 'ansible-init)
-
-
 ;;; ido / smex / completion
-(ido-at-point-mode)
+(setq-default
+ ido-enable-flex-matching t                           ; fuzzy matching for ido mode
+ ido-create-new-buffer 'always                        ; create new buffer without prompt
+ ido-max-window-height 1                              ; max ido window height
+ ido-everywhere t                                     ; use ido where possible
+ ido-use-faces nil)
+(ido-mode t)                                          ; file/buffer selector
+(flx-ido-mode t)
 (global-set-key (kbd "M-/") 'completion-at-point)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 
 
 ;;; emacs-lisp-mode
-(add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
-
-
-;;; ace-mode
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-;; (autoload
-;;   'ace-jump-mode-pop-mark
-;;   "ace-jump-mode"
-;;   "Ace jump back:-)"
-;;   t)
-;; (eval-after-load "ace-jump-mode"
-;;   '(ace-jump-mode-enable-mark-sync))
-;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+(add-hook
+ 'emacs-lisp-mode-hook
+ (lambda ()
+   (rainbow-mode)
+   (enable-paredit-mode)))
 
 
 ;;; company-mode
@@ -191,6 +175,17 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
 (load-theme 'solarized-light)
 
 
+;;; show-paren-mode - needs to be loaded after theme
+(setq-default
+ show-paren-style 'expression
+ show-paren-delay 0)
+(set-face-attribute
+ 'show-paren-match nil
+ :background (face-background 'highlight)
+ :foreground (face-foreground 'highlight))
+(show-paren-mode t)
+
+
 ;;; yasnippets
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
 (yas-global-mode t)
@@ -198,8 +193,7 @@ visual-regexp yasnippet yaml-mode zencoding-mode))
 
 ;;; markdown-mode
 (add-hook 'markdown-mode-hook 'flyspell-mode)
-(setq-default
- markdown-command "pandoc -f markdown_github")
+(setq-default markdown-command "pandoc -f markdown_github")
 
 
 ;;; html-mode
