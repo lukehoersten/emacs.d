@@ -39,18 +39,21 @@
 (add-hook
  'haskell-mode-hook
  (lambda ()
+   (flycheck-mode t)
+   (flycheck-disable-checker 'haskell-ghc)
+   (flycheck-disable-checker 'haskell-stack-ghc)
+   (flycheck-clear t)
    ;; (imenu-add-menubar-index)
    ;; (haskell-indentation-mode t)
-   (stack-mode)
-   ;; (flycheck-mode)
-   (subword-mode)
+   (stack-mode t)
+   (subword-mode t)
+   (capitalized-words-mode t)
    (electric-indent-mode nil)
    (structured-haskell-mode t)
    (set-face-background 'shm-quarantine-face "lemonchiffon")
    (interactive-haskell-mode t)
 
    (setq
-    capitalized-words-mode t
     haskell-stylish-on-save t
     haskell-indentation-layout-offset 4
     haskell-indentation-left-offset 4
