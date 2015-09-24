@@ -27,7 +27,7 @@
 
 
 ;;; Coding
-(which-func-mode t)                           ; show current function
+(which-function-mode t)                       ; show current function
 (transient-mark-mode t)                       ; show highlighting
 (global-font-lock-mode t)                     ; syntax highlighting
 (global-set-key (kbd "C-c c") 'compile)       ; compile
@@ -53,7 +53,7 @@
   (scroll-bar-mode -1)                        ; remove scroll bar
   (unless is-mac (menu-bar-mode -1))          ; remove menu bar
   (visual-line-mode t)                        ; word wrap break on whitespace
-  (set-default-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
+  (set-frame-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
 
 
 ;;;; Packages ;;;;
@@ -61,7 +61,7 @@
 (require 'package-require)
 (package-require '(company exec-path-from-shell expand-region
  smex markdown-mode markdown-mode+ ix hgignore-mode move-text paredit
- rainbow-delimiters rainbow-mode json-mode json-reformat
+ rainbow-delimiters rainbow-mode json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  zencoding-mode))
 
@@ -145,6 +145,7 @@
 (add-hook
  'emacs-lisp-mode-hook
  (lambda ()
+   (flycheck-mode)
    (rainbow-mode)
    (enable-paredit-mode)))
 

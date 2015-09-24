@@ -3,7 +3,7 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(haskell-mode yasnippet haskell-snippets flycheck shm))
+(package-require '(haskell-mode yasnippet haskell-snippets flycheck))
 
 (add-to-list 'load-path "~/.emacs.d/elisp/stack-mode")
 
@@ -11,12 +11,17 @@
 ;; (add-to-list 'load-path "~/Code/elisp/haskell-mode/")
 ;; (require 'haskell-mode-autoloads)
 
+;; company-mode stack-ide integration
+(add-to-list 'load-path "~/Code/elisp/company-stack-ide/")
+(require 'company-stack-ide)
+(add-to-list 'company-backends 'company-stack-ide)
+(add-hook 'stack-mode 'company-mode)
+
 (require 'haskell)
 (require 'haskell-mode)
 (require 'stack-mode)
 (require 'haskell-interactive-mode)
 (require 'haskell-snippets)
-(require 'shm)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
@@ -43,14 +48,12 @@
    (flycheck-disable-checker 'haskell-ghc)
    (flycheck-disable-checker 'haskell-stack-ghc)
    (flycheck-clear t)
-   ;; (imenu-add-menubar-index)
-   ;; (haskell-indentation-mode t)
+   (imenu-add-menubar-index)
+   (haskell-indentation-mode t)
+   (haskell-indentation-enable-show-indentations)
    (stack-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
-   (electric-indent-mode nil)
-   (structured-haskell-mode t)
-   (set-face-background 'shm-quarantine-face "lemonchiffon")
    (interactive-haskell-mode t)
 
    (setq
@@ -62,10 +65,6 @@
     haskell-align-imports-pad-after-name t
     haskell-ask-also-kill-buffers nil
     haskell-import-mapping t
-
-    shm-use-presentation-mode t
-    shm-auto-insert-skeletons t
-    shm-auto-insert-bangs t
 
     haskell-interactive-mode-eval-pretty t
     haskell-interactive-mode-scroll-to-bottom t
@@ -79,16 +78,11 @@
 (define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
 (define-key haskell-mode-map (kbd "C-c i") 'haskell-navigate-imports)
 (define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
-(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-c C-r") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-interactive-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
 (define-key haskell-interactive-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
-
-;; keys shm
-(define-key shm-map (kbd "C-c C-p") 'shm/expand-pattern)
-(define-key shm-map (kbd "C-c C-s") 'shm/case-split)
-(define-key shm-map (kbd "C-\\") 'shm/goto-last-point)
 
 (message "Loading haskell-init...done")
 (provide 'haskell-init)
