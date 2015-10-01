@@ -51,10 +51,11 @@
    (imenu-add-menubar-index)
    (haskell-indentation-mode t)
    (haskell-indentation-enable-show-indentations)
+   (projectile-mode t)
    (stack-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
-   (interactive-haskell-mode t)
+   ;; (interactive-haskell-mode t)
 
    (setq
     haskell-stylish-on-save t

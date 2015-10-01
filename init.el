@@ -20,21 +20,21 @@
 (put 'narrow-to-region 'disabled nil)         ; enable hiding
 (put 'narrow-to-page 'disabled nil)
 
+(fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts with y/n
+(windmove-default-keybindings)                ; move between windows with shift-arrow
+
 (column-number-mode t)                        ; show column numbers
 (delete-selection-mode t)                     ; replace highlighted text
-(windmove-default-keybindings)                ; move between windows with shift-arrow
-(fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts
-
-
-;;; Coding
-(which-function-mode t)                       ; show current function
-(transient-mark-mode t)                       ; show highlighting
+(which-function-mode t)                       ; function name at point in mode line
+(transient-mark-mode t)                       ; highlight selection between point and mark
+(electric-pair-mode t)                        ; automatically close opening characters
 (global-font-lock-mode t)                     ; syntax highlighting
+(global-subword-mode t)                       ; move by camelCase words
+(global-hl-line-mode t)                       ; highlight current line
 (global-set-key (kbd "C-c c") 'compile)       ; compile
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
 (global-set-key (kbd "C-c g") 'rgrep)         ; grep
-(subword-mode t)                              ; move by camelCase words
 
 
 ;;; Darwin
@@ -52,8 +52,7 @@
   (tool-bar-mode -1)                          ; remove tool bar
   (scroll-bar-mode -1)                        ; remove scroll bar
   (unless is-mac (menu-bar-mode -1))          ; remove menu bar
-  (visual-line-mode t)                        ; word wrap break on whitespace
-  (set-frame-font (if is-mac "Ubuntu Mono-12" "Ubuntu Mono-10.5")))
+  (set-frame-font (if is-mac "Inconsolata-12" "Ubuntu Mono-10.5") nil t))
 
 
 ;;;; Packages ;;;;
@@ -142,16 +141,11 @@
 
 
 ;;; emacs-lisp-mode
-(add-hook
- 'emacs-lisp-mode-hook
- (lambda ()
-   (flycheck-mode)
-   (rainbow-mode)
-   (enable-paredit-mode)))
+(add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 
 ;;; company-mode
-(add-hook 'after-init-hook 'global-company-mode)
+(global-company-mode t)
 (global-set-key (kbd "M-/") 'company-complete)
 (setq-default
  company-idle-delay nil
@@ -159,6 +153,10 @@
  company-selection-wrap-around t
  company-show-numbers t
  company-tooltip-align-annotations t)
+
+
+;;; flycheck-mode
+(global-flycheck-mode t)
 
 
 ;;; uniquify
@@ -173,7 +171,7 @@
  custom-safe-themes
  '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
    "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
-(load-theme 'solarized-light)
+(when window-system (load-theme 'solarized-light))
 
 
 ;;; show-paren-mode - needs to be loaded after theme
@@ -188,6 +186,8 @@
 
 
 ;;; yasnippets
+(with-eval-after-load 'yasnippet
+  (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
 (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
 (yas-global-mode t)
 
@@ -199,24 +199,16 @@
 
 ;;; html-mode
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
-(add-hook
- 'html-mode-hook
- (lambda ()
-   (zencoding-mode)
-   (rainbow-mode)))
+(add-hook 'html-mode-hook 'zencoding-mode)
 
 
-;;; css-mode
-(add-hook 'css-mode-hook 'rainbow-mode)
-
-
-;;; coding-modes map
+;;; color-modes map
 (mapc
  (lambda (x)
    (add-hook x
     (lambda ()
+      (rainbow-mode t)
       (linum-mode t)
-      (subword-mode t)
       (rainbow-delimiters-mode t))))
  '(text-mode-hook
    c-mode-common-hook
