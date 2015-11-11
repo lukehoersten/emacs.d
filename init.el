@@ -6,8 +6,6 @@
 
 (setq-default
  gc-cons-threshold 20000000                   ; gc every 20 MB allocated (form flx-ido docs)
- ediff-split-window-function
- 'split-window-horizontally                   ; diff horizontally
  inhibit-splash-screen t                      ; disable splash screen
  truncate-lines t                             ; truncate, not wrap, lines
  indent-tabs-mode nil                         ; only uses spaces for indentation
@@ -35,6 +33,12 @@
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
 (global-set-key (kbd "C-c g") 'rgrep)         ; grep
+
+
+;;; ediff
+(setq-default
+  ediff-split-window-function 'split-window-horizontally
+  ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
 ;;; Darwin
@@ -217,6 +221,7 @@
    js2-mode-hook
    html-mode-hook
    css-mode-hook
+   sass-mode-hook
    clojure-mode-hook
    emacs-lisp-mode-hook
    conf-mode-hook
