@@ -6,8 +6,6 @@
 
 (setq-default
  gc-cons-threshold 20000000                   ; gc every 20 MB allocated (form flx-ido docs)
- ediff-split-window-function
- 'split-window-horizontally                   ; diff horizontally
  inhibit-splash-screen t                      ; disable splash screen
  truncate-lines t                             ; truncate, not wrap, lines
  indent-tabs-mode nil                         ; only uses spaces for indentation
@@ -35,6 +33,12 @@
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
 (global-set-key (kbd "C-c g") 'rgrep)         ; grep
+
+
+;;; ediff
+(setq-default
+  ediff-split-window-function 'split-window-horizontally
+  ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
 ;;; Darwin
@@ -99,23 +103,29 @@
 
 ;;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)             ; better buffer browser
-(setq-default
- ibuffer-show-empty-filter-groups nil
- ibuffer-saved-filter-groups
- '(("default"
-    ("Emacs Lisp" (mode . emacs-lisp-mode))
-    ("Haskell" (mode . haskell-mode))
-    ("Cabal" (mode . haskell-cabal-mode))
-    ("Python" (mode . python-mode))
-    ("Jython" (mode . jython-mode))
-    ("Clojure" (mode . clojure-mode))
-    ("Markup" (mode . sgml-mode))
-    ("HTML" (mode . html-mode))
-    ("CSS" (mode . css-mode))
-    ("C++" (mode . c++-mode)))))
-(add-hook
- 'ibuffer-mode-hook
- (lambda () (ibuffer-switch-to-saved-filter-groups "default")))
+(require 'ibuffer)
+(require 'ibuf-ext)
+(defun ibuffer-generate-filter-groups-by-major-mode ()
+  (flet
+      ((mode-group
+        (mode)
+        (let ((mode-title
+               (capitalize (car (split-string (symbol-name mode) "-" t)))))
+          (cons mode-title `((mode . ,mode)))))
+       (buffer-modes
+        ()
+        (flet ((buffer-mode (buffer) (buffer-local-value 'major-mode buffer)))
+          (ibuffer-remove-duplicates (remq nil (mapcar 'buffer-mode (buffer-list)))))))
+    (mapcar 'mode-group (buffer-modes))))
+
+(defun ibuffer-major-mode-group-hook ()
+  (interactive)
+  (setq ibuffer-filter-groups (ibuffer-generate-filter-groups-by-major-mode))
+  (ibuffer-update nil t)
+  (message "ibuffer-major-mode: groups set"))
+
+(setq-default ibuffer-show-empty-filter-groups nil)
+(add-hook 'ibuffer-hook (lambda () (ibuffer-major-mode-group-hook)))
 
 
 ;;; shell
@@ -186,10 +196,10 @@
 
 
 ;;; yasnippets
-(with-eval-after-load 'yasnippet
-  (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
-(setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-(yas-global-mode t)
+;; (with-eval-after-load 'yasnippet
+;;   (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
+;; (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
+;; (yas-global-mode t)
 
 
 ;;; markdown-mode
@@ -217,6 +227,7 @@
    js2-mode-hook
    html-mode-hook
    css-mode-hook
+   sass-mode-hook
    clojure-mode-hook
    emacs-lisp-mode-hook
    conf-mode-hook

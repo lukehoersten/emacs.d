@@ -50,7 +50,6 @@
    (flycheck-clear t)
    (imenu-add-menubar-index)
    (haskell-indentation-mode t)
-   (haskell-indentation-enable-show-indentations)
    (projectile-mode t)
    (stack-mode t)
    (subword-mode t)
