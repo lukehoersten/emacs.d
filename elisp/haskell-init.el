@@ -1,27 +1,25 @@
 ;; ~/.emacs.d/elisp/haskell-init.el
 ;; Luke Hoersten <Luke@Hoersten.org>
 
+;;; Code:
+
 ;; Require packages
 (require 'package-require)
-(package-require '(haskell-mode yasnippet haskell-snippets flycheck))
+(package-require '(haskell-mode ghc yasnippet haskell-snippets flycheck company company-ghc))
 
-(add-to-list 'load-path "~/.emacs.d/elisp/stack-mode")
-
-;; Load haskell-mode from source
-;; (add-to-list 'load-path "~/Code/elisp/haskell-mode/")
-;; (require 'haskell-mode-autoloads)
-
-;; company-mode stack-ide integration
-(add-to-list 'load-path "~/Code/elisp/company-stack-ide/")
-(require 'company-stack-ide)
-(add-to-list 'company-backends 'company-stack-ide)
-(add-hook 'stack-mode 'company-mode)
+;; flycheck-haskell
 
 (require 'haskell)
 (require 'haskell-mode)
-(require 'stack-mode)
 (require 'haskell-interactive-mode)
 (require 'haskell-snippets)
+(require 'company)
+
+(add-to-list 'company-backends 'company-ghc)
+(autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+;; (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
@@ -45,13 +43,9 @@
  'haskell-mode-hook
  (lambda ()
    (flycheck-mode t)
-   (flycheck-disable-checker 'haskell-ghc)
-   (flycheck-disable-checker 'haskell-stack-ghc)
-   (flycheck-clear t)
    (imenu-add-menubar-index)
    (haskell-indentation-mode t)
    (projectile-mode t)
-   (stack-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
    ;; (interactive-haskell-mode t)

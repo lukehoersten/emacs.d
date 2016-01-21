@@ -62,7 +62,7 @@
 ;;;; Packages ;;;;
 
 (require 'package-require)
-(package-require '(company exec-path-from-shell expand-region
+(package-require '(company exec-path-from-shell expand-region flx-ido
  smex markdown-mode markdown-mode+ ix hgignore-mode move-text paredit
  rainbow-delimiters rainbow-mode json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
