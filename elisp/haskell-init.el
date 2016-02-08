@@ -7,8 +7,6 @@
 (require 'package-require)
 (package-require '(haskell-mode ghc yasnippet haskell-snippets flycheck company company-ghc))
 
-;; flycheck-haskell
-
 (require 'haskell)
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
@@ -16,10 +14,6 @@
 (require 'company)
 
 (add-to-list 'company-backends 'company-ghc)
-(autoload 'ghc-init "ghc" nil t)
-(autoload 'ghc-debug "ghc" nil t)
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-;; (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
@@ -48,7 +42,7 @@
    (projectile-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
-   ;; (interactive-haskell-mode t)
+   (interactive-haskell-mode t)
 
    (setq
     haskell-stylish-on-save t
@@ -64,13 +58,37 @@
     haskell-interactive-mode-scroll-to-bottom t
     haskell-interactive-mode-eval-mode 'haskell-mode
     haskell-interactive-popup-errors nil
-    haskell-process-type 'stack-ghci
+
+    haskell-process-path-ghci 'ghci-ng
+    haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
+    haskell-process-args-ghci (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
+    haskell-process-args-stack-ghci (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
     haskell-process-auto-import-loaded-modules t
-    haskell-process-log t)))
+    haskell-process-reload-with-fbytecode nil
+    haskell-process-log t
+    haskell-process-suggest-haskell-docs-imports t
+    haskell-process-suggest-remove-import-lines t
+    haskell-process-use-presentation-mode nil)))
+
 
 ;; keys
+(define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
+(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+(define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+(define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
+(define-key haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
+
+
+(define-key interactive-haskell-mode-map (kbd "C-?") 'haskell-mode-find-uses)
+(define-key interactive-haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at)
+(define-key interactive-haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+(define-key interactive-haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
+(define-key interactive-haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
 (define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
+(define-key haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc)
 (define-key haskell-mode-map (kbd "C-c i") 'haskell-navigate-imports)
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
 (define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
 (define-key haskell-mode-map (kbd "C-c C-r") 'haskell-process-load-or-reload)
 (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
