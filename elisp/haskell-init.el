@@ -42,33 +42,32 @@
    (projectile-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
-   (interactive-haskell-mode t)
+   (interactive-haskell-mode t)))
 
-   (setq
-    haskell-stylish-on-save t
-    haskell-indentation-layout-offset 4
-    haskell-indentation-left-offset 4
+(setq
+ haskell-stylish-on-save t
+ haskell-indentation-layout-offset 4
+ haskell-indentation-left-offset 4
 
-    haskell-notify-p t
-    haskell-align-imports-pad-after-name t
-    haskell-ask-also-kill-buffers nil
-    haskell-import-mapping t
+ haskell-notify-p t
+ haskell-align-imports-pad-after-name t
+ haskell-ask-also-kill-buffers nil
+ haskell-import-mapping t
 
-    haskell-interactive-mode-eval-pretty t
-    haskell-interactive-mode-scroll-to-bottom t
-    haskell-interactive-mode-eval-mode 'haskell-mode
-    haskell-interactive-popup-errors nil
+ haskell-interactive-mode-eval-pretty t
+ haskell-interactive-mode-scroll-to-bottom t
+ haskell-interactive-mode-eval-mode 'haskell-mode
+ haskell-interactive-popup-errors nil
 
-    haskell-process-path-ghci 'ghci-ng
-    haskell-process-args-cabal-repl (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
-    haskell-process-args-ghci (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
-    haskell-process-args-stack-ghci (quote ("--ghc-option=-ferror-spans --with-ghc ghci-ng"))
-    haskell-process-auto-import-loaded-modules t
-    haskell-process-reload-with-fbytecode nil
-    haskell-process-log t
-    haskell-process-suggest-haskell-docs-imports t
-    haskell-process-suggest-remove-import-lines t
-    haskell-process-use-presentation-mode nil)))
+ haskell-process-args-cabal-repl '("--ghc-options=-ferror-spans" "--with-ghc=ghci-ng")
+ haskell-process-args-ghci '("-ferror-spans")
+ haskell-process-args-stack-ghci '("--ghc-options=-ferror-spans" "--with-ghc=ghci-ng")
+ haskell-process-auto-import-loaded-modules t
+ haskell-process-reload-with-fbytecode nil
+ haskell-process-log t
+ haskell-process-suggest-haskell-docs-imports t
+ haskell-process-suggest-remove-import-lines t
+ haskell-process-use-presentation-mode nil)
 
 
 ;; keys
@@ -77,7 +76,12 @@
 (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
 (define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
 (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
-
+(define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
+(define-key haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc)
+(define-key haskell-mode-map (kbd "C-c i") 'haskell-navigate-imports)
+(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+(define-key haskell-mode-map (kbd "C-c C-r") 'haskell-process-load-or-reload)
+(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 
 (define-key interactive-haskell-mode-map (kbd "C-?") 'haskell-mode-find-uses)
 (define-key interactive-haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at)
@@ -85,13 +89,6 @@
 (define-key interactive-haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
 (define-key interactive-haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
 
-(define-key haskell-mode-map (kbd "M-,") 'haskell-who-calls)
-(define-key haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc)
-(define-key haskell-mode-map (kbd "C-c i") 'haskell-navigate-imports)
-(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
-(define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
-(define-key haskell-mode-map (kbd "C-c C-r") 'haskell-process-load-or-reload)
-(define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key haskell-interactive-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
 (define-key haskell-interactive-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
