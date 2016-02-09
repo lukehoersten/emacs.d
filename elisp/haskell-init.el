@@ -72,7 +72,7 @@
 
 ;; keys
 (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-file)
-(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+(define-key haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at)
 (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
 (define-key haskell-mode-map (kbd "C-c C-d") 'haskell-describe)
 (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
