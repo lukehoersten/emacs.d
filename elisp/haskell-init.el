@@ -39,7 +39,6 @@
    (flycheck-mode t)
    (imenu-add-menubar-index)
    (haskell-indentation-mode t)
-   (projectile-mode t)
    (subword-mode t)
    (capitalized-words-mode t)
    (interactive-haskell-mode t)))
@@ -67,7 +66,7 @@
  haskell-process-log t
  haskell-process-suggest-haskell-docs-imports t
  haskell-process-suggest-remove-import-lines t
- haskell-process-use-presentation-mode nil)
+ haskell-process-use-presentation-mode t)
 
 
 ;; keys
@@ -85,6 +84,7 @@
 
 (define-key interactive-haskell-mode-map (kbd "C-?") 'haskell-mode-find-uses)
 (define-key interactive-haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at)
+(define-key interactive-haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc)
 (define-key interactive-haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
 (define-key interactive-haskell-mode-map (kbd "C-c C-k") 'haskell-process-clear)
 (define-key interactive-haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
