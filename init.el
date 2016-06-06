@@ -63,14 +63,14 @@
 
 (require 'package-require)
 (package-require '(company exec-path-from-shell expand-region flx-ido
- smex markdown-mode markdown-mode+ ix hgignore-mode move-text paredit
+ smex markdown-mode markdown-mode+ hgignore-mode move-text paredit
  rainbow-delimiters rainbow-mode json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  zencoding-mode))
 
 
 ;;; custom requires
-(require 'haskell-init)
+(require 'haskell-intero-init)
 (require 'javascript-init)
 (require 'c-init)
 (require 'ansible-init)
@@ -196,10 +196,10 @@
 
 
 ;;; yasnippets
-;; (with-eval-after-load 'yasnippet
-;;   (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
-;; (setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
-;; (yas-global-mode t)
+(with-eval-after-load 'yasnippet
+  (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
+(setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
+(yas-global-mode t)
 
 
 ;;; markdown-mode

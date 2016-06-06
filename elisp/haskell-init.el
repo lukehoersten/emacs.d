@@ -5,15 +5,13 @@
 
 ;; Require packages
 (require 'package-require)
-(package-require '(haskell-mode ghc yasnippet haskell-snippets flycheck company company-ghc))
+(package-require '(haskell-mode yasnippet haskell-snippets flycheck company))
 
 (require 'haskell)
 (require 'haskell-mode)
 (require 'haskell-interactive-mode)
 (require 'haskell-snippets)
 (require 'company)
-
-(add-to-list 'company-backends 'company-ghc)
 
 (defun haskell-who-calls (&optional prompt)
   "Grep the codebase to see who uses the symbol at point."
