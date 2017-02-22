@@ -60,7 +60,7 @@
 
 
 ;;;; Packages ;;;;
-
+(package-initialize)
 (require 'package-require)
 (package-require '(company exec-path-from-shell expand-region flx-ido
  smex markdown-mode markdown-mode+ hgignore-mode move-text paredit
