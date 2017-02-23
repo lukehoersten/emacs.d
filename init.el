@@ -56,15 +56,15 @@
   (tool-bar-mode -1)                          ; remove tool bar
   (scroll-bar-mode -1)                        ; remove scroll bar
   (unless is-mac (menu-bar-mode -1))          ; remove menu bar
-  (set-frame-font (if is-mac "Inconsolata-12" "Ubuntu Mono-10.5") nil t))
+  (set-frame-font "Inconsolata-12" nil t))
 
 
 ;;;; Packages ;;;;
 (package-initialize)
 (require 'package-require)
-(package-require '(company exec-path-from-shell expand-region flx-ido
+(package-require '(ag company exec-path-from-shell expand-region flx-ido
  smex markdown-mode markdown-mode+ hgignore-mode move-text paredit
- rainbow-delimiters rainbow-mode json-mode json-reformat flycheck
+ rainbow-delimiters json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  zencoding-mode))
 
@@ -217,7 +217,6 @@
  (lambda (x)
    (add-hook x
     (lambda ()
-      (rainbow-mode t)
       (linum-mode t)
       (rainbow-delimiters-mode t))))
  '(text-mode-hook
