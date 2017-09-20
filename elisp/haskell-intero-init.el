@@ -16,6 +16,8 @@
 (add-hook 'haskell-mode-hook 'intero-mode)
 
 (setq
+ compile-command "stack build "
+
  haskell-stylish-on-save t
  haskell-indentation-layout-offset 4
  haskell-indentation-left-offset 4

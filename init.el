@@ -12,6 +12,7 @@
  split-width-threshold 181                    ; min width to split window horizontially
  split-height-threshold 120                   ; min width to split window vertically
  reb-re-syntax 'string                        ; use string syntax for regexp builder
+ fill-column 120                              ; line width
  require-final-newline 'visit-save)           ; add a newline automatically
 
 (put 'set-goal-column 'disabled nil)          ; enable goal column setting
