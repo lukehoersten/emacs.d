@@ -1,7 +1,7 @@
 ;; ~/.emacs.d/init.el (~/.emacs)
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-;;;; General ;;;;
+;;; Code:
 (add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
 
 (setq-default
@@ -134,7 +134,10 @@
 (exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-initialize)
 (eshell)
-(add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
+(add-hook 'eshell-mode-hook
+          (lambda ()
+            (setenv "TERM" "emacs")
+            (setenv "PAGER" "cat")))
 
 
 ;;; ido / smex / completion
@@ -231,7 +234,8 @@
    clojure-mode-hook
    emacs-lisp-mode-hook
    conf-mode-hook
-   yaml-mode-hook))
+   yaml-mode-hook
+   sql-mode-hook))
 
 
 ;;; expand-region
