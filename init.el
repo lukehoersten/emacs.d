@@ -135,7 +135,7 @@
 (exec-path-from-shell-initialize)
 (eshell)
 (add-hook 'eshell-mode-hook (lambda () (setenv "TERM" "emacs")))
-
+(setq tramp-default-method "ssh")
 
 ;;; ido / smex / completion
 (setq-default
@@ -205,7 +205,7 @@
 
 ;;; markdown-mode
 (add-hook 'markdown-mode-hook 'flyspell-mode)
-(setq-default markdown-command "pandoc -f markdown_github")
+(setq-default markdown-command "pandoc -f gfm")
 
 
 ;;; html-mode
