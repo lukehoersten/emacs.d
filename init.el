@@ -1,5 +1,7 @@
-;; ~/.emacs.d/init.el (~/.emacs)
-;; Luke Hoersten <Luke@Hoersten.org>
+;;; init --- Summary: Luke Hoersten <Luke@Hoersten.org> personal init file
+
+;;; Commentary:
+;;; ~/.emacs.d/init.el (~/.emacs)
 
 ;;; Code:
 (add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
@@ -33,7 +35,7 @@
 (global-set-key (kbd "C-c c") 'compile)       ; compile
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
-(global-set-key (kbd "C-c g") 'ag)            ; ag
+(global-set-key (kbd "C-c g") 'rg)            ; rg
 
 
 ;;; ediff
@@ -63,7 +65,7 @@
 ;;;; Packages ;;;;
 (package-initialize)
 (require 'package-require)
-(package-require '(ag company exec-path-from-shell expand-region flx-ido
+(package-require '(rg company exec-path-from-shell expand-region flx-ido
  smex markdown-mode markdown-mode+ hgignore-mode move-text paredit
  rainbow-delimiters json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
@@ -250,3 +252,6 @@
 ;;; visual-regexp
 (global-set-key (kbd "C-M-%") 'vr/query-replace)
 (global-set-key (kbd "M-%") 'vr/replace)
+
+(provide 'init)
+;;; init.el ends here
