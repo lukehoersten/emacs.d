@@ -1,0 +1,8 @@
+.DS_Store
+auto-save-list/
+eshell/
+elpa/
+ido.last
+*~
+transient/
+smex-items

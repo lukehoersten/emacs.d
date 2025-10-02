@@ -63,17 +63,22 @@
 
 
 ;;;; Packages ;;;;
-(package-initialize)
 (require 'package-require)
 (package-require '(rg company exec-path-from-shell expand-region flx-ido
- smex markdown-mode markdown-mode+ hgignore-mode move-text paredit
+ smex magit magit-ido markdown-mode hgignore-mode move-text paredit
  rainbow-delimiters json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  zencoding-mode))
 
+;; (custom-set-variables
+;;  '(package-selected-packages
+;;    '(magit magit-ido ansible-doc company-ansible jinja2-mode ac-js2 auto-complete zencoding-mode
+;;            yasnippet yaml-mode visual-regexp terraform-mode solarized-theme smex rg rainbow-delimiters
+;;            paredit move-text markdown-mode json-reformat json-mode hgignore-mode haskell-mode flycheck flx-ido expand-region exec-path-from-shell company)))
+
+
 
 ;;; custom requires
-(require 'haskell-intero-init)
 (require 'javascript-init)
 (require 'c-init)
 (require 'ansible-init)
@@ -123,7 +128,7 @@
 
 (defun ibuffer-major-mode-group-hook ()
   (interactive)
-  (setq ibuffer-filter-groups (ibuffer-generate-filter-groups-by-major-mode))
+  (setq-default ibuffer-filter-groups (ibuffer-generate-filter-groups-by-major-mode))
   (ibuffer-update nil t)
   (message "ibuffer-major-mode: groups set"))
 
@@ -136,7 +141,7 @@
 (exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-initialize)
 (eshell)
-(setq tramp-default-method "ssh")
+(setq-default tramp-default-method "ssh")
 (add-hook 'eshell-mode-hook
           (lambda ()
             (setenv "TERM" "emacs")
@@ -177,16 +182,13 @@
 
 ;;; uniquify
 (require 'uniquify)                     ; unique buffer names with dirs
-(setq
+(setq-default
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
 
 
 ;;; color-theme
-(setq-default
- custom-safe-themes
- '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4"
-   "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default))
+(setq custom-safe-themes t)
 (when window-system (load-theme 'solarized-light))
 
 
@@ -223,7 +225,7 @@
  (lambda (x)
    (add-hook x
     (lambda ()
-      (linum-mode t)
+      (display-line-numbers-mode t)
       (rainbow-delimiters-mode t))))
  '(text-mode-hook
    c-mode-common-hook
@@ -255,3 +257,16 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(magit-ido magit zencoding-mode yasnippet yaml-mode visual-regexp terraform-mode solarized-theme smex rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck flx-ido expand-region exec-path-from-shell company-ansible auto-complete ansible-doc ac-js2)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
