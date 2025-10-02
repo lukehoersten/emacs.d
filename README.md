@@ -32,6 +32,7 @@ Personal Emacs configuration focused on simplicity and modern tooling while resp
 ### Development
 - **company** - Auto-completion
 - **flycheck** - Syntax checking
+- **jinx** - Fast spell-checking (requires enchant)
 - **treesit-auto** - Tree-sitter modes with automatic grammar installation
 - **magit** - Git interface
 - **forge** - GitHub/GitLab integration for magit
@@ -81,6 +82,20 @@ Personal Emacs configuration focused on simplicity and modern tooling while resp
 
 ## Installation
 
+### Prerequisites
+
+**macOS:**
+```bash
+brew install enchant pkg-config
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install libenchant-2-dev pkg-config
+```
+
+### Setup
+
 1. Clone this repository:
    ```bash
    git clone git@github.com:lukehoersten/emacs.d.git ~/.emacs.d
@@ -88,7 +103,9 @@ Personal Emacs configuration focused on simplicity and modern tooling while resp
 
 2. Launch Emacs - packages will auto-install on first run
 
-3. For tree-sitter modes, grammars install automatically when first opening a file
+3. Jinx spell-checker will compile its native module on first launch (requires enchant)
+
+4. For tree-sitter modes, grammars install automatically when first opening a file
 
 ## Tree-sitter Support
 

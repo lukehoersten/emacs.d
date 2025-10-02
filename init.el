@@ -54,6 +54,7 @@
    ring-bell-function 'ignore
    mac-command-modifier 'meta
    ns-pop-up-frames nil
+   dired-use-ls-dired nil                               ; macOS ls doesn't support --dired
    ispell-program-name "/usr/local/bin/aspell"))
 
 
@@ -128,6 +129,11 @@
 (setq ibuffer-show-empty-filter-groups nil)
 
 
+;;; emacs server (for emacsclient)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;;; shell
 (global-set-key (kbd "C-c s") 'eshell)  ; start shell
 (exec-path-from-shell-copy-env "PYTHONPATH")
@@ -193,10 +199,6 @@
 (setq-default
  show-paren-style 'expression
  show-paren-delay 0)
-(set-face-attribute
- 'show-paren-match nil
- :background (face-background 'highlight)
- :foreground (face-foreground 'highlight))
 (show-paren-mode t)
 
 
