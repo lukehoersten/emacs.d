@@ -68,7 +68,7 @@
  orderless consult marginalia magit markdown-mode hgignore-mode move-text paredit
  rainbow-delimiters json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
- zencoding-mode))
+ emmet-mode))
 
 ;; (custom-set-variables
 ;;  '(package-selected-packages
@@ -217,7 +217,7 @@
 
 ;;; html-mode
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
-(add-hook 'html-mode-hook 'zencoding-mode)
+(add-hook 'html-mode-hook 'emmet-mode)
 
 
 ;;; color-modes map
