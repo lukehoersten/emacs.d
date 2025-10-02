@@ -69,7 +69,7 @@
 (require 'package-require)
 (package-require '(rg company exec-path-from-shell expand-region vertico
  orderless consult marginalia magit forge magit-todos markdown-mode hgignore-mode move-text paredit
- rainbow-delimiters json-mode json-reformat flycheck treesit-auto ibuffer-project
+ rainbow-delimiters json-mode json-reformat flycheck treesit-auto ibuffer-project jinx
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  emmet-mode))
 
@@ -79,8 +79,22 @@
 (require 'ansible-init)
 
 
+;;; jinx spellcheck setup
+(with-eval-after-load 'jinx
+  (unless (executable-find "enchant-2")
+    (display-warning
+     'jinx
+     (concat "Enchant library not found. Jinx spell-checking requires enchant.\n\n"
+             "To install:\n"
+             (if (eq system-type 'darwin)
+                 "  macOS: brew install enchant\n"
+               "  Ubuntu/Debian: sudo apt install libenchant-2-dev\n")
+             "\nAfter installation, restart Emacs.")
+     :warning)))
+
+
 ;;; text-mode
-(add-hook 'fundamental-mode-hook 'flyspell-mode)      ; spellcheck text
+(add-hook 'fundamental-mode-hook 'jinx-mode)          ; spellcheck text
 (add-hook 'fundamental-mode-hook 'turn-on-auto-fill)  ; autofill text
 
 
@@ -194,7 +208,7 @@
 
 
 ;;; markdown-mode
-(add-hook 'markdown-mode-hook 'flyspell-mode)
+(add-hook 'markdown-mode-hook 'jinx-mode)
 (setq-default markdown-command "pandoc -f gfm")
 
 
