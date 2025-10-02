@@ -66,7 +66,7 @@
 (require 'package-require)
 (package-require '(rg company exec-path-from-shell expand-region vertico
  orderless consult marginalia magit markdown-mode hgignore-mode move-text paredit
- rainbow-delimiters json-mode json-reformat flycheck
+ rainbow-delimiters json-mode json-reformat flycheck treesit-auto
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  emmet-mode))
 
@@ -79,7 +79,6 @@
 
 
 ;;; custom requires
-(require 'javascript-init)
 (require 'c-init)
 (require 'ansible-init)
 
@@ -215,6 +214,10 @@
 (setq-default markdown-command "pandoc -f gfm")
 
 
+;;; treesit-auto (automatically use tree-sitter modes and install grammars)
+(global-treesit-auto-mode)
+
+
 ;;; html-mode
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . html-mode))
 (add-hook 'html-mode-hook 'emmet-mode)
@@ -263,7 +266,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit-ido magit zencoding-mode yasnippet yaml-mode visual-regexp terraform-mode solarized-theme smex rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck flx-ido expand-region exec-path-from-shell company-ansible auto-complete ansible-doc ac-js2)))
+   '(magit yasnippet yaml-mode visual-regexp terraform-mode solarized-theme rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck expand-region exec-path-from-shell company-ansible ansible-doc emmet-mode vertico orderless consult marginalia)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
