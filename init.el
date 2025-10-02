@@ -67,7 +67,7 @@
 (require 'package-require)
 (package-require '(rg company exec-path-from-shell expand-region vertico
  orderless consult marginalia magit forge magit-todos markdown-mode hgignore-mode move-text paredit
- rainbow-delimiters json-mode json-reformat flycheck treesit-auto
+ rainbow-delimiters json-mode json-reformat flycheck treesit-auto ibuffer-project
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  emmet-mode))
 
@@ -111,29 +111,12 @@
 
 ;;; ibuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)             ; better buffer browser
-(require 'ibuffer)
-(require 'ibuf-ext)
-(defun ibuffer-generate-filter-groups-by-major-mode ()
-  (flet
-      ((mode-group
-        (mode)
-        (let ((mode-title
-               (capitalize (car (split-string (symbol-name mode) "-" t)))))
-          (cons mode-title `((mode . ,mode)))))
-       (buffer-modes
-        ()
-        (flet ((buffer-mode (buffer) (buffer-local-value 'major-mode buffer)))
-          (ibuffer-remove-duplicates (remq nil (mapcar 'buffer-mode (buffer-list)))))))
-    (mapcar 'mode-group (buffer-modes))))
-
-(defun ibuffer-major-mode-group-hook ()
-  (interactive)
-  (setq-default ibuffer-filter-groups (ibuffer-generate-filter-groups-by-major-mode))
-  (ibuffer-update nil t)
-  (message "ibuffer-major-mode: groups set"))
-
-(setq-default ibuffer-show-empty-filter-groups nil)
-(add-hook 'ibuffer-hook (lambda () (ibuffer-major-mode-group-hook)))
+(add-hook 'ibuffer-hook
+          (lambda ()
+            (ibuffer-project-set-filter-groups)
+            (unless (eq ibuffer-sorting-mode 'project-file-relative)
+              (ibuffer-do-sort-by-project-file-relative))))
+(setq ibuffer-show-empty-filter-groups nil)
 
 
 ;;; shell
