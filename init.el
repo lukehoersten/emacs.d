@@ -35,7 +35,7 @@
 (global-set-key (kbd "C-c c") 'compile)       ; compile
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
-(global-set-key (kbd "C-c g") 'rg)            ; rg
+(global-set-key (kbd "C-c g") 'consult-ripgrep) ; ripgrep with preview
 
 
 ;;; ediff
@@ -64,8 +64,8 @@
 
 ;;;; Packages ;;;;
 (require 'package-require)
-(package-require '(rg company exec-path-from-shell expand-region flx-ido
- smex magit magit-ido markdown-mode hgignore-mode move-text paredit
+(package-require '(rg company exec-path-from-shell expand-region vertico
+ orderless consult marginalia magit markdown-mode hgignore-mode move-text paredit
  rainbow-delimiters json-mode json-reformat flycheck
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  zencoding-mode))
@@ -147,18 +147,18 @@
             (setenv "TERM" "emacs")
             (setenv "PAGER" "cat")))
 
-;;; ido / smex / completion
+;;; vertico / orderless / consult / marginalia
+(vertico-mode t)                                      ; vertical completion UI
+(marginalia-mode t)                                   ; annotations in completion
 (setq-default
- ido-enable-flex-matching t                           ; fuzzy matching for ido mode
- ido-create-new-buffer 'always                        ; create new buffer without prompt
- ido-max-window-height 1                              ; max ido window height
- ido-everywhere t                                     ; use ido where possible
- ido-use-faces nil)
-(ido-mode t)                                          ; file/buffer selector
-(flx-ido-mode t)
+ completion-styles '(orderless basic)                 ; orderless completion style
+ completion-category-defaults nil
+ completion-category-overrides '((file (styles partial-completion))))
 (global-set-key (kbd "M-/") 'completion-at-point)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-x b") 'consult-buffer)        ; enhanced buffer switching
+(global-set-key (kbd "C-x 4 b") 'consult-buffer-other-window)
+(global-set-key (kbd "C-x 5 b") 'consult-buffer-other-frame)
+(global-set-key (kbd "M-y") 'consult-yank-pop)        ; enhanced yank-pop
 
 
 ;;; emacs-lisp-mode
