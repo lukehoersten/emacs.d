@@ -140,7 +140,8 @@
 
 
 ;;; magit
-(magit-todos-mode t)                                      ; show TODOs in magit status
+(with-eval-after-load 'magit-todos
+  (magit-todos-mode t))                                   ; show TODOs in magit status
 
 
 ;;; emacs-lisp-mode
@@ -198,7 +199,8 @@
 
 
 ;;; treesit-auto (automatically use tree-sitter modes and install grammars)
-(global-treesit-auto-mode)
+(with-eval-after-load 'treesit-auto
+  (global-treesit-auto-mode))
 
 
 ;;; html-mode
