@@ -6,8 +6,10 @@
 ;;; Code:
 (add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
 
+(setq custom-file (concat user-emacs-directory "custom.el")) ; don't auto-edit init.el
+
 (setq-default
- gc-cons-threshold 20000000                   ; gc every 20 MB allocated (form flx-ido docs)
+ gc-cons-threshold 20000000                   ; gc every 20 MB allocated
  inhibit-splash-screen t                      ; disable splash screen
  truncate-lines t                             ; truncate, not wrap, lines
  indent-tabs-mode nil                         ; only uses spaces for indentation
@@ -70,13 +72,6 @@
  rainbow-delimiters json-mode json-reformat flycheck treesit-auto ibuffer-project
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  emmet-mode))
-
-;; (custom-set-variables
-;;  '(package-selected-packages
-;;    '(magit magit-ido ansible-doc company-ansible jinja2-mode ac-js2 auto-complete zencoding-mode
-;;            yasnippet yaml-mode visual-regexp terraform-mode solarized-theme smex rg rainbow-delimiters
-;;            paredit move-text markdown-mode json-reformat json-mode hgignore-mode haskell-mode flycheck flx-ido expand-region exec-path-from-shell company)))
-
 
 
 ;;; custom requires
@@ -193,7 +188,7 @@
 ;;; yasnippets
 (with-eval-after-load 'yasnippet
   (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
-(setq-default yas-prompt-functions '(yas-ido-prompt yas-dropdown-prompt)) ; use ido for multiple snippets
+(setq-default yas-prompt-functions '(yas-completing-read yas-dropdown-prompt)) ; use completing-read for multiple snippets
 (yas-global-mode t)
 
 
@@ -248,16 +243,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(magit yasnippet yaml-mode visual-regexp terraform-mode solarized-theme rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck expand-region exec-path-from-shell company-ansible ansible-doc emmet-mode vertico orderless consult marginalia treesit-auto)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
