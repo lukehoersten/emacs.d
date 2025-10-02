@@ -36,6 +36,7 @@
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
 (global-set-key (kbd "C-c g") 'consult-ripgrep) ; ripgrep with preview
+(global-set-key (kbd "C-x g") 'magit-status)  ; magit status
 
 
 ;;; ediff
@@ -65,7 +66,7 @@
 ;;;; Packages ;;;;
 (require 'package-require)
 (package-require '(rg company exec-path-from-shell expand-region vertico
- orderless consult marginalia magit markdown-mode hgignore-mode move-text paredit
+ orderless consult marginalia magit forge magit-todos markdown-mode hgignore-mode move-text paredit
  rainbow-delimiters json-mode json-reformat flycheck treesit-auto
  solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
  emmet-mode))
@@ -158,6 +159,10 @@
 (global-set-key (kbd "C-x 4 b") 'consult-buffer-other-window)
 (global-set-key (kbd "C-x 5 b") 'consult-buffer-other-frame)
 (global-set-key (kbd "M-y") 'consult-yank-pop)        ; enhanced yank-pop
+
+
+;;; magit
+(magit-todos-mode t)                                      ; show TODOs in magit status
 
 
 ;;; emacs-lisp-mode
@@ -266,7 +271,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit yasnippet yaml-mode visual-regexp terraform-mode solarized-theme rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck expand-region exec-path-from-shell company-ansible ansible-doc emmet-mode vertico orderless consult marginalia)))
+   '(magit yasnippet yaml-mode visual-regexp terraform-mode solarized-theme rg rainbow-delimiters paredit move-text markdown-mode json-reformat json-mode jinja2-mode hgignore-mode haskell-mode flycheck expand-region exec-path-from-shell company-ansible ansible-doc emmet-mode vertico orderless consult marginalia treesit-auto)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
