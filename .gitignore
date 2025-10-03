@@ -8,3 +8,5 @@ transient/
 smex-items
 custom.el
 forge-database.sqlite
+.hg/
+claude-code-context.json
