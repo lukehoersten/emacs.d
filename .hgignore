@@ -11,3 +11,5 @@ ac-comphist\.dat$
 ^projectile-bookmarks\.eld$
 ~$
 \#.*\#$
+claude-code-context.json$
+^\.git\/
