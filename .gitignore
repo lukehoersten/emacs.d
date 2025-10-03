@@ -7,3 +7,4 @@ ido.last
 transient/
 smex-items
 custom.el
+forge-database.sqlite

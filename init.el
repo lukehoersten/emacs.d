@@ -34,6 +34,7 @@
 (global-font-lock-mode t)                     ; syntax highlighting
 (global-subword-mode t)                       ; move by camelCase words
 (global-hl-line-mode t)                       ; highlight current line
+(global-auto-revert-mode t)                   ; auto-reload files when changed on disk
 (global-set-key (kbd "C-c c") 'compile)       ; compile
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
@@ -48,14 +49,13 @@
 
 
 ;;; Darwin
-(setq is-mac (equal system-type 'darwin))
+(defvar is-mac (equal system-type 'darwin))
 (when is-mac
   (setq-default
    ring-bell-function 'ignore
    mac-command-modifier 'meta
    ns-pop-up-frames nil
-   dired-use-ls-dired nil                               ; macOS ls doesn't support --dired
-   ispell-program-name "/usr/local/bin/aspell"))
+   dired-use-ls-dired nil))                             ; macOS ls doesn't support --dired
 
 
 ;;; Xorg
@@ -67,31 +67,31 @@
 
 
 ;;;; Packages ;;;;
-(require 'package-require)
-(package-require '(rg company exec-path-from-shell expand-region vertico
- orderless consult marginalia magit forge magit-todos markdown-mode hgignore-mode move-text paredit
- rainbow-delimiters json-mode json-reformat flycheck treesit-auto ibuffer-project jinx
- solarized-theme terraform-mode visual-regexp yasnippet yaml-mode
- emmet-mode))
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+
+;; Install packages if missing
+(unless package-archive-contents
+  (package-refresh-contents))
+
+(dolist (package '(rg company exec-path-from-shell expand-region vertico
+                   orderless consult marginalia magit forge magit-todos
+                   markdown-mode hgignore-mode move-text paredit
+                   rainbow-delimiters json-mode json-reformat eglot
+                   treesit-auto ibuffer-project jinx solarized-theme
+                   terraform-mode visual-regexp yasnippet yaml-mode emmet-mode))
+  (unless (package-installed-p package)
+    (package-install package)))
 
 
 ;;; custom requires
 (require 'c-init)
 (require 'ansible-init)
 
-
-;;; jinx spellcheck setup
-(with-eval-after-load 'jinx
-  (unless (executable-find "enchant-2")
-    (display-warning
-     'jinx
-     (concat "Enchant library not found. Jinx spell-checking requires enchant.\n\n"
-             "To install:\n"
-             (if (eq system-type 'darwin)
-                 "  macOS: brew install enchant\n"
-               "  Ubuntu/Debian: sudo apt install libenchant-2-dev\n")
-             "\nAfter installation, restart Emacs.")
-     :warning)))
+;; claude-code-context
+(add-to-list 'load-path "~/Dev/claude-code-context")
+(require 'claude-code-context)
+(claude-code-context-mode 1)
 
 
 ;;; text-mode
@@ -179,8 +179,28 @@
  company-tooltip-align-annotations t)
 
 
-;;; flycheck-mode
-(global-flycheck-mode t)
+;;; flymake (linting/diagnostics)
+(add-hook 'prog-mode-hook 'flymake-mode)                  ; enable linting for all programming modes
+
+;;; eglot (LSP client)
+(with-eval-after-load 'eglot
+  (setq-default
+   eglot-autoshutdown t                                   ; shutdown server when last buffer is killed
+   eglot-send-changes-idle-time 0.5))                     ; debounce for sending changes
+
+;; Enable eglot for programming modes
+(add-hook 'python-mode-hook 'eglot-ensure)
+(add-hook 'python-ts-mode-hook 'eglot-ensure)
+(add-hook 'js-mode-hook 'eglot-ensure)
+(add-hook 'js-ts-mode-hook 'eglot-ensure)
+(add-hook 'typescript-mode-hook 'eglot-ensure)
+(add-hook 'typescript-ts-mode-hook 'eglot-ensure)
+(add-hook 'tsx-ts-mode-hook 'eglot-ensure)
+(add-hook 'haskell-mode-hook 'eglot-ensure)
+(add-hook 'c-mode-hook 'eglot-ensure)
+(add-hook 'c++-mode-hook 'eglot-ensure)
+(add-hook 'c-ts-mode-hook 'eglot-ensure)
+(add-hook 'c++-ts-mode-hook 'eglot-ensure)
 
 
 ;;; uniquify
