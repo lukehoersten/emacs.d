@@ -1,9 +1,9 @@
 ;; ~/.emacs.d/elisp/ansible-init.el
 ;; Luke Hoersten <Luke@Hoersten.org>
 
-;; Require packages
-(require 'package-require)
-(package-require '(yaml-mode jinja2-mode company company-ansible ansible-doc))
+(dolist (package '(yaml-mode jinja2-mode company-ansible ansible-doc))
+  (unless (package-installed-p package)
+    (package-install package)))
 
 (add-hook 'yaml-mode-hook #'ansible-doc-mode)
 

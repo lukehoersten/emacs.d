@@ -4,7 +4,7 @@
 ;;; ~/.emacs.d/init.el (~/.emacs)
 
 ;;; Code:
-(add-to-list 'load-path "~/.emacs.d/elisp")   ; set default emacs load path
+(add-to-list 'load-path (expand-file-name "elisp" user-emacs-directory))
 
 (setq custom-file (concat user-emacs-directory "custom.el")) ; don't auto-edit init.el
 
@@ -89,9 +89,9 @@
 (require 'ansible-init)
 
 ;; claude-code-context
-(add-to-list 'load-path "~/Dev/claude-code-context")
-(require 'claude-code-context)
-(claude-code-context-mode 1)
+;; (add-to-list 'load-path "~/Dev/claude-code-context")
+;; (require 'claude-code-context)
+;; (claude-code-context-mode 1)
 
 
 ;;; text-mode
