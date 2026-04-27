@@ -2,7 +2,7 @@
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; Ensure packages are installed
-(dolist (package '(yaml-mode jinja2-mode company company-ansible ansible-doc))
+(dolist (package '(jinja2-mode ansible-doc))
   (unless (package-installed-p package)
     (package-install package)))
 

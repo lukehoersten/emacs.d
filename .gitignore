@@ -10,3 +10,5 @@ custom.el
 forge-database.sqlite
 .hg/
 claude-code-context.json
+/projects
+/.agent-shell/

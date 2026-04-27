@@ -1,4 +1,4 @@
-;;; init --- Summary: Luke Hoersten <Luke@Hoersten.org> personal init file
+;;; init --- Summary: Luke Hoersten <Luke@Hoersten.org> personal init file  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;; ~/.emacs.d/init.el (~/.emacs)
@@ -23,23 +23,21 @@
 (put 'narrow-to-region 'disabled nil)         ; enable hiding
 (put 'narrow-to-page 'disabled nil)
 
-(fset 'yes-or-no-p 'y-or-n-p)                 ; replace yes/no prompts with y/n
+(setq use-short-answers t)                    ; replace yes/no prompts with y/n
 (windmove-default-keybindings)                ; move between windows with shift-arrow
 
 (column-number-mode t)                        ; show column numbers
 (delete-selection-mode t)                     ; replace highlighted text
 (which-function-mode t)                       ; function name at point in mode line
-(transient-mark-mode t)                       ; highlight selection between point and mark
 (electric-pair-mode t)                        ; automatically close opening characters
-(global-font-lock-mode t)                     ; syntax highlighting
 (global-subword-mode t)                       ; move by camelCase words
 (global-hl-line-mode t)                       ; highlight current line
 (global-auto-revert-mode t)                   ; auto-reload files when changed on disk
+(global-set-key (kbd "C-c b") 'browse-url-at-point) ; open URL at point
 (global-set-key (kbd "C-c c") 'compile)       ; compile
 (global-set-key (kbd "C-c r") 'recompile)     ; recompile
 (global-set-key (kbd "C-c a") 'align-regexp)  ; align
 (global-set-key (kbd "C-c g") 'consult-ripgrep) ; ripgrep with preview
-(global-set-key (kbd "C-x g") 'magit-status)  ; magit status
 
 
 ;;; ediff
@@ -48,7 +46,7 @@
   ediff-window-setup-function 'ediff-setup-windows-plain)
 
 
-;;; Darwin
+;;; MacOS
 (defvar is-mac (equal system-type 'darwin))
 (when is-mac
   (setq-default
@@ -74,12 +72,56 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
-(dolist (package '(rg company exec-path-from-shell expand-region vertico
-                   orderless consult marginalia magit forge magit-todos
-                   markdown-mode hgignore-mode move-text paredit
-                   rainbow-delimiters json-mode json-reformat eglot
-                   treesit-auto ibuffer-project jinx solarized-theme
-                   terraform-mode visual-regexp yasnippet yaml-mode emmet-mode))
+(dolist (package '(
+                   ;; completion
+                   corfu                 ; completion popup UI (capf-native)
+                   cape                  ; completion-at-point extensions for corfu
+                   vertico               ; vertical minibuffer completion
+                   orderless             ; fuzzy/space-separated completion style
+                   consult               ; enhanced search and navigation commands
+                   embark                ; contextual actions on completion candidates
+                   embark-consult        ; embark integration for consult
+                   marginalia            ; annotations in completion buffers
+
+                   ;; editing
+                   expand-region         ; expand selection by semantic units
+                   move-text             ; move lines up/down with M-p/M-n
+                   paredit               ; structured editing for Lisp
+                   visual-regexp         ; visual feedback for regexp replace
+
+                   ;; search
+                   avy                   ; jump to visible text by typing target chars
+                   rg                    ; ripgrep results buffer
+                   wgrep                 ; editable grep/rg results buffers
+
+                   ;; git
+                   magit                 ; git interface
+                   forge                 ; GitHub/GitLab integration for magit
+                   magit-todos           ; show TODOs in magit status
+                   diff-hl               ; inline git diff indicators in fringe
+
+                   ;; UI
+                   rainbow-delimiters    ; colorize matching parens by depth
+                   ibuffer-project       ; group ibuffer by project
+                   solarized-theme       ; color theme
+                   auto-dark             ; switch theme with macOS dark mode
+                   helpful               ; better Help buffers with source links
+
+                   ;; language modes
+                   markdown-mode         ; markdown editing
+                   terraform-mode        ; Terraform/HCL editing
+                   emmet-mode            ; HTML/CSS abbreviation expansion
+                   json-reformat         ; JSON pretty-printing
+                   treesit-auto          ; auto-install and use tree-sitter modes
+                   ansible-doc           ; Ansible module documentation lookup
+                   jinja2-mode           ; Jinja2 template syntax
+
+                   ;; tools
+                   exec-path-from-shell  ; sync shell PATH into Emacs
+                   jinx                  ; spell checker (libenchant)
+                   ghostel               ; libghostty terminal emulator
+                   vterm                 ; terminal emulator - needed for claude-code-ide
+                   ))
   (unless (package-installed-p package)
     (package-install package)))
 
@@ -88,10 +130,20 @@
 (require 'c-init)
 (require 'ansible-init)
 
-;; claude-code-context
-;; (add-to-list 'load-path "~/Dev/claude-code-context")
+;; ;; claude-code-context
+;; (add-to-list 'load-path "~/Dev/code/git/elisp/claude-code-context")
 ;; (require 'claude-code-context)
 ;; (claude-code-context-mode 1)
+
+;;; claude-code-ide
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c C-'" . claude-code-ide-menu)
+  :custom
+  (claude-code-ide-vterm-anti-flicker t)      ; batch rapid vterm updates to reduce flicker
+  (claude-code-ide-vterm-render-delay 0.005)  ; 5ms collection window for batched updates
+  :config
+  (claude-code-ide-emacs-tools-setup))
 
 
 ;;; text-mode
@@ -136,14 +188,15 @@
 
 ;;; shell
 (global-set-key (kbd "C-c s") 'eshell)  ; start shell
-(exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-initialize)
+(exec-path-from-shell-copy-env "PYTHONPATH")
 (eshell)
 (setq-default tramp-default-method "ssh")
 (add-hook 'eshell-mode-hook
           (lambda ()
             (setenv "TERM" "emacs")
             (setenv "PAGER" "cat")))
+
 
 ;;; vertico / orderless / consult / marginalia
 (vertico-mode t)                                      ; vertical completion UI
@@ -152,11 +205,33 @@
  completion-styles '(orderless basic)                 ; orderless completion style
  completion-category-defaults nil
  completion-category-overrides '((file (styles partial-completion))))
-(global-set-key (kbd "M-/") 'completion-at-point)
 (global-set-key (kbd "C-x b") 'consult-buffer)        ; enhanced buffer switching
 (global-set-key (kbd "C-x 4 b") 'consult-buffer-other-window)
 (global-set-key (kbd "C-x 5 b") 'consult-buffer-other-frame)
 (global-set-key (kbd "M-y") 'consult-yank-pop)        ; enhanced yank-pop
+
+
+;;; embark
+(global-set-key (kbd "C-,") 'embark-act)              ; contextual actions on target at point
+(global-set-key (kbd "C-.") 'embark-dwim)             ; default action on target
+(with-eval-after-load 'embark-consult
+  (add-hook 'embark-collect-mode-hook 'consult-preview-at-point-mode))
+
+
+;;; cape (completion extensions)
+(add-to-list 'completion-at-point-functions #'cape-dabbrev) ; dynamic abbrev completion
+(add-to-list 'completion-at-point-functions #'cape-file)    ; file path completion
+
+
+;;; which-key (built-in Emacs 30+)
+(which-key-mode t)
+
+
+;;; helpful (better Help buffers)
+(global-set-key (kbd "C-h f") 'helpful-callable)
+(global-set-key (kbd "C-h v") 'helpful-variable)
+(global-set-key (kbd "C-h k") 'helpful-key)
+(global-set-key (kbd "C-h x") 'helpful-command)
 
 
 ;;; magit
@@ -164,23 +239,27 @@
   (magit-todos-mode t))                                   ; show TODOs in magit status
 
 
+;;; diff-hl (inline git diff in fringe)
+(global-diff-hl-mode t)
+(add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+(add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+
+
 ;;; emacs-lisp-mode
 (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
 
 
-;;; company-mode
-(global-company-mode t)
-(global-set-key (kbd "M-/") 'company-complete)
+;;; corfu (completion UI)
+(global-corfu-mode t)
 (setq-default
- company-idle-delay nil
- company-minimum-prefix-length 2
- company-selection-wrap-around t
- company-show-numbers t
- company-tooltip-align-annotations t)
+ corfu-auto nil              ; manual trigger only
+ corfu-cycle t)              ; wrap around candidates
+(global-set-key (kbd "M-/") 'completion-at-point)
 
 
 ;;; flymake (linting/diagnostics)
 (add-hook 'prog-mode-hook 'flymake-mode)                  ; enable linting for all programming modes
+
 
 ;;; eglot (LSP client)
 (with-eval-after-load 'eglot
@@ -188,23 +267,21 @@
    eglot-autoshutdown t                                   ; shutdown server when last buffer is killed
    eglot-send-changes-idle-time 0.5))                     ; debounce for sending changes
 
-;; Enable eglot for programming modes
-(add-hook 'python-mode-hook 'eglot-ensure)
 (add-hook 'python-ts-mode-hook 'eglot-ensure)
-(add-hook 'js-mode-hook 'eglot-ensure)
 (add-hook 'js-ts-mode-hook 'eglot-ensure)
-(add-hook 'typescript-mode-hook 'eglot-ensure)
 (add-hook 'typescript-ts-mode-hook 'eglot-ensure)
 (add-hook 'tsx-ts-mode-hook 'eglot-ensure)
-(add-hook 'haskell-mode-hook 'eglot-ensure)
-(add-hook 'c-mode-hook 'eglot-ensure)
-(add-hook 'c++-mode-hook 'eglot-ensure)
 (add-hook 'c-ts-mode-hook 'eglot-ensure)
 (add-hook 'c++-ts-mode-hook 'eglot-ensure)
+(add-hook 'yaml-ts-mode-hook 'eglot-ensure)
+(add-hook 'json-ts-mode-hook 'eglot-ensure)
+(add-hook 'css-ts-mode-hook 'eglot-ensure)
+(add-hook 'html-ts-mode-hook 'eglot-ensure)
+(add-hook 'scss-mode-hook 'eglot-ensure)
+(add-hook 'haskell-mode-hook 'eglot-ensure)
 
 
 ;;; uniquify
-(require 'uniquify)                     ; unique buffer names with dirs
 (setq-default
  uniquify-buffer-name-style 'post-forward
  uniquify-separator ":")
@@ -212,21 +289,11 @@
 
 ;;; color-theme
 (setq custom-safe-themes t)
-(when window-system (load-theme 'solarized-light))
-
-
-;;; show-paren-mode - needs to be loaded after theme
-(setq-default
- show-paren-style 'expression
- show-paren-delay 0)
-(show-paren-mode t)
-
-
-;;; yasnippets
-(with-eval-after-load 'yasnippet
-  (setq yas-snippet-dirs (remq 'yas-installed-snippets-dir yas-snippet-dirs)))
-(setq-default yas-prompt-functions '(yas-completing-read yas-dropdown-prompt)) ; use completing-read for multiple snippets
-(yas-global-mode t)
+(require 'solarized-theme)
+(require 'auto-dark)
+(setq auto-dark-allow-osascript t
+      auto-dark-themes '((solarized-dark) (solarized-light)))
+(auto-dark-mode 1)
 
 
 ;;; markdown-mode
@@ -235,8 +302,9 @@
 
 
 ;;; treesit-auto (automatically use tree-sitter modes and install grammars)
-(with-eval-after-load 'treesit-auto
-  (global-treesit-auto-mode))
+(require 'treesit-auto)
+(setq treesit-auto-install t)
+(global-treesit-auto-mode)
 
 
 ;;; html-mode
@@ -244,26 +312,15 @@
 (add-hook 'html-mode-hook 'emmet-mode)
 
 
-;;; color-modes map
-(mapc
- (lambda (x)
-   (add-hook x
-    (lambda ()
-      (display-line-numbers-mode t)
-      (rainbow-delimiters-mode t))))
- '(text-mode-hook
-   c-mode-common-hook
-   python-mode-hook
-   haskell-mode-hook
-   js2-mode-hook
-   html-mode-hook
-   css-mode-hook
-   sass-mode-hook
-   clojure-mode-hook
-   emacs-lisp-mode-hook
-   conf-mode-hook
-   yaml-mode-hook
-   sql-mode-hook))
+;;; line numbers and delimiters for all code and text
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
+(add-hook 'text-mode-hook 'rainbow-delimiters-mode)
+
+
+;;; avy
+(global-set-key (kbd "C-:") 'avy-goto-char-2)         ; jump to visible text by 2 chars
 
 
 ;;; expand-region
@@ -275,9 +332,11 @@
 (global-set-key (kbd "M-n") 'move-text-down)
 
 
-;;; visual-regexp
-(global-set-key (kbd "C-M-%") 'vr/query-replace)
-(global-set-key (kbd "M-%") 'vr/replace)
+;;; project.el
+(with-eval-after-load 'project
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel" ?s) t)
+  (add-to-list 'project-switch-commands '(claude-code-ide "Claude" ?c) t))
+
 
 (provide 'init)
 ;;; init.el ends here
