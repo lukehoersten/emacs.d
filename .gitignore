@@ -12,3 +12,5 @@ forge-database.sqlite
 claude-code-context.json
 /projects
 /.agent-shell/
+/agent/
+/tramp

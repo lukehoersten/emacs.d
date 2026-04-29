@@ -120,7 +120,6 @@
                    exec-path-from-shell  ; sync shell PATH into Emacs
                    jinx                  ; spell checker (libenchant)
                    ghostel               ; libghostty terminal emulator
-                   vterm                 ; terminal emulator - needed for claude-code-ide
                    ))
   (unless (package-installed-p package)
     (package-install package)))
@@ -130,20 +129,11 @@
 (require 'c-init)
 (require 'ansible-init)
 
-;; ;; claude-code-context
-;; (add-to-list 'load-path "~/Dev/code/git/elisp/claude-code-context")
-;; (require 'claude-code-context)
-;; (claude-code-context-mode 1)
 
-;;; claude-code-ide
-(use-package claude-code-ide
-  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
-  :bind ("C-c C-'" . claude-code-ide-menu)
-  :custom
-  (claude-code-ide-vterm-anti-flicker t)      ; batch rapid vterm updates to reduce flicker
-  (claude-code-ide-vterm-render-delay 0.005)  ; 5ms collection window for batched updates
-  :config
-  (claude-code-ide-emacs-tools-setup))
+;;; claude-code-context
+(add-to-list 'load-path "~/Dev/code/git/elisp/claude-code-context")
+(require 'claude-code-context)
+(claude-code-context-mode 1)
 
 
 ;;; text-mode
@@ -237,6 +227,7 @@
 ;;; magit
 (with-eval-after-load 'magit-todos
   (magit-todos-mode t))                                   ; show TODOs in magit status
+(add-hook 'git-commit-mode-hook 'flyspell-mode)
 
 
 ;;; diff-hl (inline git diff in fringe)
