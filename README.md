@@ -17,7 +17,7 @@ Personal Emacs configuration focused on simplicity and modern tooling while resp
 ├── init.el              # Main configuration file
 ├── elisp/               # Custom configuration modules
 │   ├── c-init.el        # C/C++ configuration
-│   └── ansible-init.el  # Ansible/YAML configuration
+│   └── hoersten-c-style.el  # Custom C style
 ├── custom.el            # Custom-set variables (gitignored)
 └── README.md            # This file
 ```
@@ -151,6 +151,5 @@ M-x package-update-all
 - Shell: eshell (launched automatically on startup)
 - Server: emacs server starts automatically for `emacsclient`
 - Whitespace cleanup on save enabled globally
-- Line numbers enabled globally (exempt: eshell, term, vterm, Messages)
-- Rainbow delimiters enabled in all `prog-mode` and `text-mode` buffers
+- Line numbers and rainbow delimiters enabled in all `prog-mode` and `text-mode` buffers
 - Auto-fill (line wrap at column 120) enabled in all `text-mode` buffers

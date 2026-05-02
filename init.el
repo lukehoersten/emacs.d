@@ -124,7 +124,6 @@
 
 ;;; custom requires
 (require 'c-init)
-(require 'ansible-init)
 
 
 ;;; jinx (spell checking)
@@ -132,16 +131,14 @@
 (global-jinx-mode t)                   ; auto-enable in text-mode, prog-mode, conf-mode
 
 
-;;; line numbers
-(global-display-line-numbers-mode t)
-
-
 ;;; prog-mode - applies to all programming-based modes
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'prog-mode-hook 'flymake-mode)              ; linting/diagnostics
 
 
 ;;; text-mode - applies to all text-based modes
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'text-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'text-mode-hook 'turn-on-auto-fill)         ; wrap prose at fill-column
 
@@ -304,6 +301,7 @@
 
 
 ;;; project.el
+(setq project-vc-extra-root-markers '(".project"))    ; non-VC project roots
 (with-eval-after-load 'project
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel" ?s) t)
   (add-to-list 'project-switch-commands '(claude-code-ide "Claude" ?c) t))
