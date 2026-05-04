@@ -117,6 +117,7 @@
        exec-path-from-shell             ; sync shell PATH into Emacs
        jinx                             ; spell checker (libenchant)
        ghostel                          ; libghostty terminal emulator
+       vterm                            ; terminal emulator - needed for claude-code-ide
        ))
   (unless (package-installed-p package)
     (package-install package)))
@@ -241,6 +242,12 @@
 ;;; magit
 (with-eval-after-load 'magit-todos
   (magit-todos-mode t))                                   ; show TODOs in magit status
+(with-eval-after-load 'magit
+  (setq magit-display-buffer-function #'display-buffer)) ; defer to display-buffer-alist
+(add-to-list 'display-buffer-alist
+             '((derived-mode . magit-status-mode)
+               (display-buffer-below-selected)
+               (window-height . 14)))
 
 
 ;;; diff-hl (inline git diff in fringe)
@@ -254,7 +261,6 @@
   (setq-default
    eglot-autoshutdown t                                   ; shutdown server when last buffer is killed
    eglot-send-changes-idle-time 0.5))                     ; debounce for sending changes
-
 (dolist
  (hook
  '(python-ts-mode-hook
@@ -300,11 +306,26 @@
 (setq-default tramp-default-method "ssh")
 
 
+;;; ghostel
+(setq ghostel-shell (executable-find "fish"))
+
+
 ;;; project.el
 (setq project-vc-extra-root-markers '(".project"))    ; non-VC project roots
 (with-eval-after-load 'project
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel" ?s) t)
   (add-to-list 'project-switch-commands '(claude-code-ide "Claude" ?c) t))
+
+
+;;; claude-code-ide
+(use-package claude-code-ide
+  :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
+  :bind ("C-c C-'" . claude-code-ide-menu)
+  :custom
+  (claude-code-ide-vterm-anti-flicker t)      ; batch rapid vterm updates to reduce flicker
+  (claude-code-ide-vterm-render-delay 0.005)  ; 5ms collection window for batched updates
+  :config
+  (claude-code-ide-emacs-tools-setup))
 
 
 ;;; claude-code-context
