@@ -15,3 +15,5 @@ claude-code-context.json
 /agent/
 /tramp
 /tree-sitter/
+/.chatgpt-shell.el
+/.time-zones.el
