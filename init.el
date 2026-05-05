@@ -329,7 +329,8 @@
 
 
 ;;; claude-code-context
-(add-to-list 'load-path "~/Dev/code/git/elisp/claude-code-context")
+(unless (package-installed-p 'claude-code-context)
+  (package-vc-install "https://github.com/lukehoersten/claude-code-context"))
 (require 'claude-code-context)
 (claude-code-context-mode 1)
 
