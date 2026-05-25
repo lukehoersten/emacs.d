@@ -75,7 +75,7 @@ Personal Emacs configuration focused on simplicity and modern tooling while resp
 - **ibuffer-project** - Group buffers by project
 - **exec-path-from-shell** - Import shell environment variables
 - **ghostel** - libghostty terminal emulator
-- **claude-code-context** - Send Emacs buffer context to Claude Code (loaded from `~/Dev/code/git/elisp/claude-code-context`)
+- **claude-code-context** - Send Emacs buffer context to Claude Code
 
 ## Key Bindings
 

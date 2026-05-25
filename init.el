@@ -118,6 +118,7 @@
        jinx                             ; spell checker (libenchant)
        ghostel                          ; libghostty terminal emulator
        vterm                            ; terminal emulator - needed for claude-code-ide
+       claude-code-context              ; send Emacs buffer context to Claude Code
        ))
   (unless (package-installed-p package)
     (package-install package)))
@@ -329,7 +330,6 @@
 
 
 ;;; claude-code-context
-(add-to-list 'load-path "~/Dev/code/git/elisp/claude-code-context")
 (require 'claude-code-context)
 (claude-code-context-mode 1)
 
