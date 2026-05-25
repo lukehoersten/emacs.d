@@ -342,6 +342,12 @@
 (require 'auto-dark)
 (setq auto-dark-allow-osascript t
       auto-dark-themes '((solarized-dark) (solarized-light)))
+;; Trigger the macOS Automation permission prompt for System Events when
+;; launched from Spotlight. ns-do-applescript fails silently without the
+;; prompt, but shelling to osascript surfaces TCC.
+(when (eq system-type 'darwin)
+  (call-process "osascript" nil nil nil
+                "-e" "tell application \"System Events\" to tell appearance preferences to return dark mode"))
 (auto-dark-mode 1)
 
 
