@@ -105,6 +105,7 @@
 
        ;; language modes
        markdown-mode                    ; markdown editing
+       markdown-indent-mode             ; indentation for markdown lists
        terraform-mode                   ; Terraform/HCL editing
        emmet-mode                       ; HTML/CSS abbreviation expansion
        json-reformat                    ; JSON pretty-printing
@@ -151,6 +152,7 @@
 
 ;;; markdown-mode
 (setq-default markdown-command "pandoc -f gfm")
+(add-hook 'markdown-mode-hook 'markdown-indent-mode)
 
 
 ;;; html-mode
