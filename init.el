@@ -117,8 +117,7 @@
        ;; tools
        exec-path-from-shell             ; sync shell PATH into Emacs
        jinx                             ; spell checker (libenchant)
-       ghostel                          ; libghostty terminal emulator
-       vterm                            ; terminal emulator - needed for claude-code-ide
+       ghostel                          ; libghostty terminal emulator - also backs claude-code-ide
        claude-code-context              ; send Emacs buffer context to Claude Code
        ))
   (unless (package-installed-p package)
@@ -325,8 +324,7 @@
   :vc (:url "https://github.com/manzaltu/claude-code-ide.el" :rev :newest)
   :bind ("C-c C-'" . claude-code-ide-menu)
   :custom
-  (claude-code-ide-vterm-anti-flicker t)      ; batch rapid vterm updates to reduce flicker
-  (claude-code-ide-vterm-render-delay 0.005)  ; 5ms collection window for batched updates
+  (claude-code-ide-terminal-backend 'ghostel)
   :config
   (claude-code-ide-emacs-tools-setup))
 
