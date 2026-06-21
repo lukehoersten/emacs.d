@@ -113,6 +113,7 @@
        ansible-doc                      ; Ansible module documentation lookup
        jinja2-mode                      ; Jinja2 template syntax
        haskell-mode                     ; Haskell editing
+       scad-mode                        ; OpenSCAD editing (provides scad-mode + scad-ts-mode)
 
        ;; tools
        exec-path-from-shell             ; sync shell PATH into Emacs
