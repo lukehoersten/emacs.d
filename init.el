@@ -102,6 +102,7 @@
        solarized-theme                  ; color theme
        auto-dark                        ; switch theme with macOS dark mode
        helpful                          ; better Help buffers with source links
+       dimmer                           ; dim non-active buffers
 
        ;; language modes
        markdown-mode                    ; markdown editing
@@ -170,6 +171,11 @@
   (define-key org-mode-map (kbd "M-S-p") 'org-move-subtree-up)
   (define-key org-mode-map (kbd "M-n") 'org-move-item-down)
   (define-key org-mode-map (kbd "M-S-n") 'org-move-subtree-down))
+
+
+;;; dimmer
+(setq-default dimmer-fraction 0.3)                   ; how much to dim inactive buffers
+(dimmer-mode t)                                      ; dim non-active buffers
 
 
 ;;; whitespace-mode
