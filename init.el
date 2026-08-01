@@ -278,6 +278,7 @@
    tsx-ts-mode-hook
    c-ts-mode-hook
    c++-ts-mode-hook
+   rust-ts-mode-hook
    yaml-ts-mode-hook
    json-ts-mode-hook
    css-ts-mode-hook
@@ -285,11 +286,24 @@
    haskell-mode-hook))
  (add-hook hook 'eglot-ensure))
 
+;;; yaml-language-server: keep syntax validation but disable schema matching,
+;;; which otherwise mis-validates host_vars/group_vars files against the
+;;; Ansible playbook schema (from the SchemaStore catalog) and flags them wrong.
+(setq-default
+ eglot-workspace-configuration
+ '(:yaml (:validate t
+          :schemaStore (:enable :json-false)
+          :schemas ())))
+
 
 ;;; treesit-auto (automatically use tree-sitter modes and install grammars)
 (require 'treesit-auto)
 (setq treesit-auto-install t)
 (global-treesit-auto-mode)
+
+;;; rust (built-in rust-ts-mode; unlike most ts modes it registers no file
+;;; association itself, and treesit-auto only remaps existing ones)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 
 
 ;;; emacs server (for emacsclient)
