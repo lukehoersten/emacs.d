@@ -313,7 +313,7 @@
 
 
 ;;; shell
-(global-set-key (kbd "C-c s") 'eshell)  ; start shell
+(global-set-key (kbd "C-c e") 'eshell)  ; start shell
 (exec-path-from-shell-initialize)
 (exec-path-from-shell-copy-env "PYTHONPATH")
 (exec-path-from-shell-copy-env "LANG")  ; for spell-check and locale-aware tools
@@ -331,6 +331,7 @@
 
 ;;; ghostel
 (setq ghostel-shell (executable-find "fish"))
+(global-set-key (kbd "C-c s") 'ghostel)
 
 
 ;;; project.el
