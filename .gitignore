@@ -17,3 +17,4 @@ claude-code-context.json
 /tree-sitter/
 /.chatgpt-shell.el
 /.time-zones.el
+/eln-cache/

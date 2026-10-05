@@ -1,4 +1,4 @@
-;; ~/.emacs.d/c-hook.el
+;; ~/.emacs.d/c-init.el  -*- lexical-binding: t; -*-
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 (require 'hoersten-c-style)

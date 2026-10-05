@@ -1,4 +1,4 @@
-;; ~/.emacs.d/hoersten-c-style.el
+;; ~/.emacs.d/hoersten-c-style.el  -*- lexical-binding: t; -*-
 ;; Luke Hoersten <Luke@Hoersten.org>
 
 ;; hoersten c++-style
