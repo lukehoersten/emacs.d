@@ -62,10 +62,8 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-;; Install packages if missing
-(unless package-archive-contents
-  (package-refresh-contents))
 
+;; Install packages if missing; avoid network requests on normal startup.
 (dolist
     (package
      '(
@@ -123,6 +121,8 @@
        claude-code-context              ; send Emacs buffer context to Claude Code
        ))
   (unless (package-installed-p package)
+    (unless package-archive-contents
+      (package-refresh-contents))
     (package-install package)))
 
 
@@ -266,6 +266,8 @@
 
 
 ;;; eglot (LSP client)
+;; HTML, CSS, and JSON keep tree-sitter highlighting and Cape completion
+;; without automatically starting the npm-provided language servers.
 (with-eval-after-load 'eglot
   (setq-default
    eglot-autoshutdown t                                   ; shutdown server when last buffer is killed
@@ -280,9 +282,6 @@
    c++-ts-mode-hook
    rust-ts-mode-hook
    yaml-ts-mode-hook
-   json-ts-mode-hook
-   css-ts-mode-hook
-   html-ts-mode-hook
    haskell-mode-hook))
  (add-hook hook 'eglot-ensure))
 
